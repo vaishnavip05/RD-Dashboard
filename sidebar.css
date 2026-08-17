@@ -1,0 +1,379 @@
+/*
+ * SRM R&D Portal — Institutional Scope Sidebar & Layout Styles (Module 3 Fixed Layout)
+ *
+ * Blue palette tokens:
+ *   #083665 / #075da0 / #08729b  — Header & Primary Blue
+ *   #0a5ca3 / #1262a5            — Active Accent Blue
+ *   #eef5fc                      — Light active tint
+ *   #dbe4f1 / #e4e8f0            — Borders
+ *   #f5f7fb                      — Canvas background
+ *   #355176 / #18233b            — Typography ink
+ *   #64708a                      — Muted text
+ */
+
+/* ─── Scope Panel (Sidebar: 100% height of body-layout, never moves) ──────── */
+.scope-panel {
+  width: 260px;
+  min-width: 260px;
+  max-width: 260px;
+  background: #fff;
+  border-right: 1px solid #dbe4f1;
+  height: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: 2px 0 10px rgba(8, 54, 101, 0.04);
+  flex-shrink: 0;
+  z-index: 20;
+  box-sizing: border-box;
+}
+
+.scope-panel::-webkit-scrollbar { width: 4px; }
+.scope-panel::-webkit-scrollbar-track { background: #f5f7fb; }
+.scope-panel::-webkit-scrollbar-thumb { background: #c8d5e8; border-radius: 99px; }
+.scope-panel::-webkit-scrollbar-thumb:hover { background: #9ab4d8; }
+
+/* ─── Sidebar Header ─────────────────────────────────────────────────────── */
+.scope-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px 8px;
+  border-bottom: 1px solid #e8eef6;
+  background: linear-gradient(180deg, #f8faff, #fff);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  flex-shrink: 0;
+}
+
+.scope-header-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.scope-icon {
+  width: 15px;
+  height: 15px;
+  stroke: #075da0;
+  flex-shrink: 0;
+}
+
+.scope-header-title {
+  font-family: 'Source Sans 3', Arial, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #355176;
+}
+
+.scope-reset-btn {
+  background: #fff;
+  border: 1px solid #c8d8ed;
+  border-radius: 5px;
+  color: #075da0;
+  font: 600 11px 'Source Sans 3', Arial, sans-serif;
+  padding: 2px 8px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.scope-reset-btn:hover {
+  background: #eef4ff;
+  border-color: #075da0;
+  color: #083665;
+}
+
+/* ─── Active Selection Banner ────────────────────────────────────────────── */
+.scope-active-badge {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 8px 14px;
+  background: linear-gradient(100deg, #083665, #075da0);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Source Sans 3', Arial, sans-serif;
+  box-shadow: inset 0 -1px 0 rgba(255,255,255,0.15);
+  flex-shrink: 0;
+}
+
+.scope-active-badge svg {
+  width: 14px;
+  height: 14px;
+  stroke: #d7e9f8;
+  flex-shrink: 0;
+}
+
+.scope-active-badge span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ─── Tree Container ─────────────────────────────────────────────────────── */
+.scope-tree {
+  padding: 4px 4px 10px;
+  flex: 1;
+}
+
+/* ─── Tree Item Row ──────────────────────────────────────────────────────── */
+.scope-tree-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-right: 6px;
+  border-radius: 6px;
+  margin: 1px 0;
+  font-family: 'Source Sans 3', Arial, sans-serif;
+  font-size: 12px;
+  color: #2b3d58;
+  transition: background 0.14s ease, color 0.14s ease;
+  position: relative;
+  user-select: none;
+}
+
+.scope-tree-item:hover {
+  background: #f0f6ff;
+  color: #075da0;
+}
+
+/* Clean Selected state */
+.scope-tree-item--selected {
+  background: #eef5fc !important;
+  color: #075da0 !important;
+  font-weight: 700 !important;
+  border-left: 3px solid #075da0;
+  padding-left: calc(var(--indent, 0px) - 3px);
+}
+
+/* Root level (ALL COLLEGES) */
+.scope-tree-item--type-root {
+  font-weight: 700;
+  font-size: 12.5px;
+  color: #083665;
+  letter-spacing: 0.4px;
+}
+
+/* Campus level */
+.scope-tree-item--type-campus {
+  font-weight: 700;
+  font-size: 12px;
+  color: #183d6b;
+  font-family: 'Libre Baskerville', Georgia, serif;
+}
+
+/* College level */
+.scope-tree-item--type-college {
+  font-weight: 600;
+  font-size: 11.5px;
+  color: #2c476f;
+}
+
+/* Group level (FLABS, Management, etc.) */
+.scope-tree-item--type-group {
+  font-weight: 700;
+  font-size: 12px;
+  color: #0d3769;
+}
+
+/* Department level */
+.scope-tree-item--type-dept {
+  font-weight: 500;
+  font-size: 11.5px;
+  color: #3b5070;
+}
+
+/* ─── Arrow Button ───────────────────────────────────────────────────────── */
+.scope-arrow-btn {
+  background: transparent;
+  border: none;
+  padding: 2px;
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  color: #6a7f9e;
+  transition: transform 0.18s ease, color 0.14s ease;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.scope-arrow-btn:hover {
+  color: #075da0;
+  background: #e5efff;
+}
+
+.scope-arrow-btn svg {
+  width: 11px;
+  height: 11px;
+  stroke: currentColor;
+  transition: transform 0.18s ease;
+}
+
+/* Arrow rotation when expanded */
+.scope-arrow-btn--expanded svg {
+  transform: rotate(90deg);
+}
+
+.scope-arrow-spacer {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* ─── Node Type Icons ────────────────────────────────────────────────────── */
+.scope-type-icon {
+  width: 13px;
+  height: 13px;
+  stroke: #4d668c;
+  flex-shrink: 0;
+}
+
+.scope-tree-item--selected .scope-type-icon {
+  stroke: #075da0;
+}
+
+.scope-type-icon--dept {
+  width: 12px;
+  height: 12px;
+  stroke: #7388a6;
+}
+
+/* ─── Node Label ─────────────────────────────────────────────────────────── */
+.scope-node-label {
+  flex: 1;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 1px 3px;
+  border-radius: 4px;
+  line-height: 1.3;
+}
+
+.scope-node-label:hover {
+  text-decoration: underline;
+}
+
+/* ─── Checkmark ──────────────────────────────────────────────────────────── */
+.scope-selected-check {
+  font-size: 11px;
+  color: #075da0;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-left: auto;
+  padding-right: 2px;
+}
+
+/* ─── Children Container ─────────────────────────────────────────────────── */
+.scope-children-wrap {
+  position: relative;
+}
+
+/* ─── Footer Guide ───────────────────────────────────────────────────────── */
+.scope-guide {
+  border-top: 1px solid #e8eef6;
+  padding: 8px 12px 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: #fafcff;
+  flex-shrink: 0;
+}
+
+.scope-guide-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10.5px;
+  color: #6a7c98;
+}
+
+.scope-guide-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.scope-guide-dot--blue { background: #075da0; }
+.scope-guide-dot--arrow { background: #d89e3b; }
+
+/* ─── Placeholder View ───────────────────────────────────────────────────── */
+.placeholder-view {
+  background: #fff;
+  border: 1px solid #dbe4f1;
+  border-radius: 14px;
+  padding: 50px 30px;
+  text-align: center;
+  margin-top: 16px;
+  box-shadow: 0 4px 16px rgba(8, 54, 101, 0.04);
+}
+
+.placeholder-icon {
+  width: 48px;
+  height: 48px;
+  stroke: #075da0;
+  margin-bottom: 14px;
+  opacity: 0.85;
+}
+
+.placeholder-title {
+  font-family: 'Libre Baskerville', Georgia, serif;
+  font-size: 20px;
+  color: #083665;
+  margin: 0 0 8px;
+}
+
+.placeholder-desc {
+  font-size: 14px;
+  color: #52627c;
+  max-width: 480px;
+  margin: 0 auto 20px;
+  line-height: 1.45;
+}
+
+.placeholder-back-btn {
+  background: linear-gradient(100deg, #083665, #075da0);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 18px;
+  font: 600 13px 'Source Sans 3', Arial, sans-serif;
+  cursor: pointer;
+  box-shadow: 0 3px 10px rgba(8, 54, 101, 0.18);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.placeholder-back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 14px rgba(8, 54, 101, 0.25);
+}
+
+/* ─── Responsive Media Queries ───────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .scope-panel {
+    position: static;
+    height: auto;
+    max-height: none;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    border-right: none;
+    border-bottom: 1px solid #dbe4f1;
+  }
+}

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="SRM R&D Portal — Institutional Research Performance Dashboard" />
+    <title>SRM R&D Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="sidebar.css" />
+  </head>
+  <body>
+
+    <!--
+      AUTH GATE SCRIPT — runs before anything renders.
+      If the user is not authenticated, they are immediately redirected to login.html.
+      auth.js must be the FIRST script loaded.
+    -->
+    <script src="auth.js"></script>
+    <script>
+      (function () {
+        if (!window.SRM_AUTH.isAuthenticated()) {
+          window.location.replace('login.html');
+        }
+      }());
+    </script>
+
+    <div class="app-shell">
+      <!-- ── Site header ──────────────────────────────────────────────────── -->
+      <header class="site-header">
+        <div class="institution">
+          <span class="logo-box">
+            <img src="srm-logo.png" alt="SRM Group of Institutions logo" />
+          </span>
+          <span class="institution-title">SRM Group of Institutions</span>
+        </div>
+        <button id="menu-toggle" aria-label="Open navigation">☰</button>
+        <nav aria-label="Dashboard sections">
+          <button class="nav-link active" data-page="home">Overview</button>
+          <button class="nav-link" data-page="publications">Publications</button>
+          <button class="nav-link" data-page="patents">Patents</button>
+          <button class="nav-link" data-page="people">Research community</button>
+          <button class="nav-link" data-page="awards">Awards</button>
+          <button class="nav-link" data-page="funded">Funded projects</button>
+        </nav>
+        <!-- Logged-in user info + logout -->
+        <div id="user-bar" style="display:none; align-items:center; gap:10px; margin-left:auto;">
+          <span id="user-bar-info"
+                style="font-size:12.5px; color:#d7e9f8; font-weight:600; white-space:nowrap;"></span>
+          <button id="logout-btn"
+                  style="border:1.5px solid rgba(215,233,248,0.45); background:rgba(255,255,255,0.1);
+                         color:#d7e9f8; border-radius:7px; padding:7px 13px; font:600 12.5px inherit;
+                         cursor:pointer; white-space:nowrap; transition:background .18s;"
+                  title="Sign out and return to login page">
+            Sign Out
+          </button>
+        </div>
+      </header>
+
+      <!-- ── Body: sidebar + main ──────────────────────────────────────────── -->
+      <div class="body-layout">
+
+        <!-- ── Institutional scope sidebar ─────────────────────────────── -->
+        <aside class="scope-panel" id="scope-panel" aria-label="Institutional scope">
+          <div id="scope-sidebar">
+            <!-- Rendered by sidebar.js -->
+            <div class="scope-loading">Loading scope…</div>
+          </div>
+        </aside>
+
+        <!-- ── Main dashboard content ───────────────────────────────────── -->
+        <main class="main-content">
+          <header class="topbar">
+            <div>
+              <p class="eyebrow" id="scope-eyebrow">Institutional research performance</p>
+              <h1 id="page-title">Research Index Dashboard</h1>
+            </div>
+            <div style="display:flex; align-items:center; gap:12px;">
+              <span class="period">2024–2026</span>
+            </div>
+          </header>
+          <div id="app"></div>
+        </main>
+      </div><!-- /body-layout -->
+    </div><!-- /app-shell -->
+
+    <!-- Load scripts in order: auth → scope data → sidebar renderer → research data → management data → E&T publications data → app -->
+    <script src="scope.js"></script>
+    <script src="sidebar.js"></script>
+    <script src="data.js"></script>
+    <script src="mgmt_data.js"></script>
+    <script src="et_publications.js"></script>
+    <script src="et_patents.js"></script>
+    <script src="et_funded_projects.js"></script>
+    <script src="et_consultancy_projects.js"></script>
+    <script src="et_supervisors_scholars.js"></script>
+    <script src="app.js"></script>
+
+  </body>
+</html>
