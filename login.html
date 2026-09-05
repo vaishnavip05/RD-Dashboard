@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Sign in to the SRM R&D Portal — Role-Based Institutional Research Dashboard" />
+  <title>Sign In — SRM R&D Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="login.css" />
+  <script src="auth.js"></script>
+  <script>
+    (function () {
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var roleParam = params.get('role');
+        if (roleParam && roleParam.toUpperCase() === 'CHAIRMAN') {
+          if (window.SRM_AUTH && typeof window.SRM_AUTH.loginAsChairman === 'function') {
+            window.SRM_AUTH.loginAsChairman();
+          }
+          window.location.replace('/?role=CHAIRMAN');
+          return;
+        }
+        if (window.SRM_AUTH && window.SRM_AUTH.isAuthenticated()) {
+          window.location.replace('/');
+        }
+      } catch (e) {
+        console.error('Auth redirect error:', e);
+      }
+    }());
+  </script>
+</head>
+
+<body>
+
+  <!-- ── Login card ────────────────────────────────────────────────────── -->
+  <div class="login-card" role="main">
+
+    <!-- Card header: SRM branding + portal title in one unified blue strip -->
+    <div class="card-header">
+      <div class="card-header-logo">
+        <img src="SRMGROUPFINAL-LOGO.png" alt="SRM Group of Institutions logo" />
+      </div>
+      <div class="card-header-text">
+        <div class="card-institution-name">SRM Group of Institutions</div>
+        <h1 class="card-title">R&amp;D Portal Sign In</h1>
+      </div>
+    </div>
+
+    <!-- Card body -->
+    <div class="card-body">
+
+      <!-- Step 1: Role selection -->
+      <span class="section-label" id="role-label">Select Login Role</span>
+      <div class="role-grid" role="group" aria-labelledby="role-label">
+
+        <button class="role-btn" id="btn-chairman" data-role="chairman" aria-pressed="false" type="button">
+          <span class="role-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+              <path d="M17 6l2-2M7 6L5 4" />
+            </svg>
+          </span>
+          Chairman
+        </button>
+
+        <button class="role-btn" id="btn-rd_coordinator" data-role="rd_coordinator" aria-pressed="false" type="button">
+          <span class="role-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M9 12h6M9 16h6M9 8h3" />
+              <rect x="3" y="3" width="18" height="18" rx="3" />
+            </svg>
+          </span>
+          R&D Coordinator
+        </button>
+
+        <button class="role-btn" id="btn-dean" data-role="dean" aria-pressed="false" type="button">
+          <span class="role-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M22 10v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6a2 2 0 012-2h6" />
+              <polyline points="15 3 21 3 21 9" />
+              <line x1="10" y1="14" x2="21" y2="3" />
+            </svg>
+          </span>
+          Dean
+        </button>
+
+        <button class="role-btn" id="btn-hod" data-role="hod" aria-pressed="false" type="button">
+          <span class="role-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a4 4 0 00-3-3.87" />
+              <path d="M16 3.13a4 4 0 010 7.75" />
+            </svg>
+          </span>
+          HOD
+        </button>
+
+        <button class="role-btn" id="btn-supervisor" data-role="supervisor" aria-pressed="false" type="button">
+          <span class="role-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2" />
+              <circle cx="8.5" cy="7" r="4" />
+              <polyline points="17 11 19 13 23 9" />
+            </svg>
+          </span>
+          Research Supervisor
+        </button>
+
+        <button class="role-btn" id="btn-scholar" data-role="scholar" aria-pressed="false" type="button">
+          <span class="role-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M22 10v6M2 10l10-5 10 5-10 5z" />
+              <path d="M6 12v5c0 2 2 3 6 3s6-1 6-3v-5" />
+            </svg>
+          </span>
+          Research Scholar
+        </button>
+
+        <button class="role-btn" id="btn-deputy_dean" data-role="deputy_dean" aria-pressed="false" type="button">
+          <span class="role-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            </svg>
+          </span>
+          Deputy Dean Research
+        </button>
+
+      </div>
+
+      <!-- Step 2: Group selector (shown only when HOD role is selected) -->
+      <div class="profile-section" id="group-section" style="display:none; margin-bottom: 14px;">
+        <span class="section-label" id="group-label">Select Group</span>
+        <div class="profile-select-wrap">
+          <select id="group-select" aria-labelledby="group-label">
+            <option value="">— Choose a group —</option>
+            <option value="E&T">E&T</option>
+            <option value="FLABS">FLABS</option>
+            <option value="B.Arch">B.Arch</option>
+            <option value="Management">Management</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Step 3: Profile selector (shown after role & group selected) -->
+      <div class="profile-section" id="profile-section" style="display:none">
+        <span class="section-label" id="profile-label">Select Profile</span>
+        <div class="profile-select-wrap">
+          <select id="profile-select" aria-labelledby="profile-label">
+            <option value="">— Choose a profile —</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Active profile info card -->
+      <div class="profile-card" id="profile-card" aria-live="polite">
+        <div class="profile-card-header">
+          <span class="profile-card-label">Active User Profile</span>
+          <span class="profile-card-name" id="pc-name"></span>
+        </div>
+        <div class="profile-meta-grid">
+          <div class="profile-meta-item">
+            <span class="profile-meta-label">Employee ID</span>
+            <span class="profile-meta-value" id="pc-empid"></span>
+          </div>
+          <div class="profile-meta-item">
+            <span class="profile-meta-label">Role</span>
+            <span class="profile-meta-value" id="pc-role-badge"></span>
+          </div>
+          <div class="profile-meta-item" id="pc-group-row">
+            <span class="profile-meta-label">Group / School</span>
+            <span class="profile-meta-value" id="pc-group"></span>
+          </div>
+          <div class="profile-meta-item" id="pc-dept-row">
+            <span class="profile-meta-label">Department</span>
+            <span class="profile-meta-value" id="pc-dept"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error message -->
+      <div class="login-error" id="login-error" role="alert"></div>
+
+      <!-- Form -->
+      <form id="login-form" novalidate>
+
+        <div class="form-group">
+          <label class="form-label" for="emp-id">Employee ID</label>
+          <div class="form-input-wrap">
+            <input class="form-input" type="text" id="emp-id" name="employeeId" autocomplete="username"
+              placeholder="e.g. CHAIRMAN001" readonly />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="password">Password</label>
+          <div class="password-wrap">
+            <input class="form-input" type="password" id="password" name="password" autocomplete="current-password"
+              placeholder="Enter your password" />
+            <button type="button" class="toggle-pw" id="toggle-pw" aria-label="Toggle password visibility">
+              <!-- eye icon (hidden by default, shown version below) -->
+              <svg id="eye-icon" viewBox="0 0 24 24">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+                <circle cx="12" cy="12" r="3" />
+              </svg>
+              <svg id="eye-off-icon" viewBox="0 0 24 24" style="display:none">
+                <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94" />
+                <path d="M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19" />
+                <line x1="1" y1="1" x2="23" y2="23" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button class="login-btn" type="submit" id="login-btn" disabled>
+          Sign In
+        </button>
+
+      </form>
+
+    </div><!-- /card-body -->
+  </div><!-- /login-card -->
+
+  <p class="login-footer">
+    SRM R&D Portal &mdash; Research &amp; Development Division &mdash; 2024–2026
+  </p>
+
+  <!-- Load auth module -->
+  <script src="auth.js"></script>
+
+  <!-- Login page logic -->
+  <script>
+    (function () {
+      'use strict';
+
+      var AUTH = window.SRM_AUTH;
+      if (!AUTH) return;
+
+      // ── Check URL bypass for Chairman only (fallback) ──────────────────
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var roleParam = params.get('role');
+        if (roleParam && roleParam.toUpperCase() === 'CHAIRMAN') {
+          AUTH.loginAsChairman();
+          window.location.replace('/?role=CHAIRMAN');
+          return;
+        }
+      } catch (e) {
+        console.error('URL auth error:', e);
+      }
+
+      // ── Redirect if already logged in ──────────────────────────────────
+      if (AUTH.isAuthenticated()) {
+        window.location.replace('/');
+        return;
+      }
+
+      // ── State ──────────────────────────────────────────────────────────
+      var selectedRole = null;
+      var selectedUser = null;
+
+      // ── DOM refs ───────────────────────────────────────────────────────
+      var roleBtns = document.querySelectorAll('.role-btn');
+      var groupSection = document.getElementById('group-section');
+      var groupSelect = document.getElementById('group-select');
+      var profileSection = document.getElementById('profile-section');
+      var profileSelect = document.getElementById('profile-select');
+      var profileCard = document.getElementById('profile-card');
+      var pcName = document.getElementById('pc-name');
+      var pcEmpId = document.getElementById('pc-empid');
+      var pcRoleBadge = document.getElementById('pc-role-badge');
+      var pcGroupRow = document.getElementById('pc-group-row');
+      var pcGroup = document.getElementById('pc-group');
+      var pcDeptRow = document.getElementById('pc-dept-row');
+      var pcDept = document.getElementById('pc-dept');
+      var empIdInput = document.getElementById('emp-id');
+      var passwordInput = document.getElementById('password');
+      var loginBtn = document.getElementById('login-btn');
+      var loginError = document.getElementById('login-error');
+      var loginForm = document.getElementById('login-form');
+      var togglePwBtn = document.getElementById('toggle-pw');
+      var eyeIcon = document.getElementById('eye-icon');
+      var eyeOffIcon = document.getElementById('eye-off-icon');
+
+      // ── Role display names ─────────────────────────────────────────────
+      var ROLE_LABELS = {
+        chairman: 'Chairman',
+        rd_coordinator: 'R&D Coordinator',
+        dean: 'Dean',
+        hod: 'HOD',
+        supervisor: 'Research Supervisor',
+        scholar: 'Research Scholar',
+        deputy_dean: 'Deputy Dean Research'
+      };
+
+      // ── Role badge class (reuses .profile-badge.{role}) ───────────────
+      function roleBadgeHtml(role) {
+        return '<span class="profile-badge ' + role + '">' + (ROLE_LABELS[role] || role) + '</span>';
+      }
+
+      // ── Select a role ──────────────────────────────────────────────────
+      function selectRole(role) {
+        selectedRole = role;
+        selectedUser = null;
+
+        // Update button states
+        roleBtns.forEach(function (btn) {
+          var isActive = btn.dataset.role === role;
+          btn.classList.toggle('active', isActive);
+          btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+
+        groupSelect.value = '';
+        profileCard.classList.remove('visible');
+        empIdInput.value = '';
+        loginBtn.textContent = 'Sign In';
+        loginBtn.disabled = true;
+        hideError();
+
+        if (role === 'hod' || role === 'scholar' || role === 'supervisor') {
+          // For HOD: show group selector first, hide profile selector until group chosen
+          groupSection.style.display = 'block';
+          profileSection.style.display = 'none';
+          profileSelect.innerHTML = '<option value="">— Select a group first —</option>';
+        } else {
+          // For non-HOD roles: hide group selector, show profile selector directly
+          groupSection.style.display = 'none';
+          profileSection.style.display = 'block';
+
+          var users = AUTH.getUsersByRole(role);
+          profileSelect.innerHTML = '<option value="">— Choose a profile —</option>';
+          users.forEach(function (u) {
+            var opt = document.createElement('option');
+            opt.value = u.id || u.employeeId;
+            opt.textContent = u.name + ' (' + (u.employeeId || 'No ID') + ')';
+            opt.dataset.userid = u.id || u.employeeId;
+            profileSelect.appendChild(opt);
+          });
+        }
+      }
+
+      // ── Group select change (For HOD role) ─────────────────────────────
+      groupSelect.addEventListener('change', function () {
+        selectedUser = null;
+        profileCard.classList.remove('visible');
+        empIdInput.value = '';
+        loginBtn.textContent = 'Sign In';
+        loginBtn.disabled = true;
+        hideError();
+
+        var selectedGroup = groupSelect.value;
+        if (!selectedGroup) {
+          profileSection.style.display = 'none';
+          profileSelect.innerHTML = '<option value="">— Select a group first —</option>';
+          return;
+        }
+
+        // Filter users for selected group
+        var filteredUsers = AUTH.getUsersByRole(selectedRole).filter(function (u) {
+          return u.group === selectedGroup;
+        });
+
+        var roleName = (selectedRole === 'hod') ? 'HOD' : (selectedRole === 'supervisor' ? 'Supervisor' : 'Scholar');
+        profileSelect.innerHTML = '<option value="">— Choose ' + selectedGroup + ' ' + roleName + ' —</option>';
+        filteredUsers.forEach(function (u) {
+          var opt = document.createElement('option');
+          opt.value = u.id || u.employeeId;
+          var empLabel = u.employeeId ? ' (' + u.employeeId + ')' : '';
+          var deptLabel = u.department ? u.department : (selectedRole === 'hod' ? 'HOD' : '');
+          var separator = deptLabel ? ' — ' : '';
+          opt.textContent = u.name + separator + deptLabel + empLabel;
+          opt.dataset.userid = u.id || u.employeeId;
+          profileSelect.appendChild(opt);
+        });
+
+        profileSection.style.display = 'block';
+      });
+
+      // ── Select a profile ───────────────────────────────────────────────
+      function selectProfile(userId) {
+        if (!userId) {
+          selectedUser = null;
+          profileCard.classList.remove('visible');
+          empIdInput.value = '';
+          loginBtn.textContent = 'Sign In';
+          loginBtn.disabled = true;
+          return;
+        }
+
+        // Find user in DEMO_USERS by id or employeeId
+        var user = AUTH.DEMO_USERS.find(function (u) {
+          return (u.id && u.id === userId) || (u.employeeId && u.employeeId === userId);
+        });
+        if (!user) return;
+
+        selectedUser = user;
+
+        // Populate profile card
+        pcName.textContent = user.name;
+        pcEmpId.textContent = user.employeeId ? user.employeeId : '— (Not on record)';
+        pcRoleBadge.innerHTML = roleBadgeHtml(user.role);
+
+        if (user.group) {
+          pcGroup.textContent = user.group;
+          pcGroupRow.style.display = '';
+        } else {
+          pcGroupRow.style.display = 'none';
+        }
+
+        if (user.department) {
+          pcDept.textContent = user.department;
+          pcDeptRow.style.display = '';
+        } else {
+          pcDeptRow.style.display = 'none';
+        }
+
+        profileCard.classList.add('visible');
+        empIdInput.value = user.employeeId || user.name;
+        loginBtn.textContent = 'Sign In as ' + user.name;
+        loginBtn.disabled = false;
+        hideError();
+      }
+
+      // ── Error helpers ──────────────────────────────────────────────────
+      function showError(msg) {
+        loginError.textContent = msg;
+        loginError.classList.add('visible');
+      }
+
+      function hideError() {
+        loginError.classList.remove('visible');
+      }
+
+      // ── Password toggle ────────────────────────────────────────────────
+      togglePwBtn.addEventListener('click', function () {
+        var isText = passwordInput.type === 'text';
+        passwordInput.type = isText ? 'password' : 'text';
+        eyeIcon.style.display = isText ? '' : 'none';
+        eyeOffIcon.style.display = isText ? 'none' : '';
+      });
+
+      // ── Role button clicks ─────────────────────────────────────────────
+      roleBtns.forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          selectRole(btn.dataset.role);
+        });
+      });
+
+      // ── Profile select change ──────────────────────────────────────────
+      profileSelect.addEventListener('change', function () {
+        var sel = profileSelect.options[profileSelect.selectedIndex];
+        var userId = sel ? sel.dataset.userid : '';
+        selectProfile(userId || '');
+      });
+
+      // ── Form submit ────────────────────────────────────────────────────
+      loginForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        hideError();
+
+        if (!selectedUser) {
+          showError('Please select a profile before signing in.');
+          return;
+        }
+
+        var enteredPw = passwordInput.value;
+        if (!enteredPw) {
+          showError('Please enter your password.');
+          return;
+        }
+
+        var user = AUTH.authenticate(selectedUser.employeeId || selectedUser.id, enteredPw);
+        if (!user) {
+          showError('Incorrect password. Please try again. (Demo password: 123456)');
+          passwordInput.value = '';
+          passwordInput.focus();
+          return;
+        }
+
+        // Successful login
+        loginBtn.textContent = 'Signing in…';
+        loginBtn.disabled = true;
+        AUTH.setCurrentUser(user);
+
+        // Brief delay for visual feedback, then navigate to dashboard
+        setTimeout(function () {
+          window.location.href = '/';
+        }, 400);
+      });
+
+      // ── Auto-select Chairman on load (most common quick demo) ──────────
+      // (No auto-select — let the user choose a role for clarity)
+
+    }());
+  </script>
+
+</body>
+
+</html>

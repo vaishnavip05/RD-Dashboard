@@ -1,0 +1,468 @@
+/*
+ * SRM R&D Portal — Sidebar (Institutional Scope Panel)
+ * Visually redesigned to match the IQAC portal's sidebar:
+ *   - Dark navy background (#123B6D → #0d2d52)
+ *   - White text hierarchy
+ *   - Gold accents for active/group headings
+ *   - Clean department items with hover glow
+ *   - Smooth micro-animations
+ */
+
+/* ═══════════════════════════════════════════════════════════
+   SCOPE PANEL SHELL
+═══════════════════════════════════════════════════════════ */
+.scope-panel {
+  width: 258px;
+  min-width: 258px;
+  max-width: 258px;
+  background: linear-gradient(180deg, #0d2d52 0%, #123B6D 60%, #0f3060 100%);
+  border-right: none;
+  height: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  box-shadow: 4px 0 20px rgba(8, 30, 70, 0.20);
+  flex-shrink: 0;
+  z-index: 20;
+  box-sizing: border-box;
+}
+
+/* Custom scrollbar — dark themed */
+.scope-panel::-webkit-scrollbar { width: 4px; }
+.scope-panel::-webkit-scrollbar-track { background: rgba(255,255,255,0.04); }
+.scope-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 99px; }
+.scope-panel::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.28); }
+
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR HEADER
+═══════════════════════════════════════════════════════════ */
+.scope-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 14px 11px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  background: rgba(0,0,0,0.10);
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  flex-shrink: 0;
+  backdrop-filter: blur(6px);
+}
+
+.scope-header-left {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.scope-icon {
+  width: 15px;
+  height: 15px;
+  stroke: #D6A84F;
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.scope-header-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(215, 233, 250, 0.75);
+}
+
+.scope-reset-btn {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.18);
+  border-radius: 6px;
+  color: rgba(215, 233, 250, 0.85);
+  font: 600 10.5px 'Inter', sans-serif;
+  padding: 3px 9px;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+}
+
+.scope-reset-btn:hover {
+  background: rgba(255,255,255,0.18);
+  border-color: rgba(255,255,255,0.35);
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ACTIVE SELECTION BANNER
+═══════════════════════════════════════════════════════════ */
+.scope-active-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  background: rgba(214, 168, 79, 0.14);
+  border-bottom: 1px solid rgba(214, 168, 79, 0.22);
+  color: #f5d98e;
+  font-size: 11.5px;
+  font-weight: 700;
+  font-family: 'Inter', sans-serif;
+  flex-shrink: 0;
+  letter-spacing: 0.01em;
+}
+
+.scope-active-badge svg {
+  width: 13px;
+  height: 13px;
+  stroke: #D6A84F;
+  flex-shrink: 0;
+}
+
+.scope-active-badge span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TREE CONTAINER
+═══════════════════════════════════════════════════════════ */
+.scope-tree {
+  padding: 8px 6px 14px;
+  flex: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TREE ITEM ROWS
+═══════════════════════════════════════════════════════════ */
+.scope-tree-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 8px 5px 6px;
+  border-radius: 8px;
+  margin: 1px 2px;
+  font-family: 'Inter', sans-serif;
+  font-size: 12px;
+  color: rgba(215, 233, 250, 0.78);
+  transition: background 0.15s ease, color 0.15s ease, padding-left 0.1s;
+  position: relative;
+  user-select: none;
+  cursor: pointer;
+}
+
+.scope-tree-item:hover {
+  background: rgba(255, 255, 255, 0.09);
+  color: #e8f2ff;
+}
+
+/* Selected item — bright blue pill IQAC style */
+.scope-tree-item--selected {
+  background: rgba(30, 90, 168, 0.28) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  border-left: 3px solid #D6A84F;
+  padding-left: calc(var(--indent, 0px) + 3px);
+  box-shadow: inset 0 0 0 1px rgba(214, 168, 79, 0.22);
+}
+
+/* Root level */
+.scope-tree-item--type-root {
+  font-weight: 700;
+  font-size: 12.5px;
+  color: rgba(215, 233, 250, 0.9);
+  letter-spacing: 0.03em;
+}
+
+/* Campus level */
+.scope-tree-item--type-campus {
+  font-weight: 700;
+  font-size: 12px;
+  color: rgba(215, 233, 250, 0.9);
+}
+
+/* College level */
+.scope-tree-item--type-college {
+  font-weight: 600;
+  font-size: 11.5px;
+  color: rgba(215, 233, 250, 0.8);
+}
+
+/* Group level — gold accent for institution headers */
+.scope-tree-item--type-group {
+  font-weight: 700;
+  font-size: 11.5px;
+  color: #e5c77e;
+  letter-spacing: 0.02em;
+}
+
+.scope-tree-item--type-group:hover {
+  background: rgba(214, 168, 79, 0.12);
+  color: #f5d98e;
+}
+
+/* Department level */
+.scope-tree-item--type-dept {
+  font-weight: 500;
+  font-size: 11.5px;
+  color: rgba(200, 220, 245, 0.75);
+}
+
+.scope-tree-item--type-dept:hover {
+  color: #d6eaff;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ARROW BUTTON
+═══════════════════════════════════════════════════════════ */
+.scope-arrow-btn {
+  background: transparent;
+  border: none;
+  padding: 2px;
+  margin: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  color: rgba(180, 210, 245, 0.6);
+  transition: transform 0.18s ease, color 0.14s ease, background 0.14s;
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+}
+
+.scope-arrow-btn:hover {
+  color: #D6A84F;
+  background: rgba(214, 168, 79, 0.1);
+}
+
+.scope-arrow-btn svg {
+  width: 11px;
+  height: 11px;
+  stroke: currentColor;
+  transition: transform 0.18s ease;
+}
+
+.scope-arrow-btn--expanded svg {
+  transform: rotate(90deg);
+}
+
+.scope-arrow-spacer {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NODE TYPE ICONS
+═══════════════════════════════════════════════════════════ */
+.scope-type-icon {
+  width: 13px;
+  height: 13px;
+  stroke: rgba(180, 210, 245, 0.65);
+  flex-shrink: 0;
+  transition: stroke 0.15s;
+}
+
+.scope-tree-item--type-group .scope-type-icon {
+  stroke: #D6A84F;
+  opacity: 0.9;
+}
+
+.scope-tree-item--selected .scope-type-icon {
+  stroke: #D6A84F;
+}
+
+.scope-type-icon--dept {
+  width: 11px;
+  height: 11px;
+  stroke: rgba(180, 210, 245, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   NODE LABEL
+═══════════════════════════════════════════════════════════ */
+.scope-node-label {
+  flex: 1;
+  cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 1px 2px;
+  border-radius: 3px;
+  line-height: 1.35;
+}
+
+.scope-node-label:hover {
+  text-decoration: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CHECKMARK
+═══════════════════════════════════════════════════════════ */
+.scope-selected-check {
+  font-size: 11px;
+  color: #D6A84F;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-left: auto;
+  padding-right: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CHILDREN CONTAINER
+═══════════════════════════════════════════════════════════ */
+.scope-children-wrap {
+  position: relative;
+}
+
+/* Indent connector line */
+.scope-children-wrap::before {
+  content: '';
+  position: absolute;
+  left: 18px;
+  top: 0;
+  bottom: 6px;
+  width: 1px;
+  background: rgba(255,255,255,0.07);
+  pointer-events: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SIDEBAR SECTION SEPARATOR
+═══════════════════════════════════════════════════════════ */
+.scope-tree-section-label {
+  font-size: 9.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: rgba(180, 210, 245, 0.4);
+  padding: 10px 10px 4px;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   FOOTER GUIDE
+═══════════════════════════════════════════════════════════ */
+.scope-guide {
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 10px 14px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+}
+
+.scope-guide-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 10.5px;
+  color: rgba(180, 210, 245, 0.5);
+  font-weight: 500;
+}
+
+.scope-guide-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.scope-guide-dot--blue   { background: #1E5AA8; opacity: 0.7; }
+.scope-guide-dot--arrow  { background: #D6A84F; opacity: 0.7; }
+
+/* ═══════════════════════════════════════════════════════════
+   PLACEHOLDER VIEW (when no dept is selected)
+═══════════════════════════════════════════════════════════ */
+.placeholder-view {
+  background: #fff;
+  border: 1px solid #dde5f0;
+  border-radius: 14px;
+  padding: 52px 30px;
+  text-align: center;
+  margin-top: 18px;
+  box-shadow: 0 4px 20px rgba(8, 54, 101, 0.06);
+  animation: fade-in-up 0.35s ease both;
+}
+
+.placeholder-icon {
+  width: 48px;
+  height: 48px;
+  stroke: #1E5AA8;
+  margin-bottom: 16px;
+  opacity: 0.75;
+}
+
+.placeholder-title {
+  font-family: 'Inter', sans-serif;
+  font-size: 19px;
+  font-weight: 800;
+  color: #123B6D;
+  margin: 0 0 10px;
+  letter-spacing: -0.02em;
+}
+
+.placeholder-desc {
+  font-size: 13.5px;
+  color: #52627c;
+  max-width: 480px;
+  margin: 0 auto 22px;
+  line-height: 1.5;
+}
+
+.placeholder-back-btn {
+  background: linear-gradient(100deg, #123B6D, #1E5AA8);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 20px;
+  font: 700 13px 'Inter', sans-serif;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(8, 54, 101, 0.22);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  letter-spacing: 0.02em;
+}
+
+.placeholder-back-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(8, 54, 101, 0.30);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ANIMATION (shared with styles.css)
+═══════════════════════════════════════════════════════════ */
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .scope-panel {
+    position: static;
+    height: auto;
+    max-height: none;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    border-right: none;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .scope-tree {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+  }
+}

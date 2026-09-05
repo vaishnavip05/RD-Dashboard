@@ -1,0 +1,2847 @@
+/* Auto-generated Management Research Data */
+window.MANAGEMENT_RESEARCH_DATA = {
+  "scope": "Faculty of Management",
+  "departments": [
+    "BBA",
+    "MBA"
+  ],
+  "publications": [
+    {
+      "id": "MGMT-P1",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. S. Vijayarani",
+      "title": "TECHNOLOGY READINESS OF MICRO, SMALL AND MEDIUM ENTERPRISES",
+      "journal": "WORLD REVIEW OF ENTREPRENEURSHIP,  MANAGEMENT AND SUSTAINABLE DEVELOPMENT",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P2",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. S. Vijayarani",
+      "title": "A STUDY ON EMPLOYEE OPINION TOWARDS REMOTE AND HYBRID WORK PRACTICES",
+      "journal": "SOUTH INDIA JOURNAL OF SOCIAL SCIENCES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P3",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. S. Vijayarani",
+      "title": "A STUDY ON WORK LIFE BALANCE OF THE EMPLOYEE AFTER COVID-19 PERIOD - SRI VENKATESWARA MINERALS ORGANIZATIONAL SUSTAINABILITY",
+      "journal": "SOUTH INDIA JOURNAL OF SOCIAL SCIENCES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P4",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. S. Vijayarani",
+      "title": "RELATIONSHIP BETWEEN DISCRETIONARY WORK EFFORT AND ORGANIZATIONAL SUSTAINABILITY",
+      "journal": "SOUTH INDIA JOURNAL OF SOCIAL SCIENCES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P5",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. V. Sivakamy",
+      "title": "A STUDY OF EMPLOYEES WELFARE WITH REFERENCES TO ELBITEC INNOVATIONS LIMITED",
+      "journal": "SOUTH INDIA JOURNAL OF SOCIAL SCIENCES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P6",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. V. Sivakamy",
+      "title": "A STUDY OF AWARENESS AND KNOWLEDGE ABOUT WEALTH MANAGEMENT SERVICES WITH REFERENCES TO AZENTIO CUSTOMERS",
+      "journal": "EDUCATION AND SOCIETY",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P7",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. A. Jerena Rachael",
+      "title": "A STUDY ON SAFETY, HEALTH AND WELFARE MEASURES OF AIR INDIA LTD.",
+      "journal": "EDUCATION AND SOCIETY",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P8",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. D. Anto Pravin Singh",
+      "title": "CUSTOMER RELATIONSHIP  MANAGEMENT IS A TECHNOLOGY TO ENHANCE BUSINESS PERFORMANCE WITH REFERENCE TO SIGNWARE TECHNOLOGIES PVT. LTD., CHENNAI CITY",
+      "journal": "SOUTH INDIA JOURNAL OF SOCIAL SCIENCES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P9",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. S. Lakshmi",
+      "title": "THE SIGNIFICANT FACTORS OF EMPLOYEES WORK STRESS IN PHARMACEUTICAL INDUSTRY",
+      "journal": "EUROPEAN CHEMICAL BULLETIN",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P10",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. K. Priya",
+      "title": "PRODUCT RESEARCH USING CONSUMER ANALYTICS TO UNDERSTAND THE TARGET MARKET FOR AN UPCOMING MOBILE APPLICATION FOR NON- RESIDENT INDIANS",
+      "journal": "EDUCATION AND SOCIETY",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P11",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. K. Priya",
+      "title": "FINANCIAL PERFORMANCE OF ASHOK LEYLAND PVT LTD",
+      "journal": "SOUTH INDIA JOURNAL OF SOCIAL SCIENCES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P12",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Mrs. Anandhi.S",
+      "title": "EWOM- INFORMATION ACCEPTANCE MODEL- A LITERATURE REVIEW",
+      "journal": "EUROPEAN CHEMICAL BULLETIN",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P13",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Deepa M J",
+      "title": "CUSTOMER RELATIONSHIP MANAGEMENT IS A TECHNOLOGY TO ENHANCE BUSINESS PERFORMANCE TO SIGNWARE TECHNOLOGIES PVT.LTD., CHENNAI CITY.",
+      "journal": "SOUTH INDIA JOURNAL OF SOCIAL SCIENCES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P14",
+      "year": 2023,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. Tharani S",
+      "title": "A STUDY ON MEDIATING EFFECT OF OCB WITH LEADERSHIP AND MOTIVATION AT WORK",
+      "journal": "SHODHAK-A JOUNAL OF HISTORICAL RESEARCH",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P15",
+      "year": 2023,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. A. Poornima",
+      "title": "IMPACT OF GREEN MARKETING MIX ON CONSUMER PURCHASE INTENTION WITH RESPECT TO CHENNAI SUPER MARKETS",
+      "journal": "EUROPEAN CHEMICAL BULLETIN",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P16",
+      "year": 2023,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. Sowmiya M",
+      "title": "A STUDY ON MEDIATING EFFECT OF OCB WITH LEADERSHIP AND MOTIVATION AT WORK",
+      "journal": "SHODHAK-A JOUNAL OF HISTORICAL RESEARCH",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P17",
+      "year": 2023,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. Sowmiya m",
+      "title": "IMPACT OF GREEN MARKETING MIX ON CONSUMER PURCHASE INTENTION WITH RESPECT TO CHENNAI SUPER MARKETS",
+      "journal": "EUROPEAN CHEMICAL BULLETIN",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P18",
+      "year": 2023,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. Thadauthapani A",
+      "title": "ARTIFICIAL INTELLIGENCE-THE NEED OF THE AGE IN ALL SECTORS",
+      "journal": "SATRAACHEE-AN INTERNATIONAL REGISTERED PEER REVIEWED BILINGUAL RESEARCH JOURNAL",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P19",
+      "year": 2023,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. Thadauthapani A",
+      "title": "A STUDY ON EMPLOYEE ABSENTEEISM AND MORALE IN INFORMATION TECHNOLOGY (IT) INDUSTRY : WITH SPECIAL REFERENCE TO COIMBATORE CITY",
+      "journal": "KUTAP",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P20",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. D. Anto Pravin Singh",
+      "title": "ARTIFICIAL INTELLIGENCE-THE NEED OF THE AGE IN ALL SECTORS",
+      "journal": "SATRAACHEE-AN INTERNATIONAL REGISTERED PEER REVIEWED BILINGUAL RESEARCH JOURNAL",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P21",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. D. Anto Pravin Singh",
+      "title": "A STUDY ON EMPLOYEE ABSENTEEISM AND MORALE IN INFORMATION TECHNOLOGY (IT) INDUSTRY WITH SPECIAL REFERENCE TO COIMBATORE CITY",
+      "journal": "KUTAP",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P22",
+      "year": 2023,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. T. Rekha Kiran Kumar,\nDr. P. Sathiyabama Ms.B. Sandhya, Ms. Sruthi Johnson,",
+      "title": "AN EMPIRICAL SCRUTINITY OF FISCAL STATUS RELATING TO NON-BANKING FINANCIAL SECTOR AT SOUTH INDIA",
+      "journal": "A JOURNAL OF HISTORICAL RESEARCH",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P23",
+      "year": 2023,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.Thrani S Dr Sowmiya M",
+      "title": "A STUDY OF OCCUPATIONAL STRESS OF IT EMPLOYEES IN SIVAGANGA DISTRICT",
+      "journal": "ADALYA JOURNAL",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P24",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.K.Prakash",
+      "title": "E BANKING SERVICE ADAPTABILITY USING SEM : A STUDY ACROSS THE CUSTOMERS IN KANYAKUMARI DISTRICT",
+      "journal": "SATRAACHEE-AN INTERNATIONAL REGISTERED PEER REVIEWED BILINGUAL RESEARCH JOURNAL",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P25",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.K.Prakash",
+      "title": "A STUDY ON COST CONTROL STRATEGIES AND MITIGATION OF COST OVERRUN IN CONSTRUCTION",
+      "journal": "SHODHA PRABHA",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P26",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.Deepa M J",
+      "title": "ARTIFICIAL INTELLIGENCE AND ROBOTICS AND THEIR IMPACT ON THE PERFORMANCE OF THE WORKFORCE IN THE BANKING SECTOR",
+      "journal": "RGSA, REVISTA DE GESTAO SOCIAL E AMBIENTAL",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P27",
+      "year": 2023,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.Sathyabama & Dr A Thadauthapani",
+      "title": "A STUDY ON PERSONAL AND SOCIAL PROBLEMS FACED BY RURAL WOMEN ENTREPRENEURS IN COIMBATORE CITY",
+      "journal": "JOURNAL OF HIGHER EDUCATION THEORY AND PRACTICE",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P28",
+      "year": 2023,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.A. Thandauthapani",
+      "title": "MODEL OF THE BLOCK CHAIN AND ITS PERFORMANCE IN THE BANKING SECTOR",
+      "journal": "JOURNAL OF HIGHER\nEDUCATION THEORY AND PRACTICE",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P29",
+      "year": 2023,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.Harish , Dr Thadauthapani & Dr Jai Ganesh",
+      "title": "CONSUMER PREFERENCE AND SATISFACTION TOWARDS LAPTOP WITH REFERENCE TO TIRICHY CITY",
+      "journal": "JOURNAL OF ASIATIC SOCIETY OF MUMBAI",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P30",
+      "year": 2023,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.Deepa M J",
+      "title": "FACTORS EFFECTING STARTUP BUSINESSES IN ENTREPRENERAL DEVELOPMENT IN LUSAKA, ZAMBIA",
+      "journal": "INTERNATIONAL JOURNAL OF SCIENCE AND RESEARCH",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P31",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Vijayarani\nMs. Smitha Abraham",
+      "title": "CULTIVATING COMMITMENT: UNVEILING THEMATIC INSIGHTS INTO EMPLOYEE ENGAGEMENT FOR ENHANCED EMPLOYEE RETENTION IN THE INDIAN EDUCATION SECTOR",
+      "journal": "MIGRATION LETTERS",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P32",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Mrs. P Subha",
+      "title": "A STUDY ON PREDICTORS OF EMOTIONAL LABOUR MANAGEMENT IN CUSTOMER FACING APPAREL STORE EMPLOYEES",
+      "journal": "INDIAN JOURNAL OF NATURAL SCIENCES (IJONS)",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P33",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "S. Jenifer Ruth Malarvizhi Dr,.S.Vijayarani",
+      "title": "EFFECT OF DISCRETIONARY WORK EFFORT ON ORGANISATIONAL SUSTAINABILITY THROUGH EMPLOYEE ENGAGEMENT - PERSPECTIVE OF Z GEN",
+      "journal": "INTERNATIONAL JOURNAL OF BUSINESS AND SYSTEMS RESEARCH",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P34",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. R. Arulmoli",
+      "title": "DETERMINANTS OF WOMEN ENTREPRENEUR MOTIVATIONAL FACTORS TOWARDS MARKETING ORGANIC PRODUCTS",
+      "journal": "AFRICAN JOURNAL OF BIOLOGICAL SCIENCES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P35",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Lakshmi",
+      "title": "BRAND INFIGHTING",
+      "journal": "AFRICAN JOURNAL OF BIOLOGICAL SCIENCES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P36",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. S. Vijayarani Dr. D. Anto Pravin Singh\nDr. A.L. Chidambaram",
+      "title": "THE RELATIONSHIP BETWEEN ORGANIZATIONAL FACTORS AND THE SUCCESS OF SUGGESTION SYSTEM",
+      "journal": "CAHIERS MAGELLANES-NS",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P37",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Ms.Sharmila Devi R",
+      "title": "UNVEILING THE DRIVERS OF SUSTAINABLE HOUSING CHOICES AMONG MILLENNIALS IN EMERGING MARKETS",
+      "journal": "INTERNATIONAL JOURNAL OF HOUSING MARKETS AND ANALYSIS",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P38",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.P.Mohanraj",
+      "title": "NAVIGATING FERTILIZER FUTURES: UNRAVELLING CHALLENGES AND UNLOCKING OPPORTUNITIES IN INDIA’S SUPPLY CHAINS",
+      "journal": "LIBRARY PROGRESS INTERNATIONAL",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P39",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Lakshmi",
+      "title": "STUDY ON HOW FINANCIAL LITERACY INFLUENCES ONE'S INVESTMENT DECISIONS",
+      "journal": "ASIAN AND PACIFIC ECONOMIC REVIEW",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P40",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. V. Sivakamy \nDr. C. Sundar",
+      "title": "UNVEILING MERGER EFFECTS: ANALYZING THE IMPACT OF FINANCIAL PERFORMANCE OF UNION BANK AND INDIAN BANK",
+      "journal": "ECONOMIC SCIENCES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P41",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. V. Sivakamy",
+      "title": "A STUDY OF HYBRID WORKING MODEL & ITS IMPACT AND PERCEPTION AMONG EMPLOYEES IN IT SECTOR WITH RELATION TO RR DONNELLEY",
+      "journal": "ASIAN AND PACIFIC ECONOMIC REVIEW",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P42",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Vijayarani",
+      "title": "EMPLOYEE PERCEPTION ON COMPENSATION STRAUCTURE PRACTICED IN ELECTRONIC INDUSTRY",
+      "journal": "NORTHERN ECONOMIC REVIEW",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P43",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.K. Prakash",
+      "title": "A STUDY ON CONSUMER’S PERCEPTION TOWARDS INTERNATIONAL AND LOCAL BRANDS IN THE INDIAN RETAIL INDUSTRY",
+      "journal": "ECONOMIC SCIENCES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P44",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.K. Prakash",
+      "title": "A STUDY ON FINANCIAL ANALYSIS OF NEW TECH CREATIONS",
+      "journal": "NORTHERN ECONOMIC REVIEW",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P45",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.D. Anto Pravin Singh",
+      "title": "AN EXPLORATION ON MILK RUN CONCEPT ON INVENTORY MANAGEMENT IN HYUNDAI MOTOR INDIA LIMITED",
+      "journal": "NORTHERN ECONOMIC REVIEW",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P46",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. D. Anto Pravin Singh",
+      "title": "THE EVOLUTION OF AUTOMATED FINANCIAL ADVICE IN INDIA: INVESTOR PERCEPTIONS IN WEALTH MANAGEMENT",
+      "journal": "ASIAN AND PACIFIC ECONOMIC REVIEW",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P47",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. K. Priya",
+      "title": "COLLABORATIVE PLATFORMS FOR RESEARCH SUPPORT IN ACADEMIC LIBRARIES",
+      "journal": "LIBRARY PROGRESS INTERNATIONAL",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P48",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "DR. AL CHIDAMBARAM",
+      "title": "EXPLORING THE TRIALS AND TRIUMPHS OF CHENNAI'S FREIGHT FORWARDERS",
+      "journal": "ECONOMIC SCIENCES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P49",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. AL Chidambaram",
+      "title": "EMPOWERING RURAL INDIA: ANALYZING THE IMPACT OF THE MAHATMA GANDHI NATIONAL RURAL EMPLOYMENT GUARANTEE ACT WITHIN THE INDIA POST PAYMENTS BANK ECOSYSTEM",
+      "journal": "ASIAN AND PACIFIC ECONOMIC REVIEW",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P50",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr Lekha Padmanabhan",
+      "title": "A STUDY ON EMPLOYEE JOB SATISFACTION OF A PACKAGING MANUFACTURING COMPANY CHENNAI, TAMIL NADU",
+      "journal": "ASIAN AND PACIFIC ECONOMIC REVIEW",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P51",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Ramanathan",
+      "title": "A STUDY ON INVENTORY MANAGEMENT AT WHEELS INDIA LIMITED",
+      "journal": "NORTHERN ECONOMIC REVIEW",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P52",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Loganatha Prasanna S",
+      "title": "A FINANCIAL PERFORMANCE ANALYSIS OF INDIA POST PAYMENTS BANK",
+      "journal": "ASIAN AND PACIFIC ECONOMIC REVIEW",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P53",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr BINI MARIN V",
+      "title": "NURTURING TALENT THROUGH INNOVATIVE EMPLOYEE RETENTION APPROACHES",
+      "journal": "ECONOMIC SCIENCES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P54",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Sharmila Devi R,",
+      "title": "BEYOND BLUEPRINTS: UNVEILING SUSTAINABLE HOUSING AMBITIONS – A TAM AND EMGB FUSION AMONG PARAPROFESSIONALS IN URBAN CONSTRUCTION LANDSCAPE",
+      "journal": "ENGINEERING, CONSTRUCTION AND ARCHITECTURAL MANAGEMENT",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P55",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Loganatha Prasanna S",
+      "title": "BUILDING A RESILIENT WORKFORCE IN INDIAN IT: THE IMPACT OF STRATEGIC LEADERSHIP AND KNOWLEDGE MANAGEMENT ON CHANGE MANAGEMENT",
+      "journal": "PAKISTAN JOURNAL OF LIFE AND SOCIAL SCIENCES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P56",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Loganatha Prasanna S",
+      "title": "A STUDY ON EMPLOYEE PERCEPTION TOWARDS RECRUITMENT AND SELECTION PROCESS AT INDUS TOWERS PVT. LTD., CHENNAI",
+      "journal": "LIBRARY PROGRESS INTERNATIONAL",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P57",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S. Ramanathan T Kavya\nSai Yamini Manikandan T Dilepan N Ashwin T K",
+      "title": "A COMPARATIVE STUDY ON THE FINANCIAL PERFORMANCE OF WHEELS INDIA LIMITED",
+      "journal": "LIBRARY PROGRESS INTERNATIONAL",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P58",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S. Lakshmi",
+      "title": "EXAMINING EMPLOYEE CONTENTMENT IN HWASHIN AUTOMOTIVE INDIA PRIVATE LTD.,",
+      "journal": "LIBRARY PROGRESS INTERNATIONAL",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P59",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Lekha P Sowmiya K Yesvanthini S Naveen Krishnaa M Muni Sahithi Haritha H",
+      "title": "A STUDY ON THE EFFECTS OF WORKPLACE STRESS ON EMPLOYEE PRODUCTIVITY AND HEALTH IN CONSTRUCTION INDUSTRY",
+      "journal": "LIBRARY PROGRESS INTERNATIONAL",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P60",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Vadivel N, Dr. C. Sundar",
+      "title": "AN INVESTIGATION ON THE VARIABLES IMPACTING THE BEHAVIORAL INTENTION TO USE DIGITAL BANKING IN CHENNAI CITY",
+      "journal": "JOURNAL OF DIGITAL ECONOMY",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P61",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Vijayarani",
+      "title": "A STUDY ON TRAINING AND DEVELOPMENT AT LOGISTICS INDUSTRY",
+      "journal": "JOURNAL OF INFORMATICS EDUCATION AND RESEARCH",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P62",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "D. Anto Pravin Singh, \nK. Prakash*, \nV. Rohini, \nM. Franklin, \nS. Arul Krishnan",
+      "title": "Responsiveness To Patient Needs: Examining Its Role in Service Quality Perception In Corporate Health Care Settings",
+      "journal": "Smart Journal of Business Management Studies",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P63",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. V Saravana Kumar, \nDr. M A Nayeem, \nDr. N. Bargavi, \nDr. Vinita Shrivastava, \nDr. R. Arulmoli, \nDr. T. Amutha",
+      "title": "The Role of Digital Transformation in Driving Entrepreneurship and Enhancing Organizational Capabilities in Small and Medium-Sized Enterprises",
+      "journal": "Journal of Information Systems Engineering and Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P64",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Ms.Jenifer Ruth Malarvizhi        \nDr.S.Vijayarani",
+      "title": "IT employee perceptions: life satisfaction achieved through job satisfaction and influencing factors",
+      "journal": "International Journal of Management and Enterprise Development",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P65",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Mr.A.Sivan \nDr.K.Priya",
+      "title": "Quantum Computing and Risk Prediction Accuracy: An Analysis of IT Companies' Risk Appetite",
+      "journal": "International Journal of Business and Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P66",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Manimegalai D , \nKavitha Shanmugam,\nVijay Arpudaraj Antonyraj",
+      "title": "Scaling subscriber numbers: The E-Platform’s biggest goal",
+      "journal": "Journal of Information Technology Teaching Cases",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P67",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Jeffrey Jim Salvius J. \nDr. Allen Rose Shamini D, \nDr. Prasad babu P, \nDr. Bavithra M",
+      "title": "Faculties' perception of online learning sustainability post-pandemic ‎era",
+      "journal": "International Journal of Basic and Applied Sciences",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P68",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Jeffrey Jim Salvius J, V Susan Jayaseeli Manuel, J Robert Edwin Chester, D Anto Pravin Singh, Catherin T C, Dr Thandauthapani Arul Jothi",
+      "title": "Driving Innovation in the Textile Industry: The Importance of Hr Practices and A Supportive Climate in the Textile Industry.",
+      "journal": "Journal of Information Systems Engineering and Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P69",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Sharmila Devi R, \nDinesh Babu M",
+      "title": "Decoding the consumer mind: Integrating neuromarketing principles into digital marketing strategies",
+      "journal": "Journal of Information Technology Teaching Cases",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P70",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.K.Priya \nMrs.R.Kavitha \nDr.M.Harish \nDr.B.Premkumar",
+      "title": "Impact of Central bank digital currencues on commercial banking stability : A global Perspective",
+      "journal": "Advances in Consumer Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P71",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Jain Prabhu Thomas, \nK. Asha, \nG M. Shaju, \nD. Anto Pravin Singh & \nR. Melba  Kan",
+      "title": "Enhancing organizational dynamics: the impact  of emotional intelligence on managerial  performance and employee engagement in Tamil Nadu's banking industry",
+      "journal": "International Journal of Occupational Safety and Ergonomics",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P72",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Prof. Harsha R, \nDr G V Mruthyunjaya Sharma, \nProf. Hemavathi GP, \nDr K R Ravi, \nDr.P.Mohanraj",
+      "title": "Evaluating the Efficacy of Forensic Accounting over Traditional Auditing and its application in selected Industries in Bengaluru",
+      "journal": "European Economic Letters",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P73",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. P. Mohanraj\nDr. k. venkata padma.\nDr. K. Prabakar.\nDr. Nikita Nille.\nMs. Suneetha K.S.\nDr. Kanchan Samir Dewal",
+      "title": "Strategic HRM Practices and Its Impact on Work Life Balance of Employees Working in Higher Educational Institutions",
+      "journal": "Journal of Marketing & Social Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P74",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. S. Ramanathan1, \nDr. Loganatha Prasanna. S*\n2, Dr. Chidambaram. Al3, \nDr. P. Mohanraj4",
+      "title": "A Study on Impact of Credit Risk on The Financial Stability of Royal Enfield",
+      "journal": "Advances in Consumer Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P75",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Sneha Jha1,\n Dr. Mohanraj P2, \nDr. Abhishek Sharma3, \nDr. Megha Bakshi\n4, Manish Satpal5",
+      "title": "Sustainable ICT Practices in Education: Balancing Innovation and Digital Responsibility",
+      "journal": "Advances in Consumer Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P76",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Rohini V, \nDr. S. Arul Krishnan, \nDr. K. Prakash, \nDr. Sivakumar. S, \nDr. D. Anto Pravin Singh, \nDr. V. P. Rameshkumaar",
+      "title": "Artificial Intelligence In Business: Evaluating The Transformative  Role Of AI In Managerial  Decision-Making Efficiency",
+      "journal": "International Journal of Environmental Sciences",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P77",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. R. Balaji, \nDr. G. Gayathri, \nDr.  Rohini  V, \nDr. P. Praba  Devi, \nDr. S. Arul  Krishnan, \nDr. K. Prakash",
+      "title": "Evaluating The Efficacy of AI-Enhanced  CRM  Tools In Enhancing User Experience In Indian Online Shopping",
+      "journal": "International Journal of Environmental Sciences",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P78",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr Loganatha Prasanna. S1, \nDr S. Ramanathan2, \nDr Harish. M3, \nDr A. Praveen Kumar4  \nDr B. Senthil Kumar5",
+      "title": "Converging Management Wisdom and Digital Innovation: An Integrated  Approach to Sustainable Competitiveness",
+      "journal": "Advances in Consumer Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P79",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Franklin M1, \nDr. Loganatha Prasanna S2*, \nDr. G. Gayathri3, \nDr. S. Ramanathan4, \nS.  Deepavani5, \nDr. K. Prakash6",
+      "title": "E-commerce Adoption among  Enhancing User Experience In Indian Online ShoppingMillennials: Analyzing Security, Ease of  Purchase, and Perceived Usefulness in South India",
+      "journal": "International Journal of Environmental Sciences",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P80",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "K Prakash, \nM Franklin, \nM Shunmugasundaram, \nK Sankar Ganesh and \nS Gangadharan",
+      "title": "Fraud detection in the banking sector using Gated Green Anaconda Progressive Generative Axial Adversarial Attention Network",
+      "journal": "Intelligent Decision Technologies",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P81",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Anitha B, \nDr. V. Sivakamy**, \nSukesh Raj S V, \nSankara Narayanan V, \nDevashree.R, \nYogambigai Rajamoorthy",
+      "title": "Investigating the Efficacy of Forensic Accounting and Fraud Auditing Practices in Chennai-Based Audit Firms",
+      "journal": "European Economic Letters",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P82",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. V. Sivakamy1, \nDr. R. S. Jeganath2, \nDr. P. Arulananth3, \nDr. V. Susan Jayaseeli Manuel4, \nDr. A. S. Sathishkumar5, \nMrs. R. Suga6",
+      "title": "Transformational Leadership and Employee Engagement: A Strategic Approach to Organizational Growth",
+      "journal": "Advances in Consumer Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P83",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. K. Priya",
+      "title": "A Study on Financial Performance of NLC India Limited Using Dupont Analysis",
+      "journal": "European Economic Letters",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P84",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Nayak, Bishwajit;\nSekhar Bhattacharyya, \nPerumandla, Swamy;  \nN, Yuvaraja,",
+      "title": "Unit of Analysis in Strategic Management Research – Positioning Organisational Perspective through Managerial Mental Models",
+      "journal": "International journal of organizational analysis",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P85",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. R. Sharmila Devi, Dr.Janus Bibyana, Dr.P. Mohan Raj, Kavitha Bagilesh, Dr. Jeffray Jim Salvius",
+      "title": "Sustaining engagement with digital finance: mobile payment adoption among marginalized women street vendors in an emerging market",
+      "journal": "Discover Sustainability",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P86",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "1. Ms.Jenifer Ruth Malarvizhi 2. Dr.S.Vijayarani",
+      "title": "The Impact of Different Facets of Work Family Conflict on Employee’s Discretionary Work Effort Mediated by Employee Engagement",
+      "journal": "Employee Responsibilities and Rights Journal",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P87",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "1.S. Vijayarani*, \n2. M. Sowmiya \n3. M. Harish & \n4.B. Premkumar",
+      "title": "Employee adoption of digital technologies: role of employee competence and readiness",
+      "journal": "International  Journal of Business and Systems Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P88",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "D.Manimegalai,\nKavitha Bagilesh,\nKavitha Shanmugam",
+      "title": "Social media as a catalyst: How Instagram is enabling Indian housewives to become digital entrepreneurs",
+      "journal": "Journal of Information Technology Teaching Cases",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P89",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. R.Arulmoli, \nDr.D.Rengaraj",
+      "title": "A Study On Buyer Behaviour Towards Four Wheelers, Particularly Electric Vehicles (EV) Segment",
+      "journal": "Journal of Informatics Education and Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P90",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Manimegalai Durairaj,\nKavitha Bagilesh,\nAbarnisha Sathyamoorthy,\nKavitha Shanmugam",
+      "title": "Inside-out AI strategy at Microsoft: From capability building to commercialization",
+      "journal": "Journal of Information Technology Teaching Cases",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P91",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Vijayarani\nMrs.Smitha Abraham",
+      "title": "Impact of flexible work arrangements on employee retention: the mediating role of digital leadership",
+      "journal": "International  Journal of Technoentrepreneurship",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P92",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "\"Dr.R. Udayakumar, \nDr. S. Praveen Kumar, \nDr.E P John, \nHasssan MuhamedAle, \nMamadjanova Zukhra Bakhromjanovna, \nR. Ramya\"",
+      "title": "Smart Surveillance and Security Systems in Library Information Management",
+      "journal": "Indian Journal of Information Sources and Services",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P93",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Meena G, \nDr. K Santhanalakshmi, \nDr. Vijay Raja R, \nSaladi Jaswanth Seshasai, \nDr. Prabu G, \nDr. Gurmeet Singh Sikh",
+      "title": "Cyber Liability Insurance in the Era of Digital Transformation",
+      "journal": "International Insurance Law Review",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P94",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. S. Lakshmi\nDr.P.Mohanraj\nDr.R.Mugundhan\nDr.Harish.M\nDr.Susan Jayaseeli Manuel",
+      "title": "CAPITAL STRUCTURE ANALYSIS- HYUNDAI POLYTECH INDIA LTD.,",
+      "journal": "LEX LOCALIS-JOURNAL OF LOCAL SELF-GOVERNMENT",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P95",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. V. S. Sheeja1,\nDr. C. Sundar2,\nDr. G. Aravindhan3,\nDr. M. Kameswari4",
+      "title": "Marketing to the Next Billion: Strategies for Emerging Markets in the Mobile Era",
+      "journal": "Advances in Consumer Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P96",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Kavitha Bagilesh 1*, Manimegalai D 2, Kavitha Shanmugam 3",
+      "title": "It’s Not Just Grades: Sensemaking and Emotional Strain Among Indian MBA Students During Campus Placements",
+      "journal": "International Scientific Journal of Engineering and Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P97",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.K.Prakash",
+      "title": "A Study on Finance and Cash Flow in Construction Staffing Startups",
+      "journal": "THE STRATEGIC ROLE OF MULTIDISCIPLINARY ACADEMIC RESEARCH AND PRACTICE",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P98",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Anandhi. S1, A.R.Jahnvi2, Akhila.N3",
+      "title": "Integrating Human Capital into ESG Reporting: A Pathway to Sustainable  Value Creation",
+      "journal": "International Scientific Journal of Engineering and Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P99",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. P Sathiyabama, Karishmaa Rao, Senthil Durai Bahirathan",
+      "title": "AI Powered HR for Sustainable Workforce Optimization",
+      "journal": "International Scientific Journal of Engineering and Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P100",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.R.S. Tharini, \nDr.Poornima A , \nDr.Sowmiya M & \nDr.Thandauthapani A",
+      "title": "Chatbots as HR Assistants: Impact on Employee Satisfaction and Query Resolution",
+      "journal": "Advances in Consumer Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P101",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Kanumuri Vinod Varma\nHarish .M\nA. Devendran\nPavithra M\nSukhpreet Singh\nYogesh H. Bhosale",
+      "title": "AI-Driven Brand Loyalty: How Machine Learning Personalization Strategies Foster Repeat Purchases in Digital Marketplaces",
+      "journal": "Advances in Consumer Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P102",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Preethi, \nJaiganesh, \nArunkumar, \nirfan, Makarand, \nShusheela",
+      "title": "Influencers and Brands Successful Collaborations: A Mutual Reinforcement to Promote Products",
+      "journal": "Journal of marketing and social research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P103",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Kavitha R, \nM.Jaiganesh, \nA. Praveen Kumar, Harish, \nR.S. Tharini, \nA. Ashwini",
+      "title": "Decoding The Conscious Consumer: A Managerial Perspective on Ethical Decision Making",
+      "journal": "Advances in Consumer Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P104",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.A.Poornima, \nDr.Harish M, \nDr.Sowmiya M, \nDr.Tharini R S & \nDr.Thandauthapani A",
+      "title": "LinkedIn for Leadership: How Professional Networking is  Transforming Women-Led Tech Startups in India's Tier-2 Cities",
+      "journal": "International Journal of Business and Economics Research (IJBER",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P105",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.A.Poornima, \nDr.Sowmiya m & \nDr.Jenefer Arokia Selvi",
+      "title": "Digital seduction: When personalized marketing blurs into personal manipulation—A consumer behavior analysis",
+      "journal": "Journal of Informational Technology Teaching cases",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P106",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.Harish.M  \nDr.Sowmiya.M",
+      "title": "AI-Powered Recruitment in the Media and News Industries - A Study",
+      "journal": "Shalanx Journal/AI BUSINESS TRANSFORMATION",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P107",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. T. Rekha Kiran Kumar 1  , SriMeenakshi K R2",
+      "title": "Developing HR Strategies for Empowering ‘Silver Workers’ and Building Age-Diverse Organizations – A Critical Analysis on Inclusive and Sustainable Talent Management",
+      "journal": "International Scientific Journal of Engineering and Management (ISJEM)",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P108",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Harish M, R.Dhanya, A Poornima and Aravindh RAvi",
+      "title": "An Analytical Study to Explore the Relationship Between  Employee Wellbeing and Employee Engagement Moderated by  Emotional Intelligence in Engineering Sector, Chennai City  Corporation",
+      "journal": "International Journal of Business and Economics Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P109",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. M. Kethan, \nKanumuri Vinod Varma, \nDr. Gondesi Santhoshi Kumari, \nDr. Rohin Bhatnagar, \nDr. Thejasvi Sheshadri",
+      "title": "Retail Marketing in the Machine Learning Era: Opportunities, Challenges, and Future Trends",
+      "journal": "International Insurance Law Review",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P110",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. R. Arulmoli,",
+      "title": "An empirical assessment of a univariate time series for demand planning in a demand-driven supply chain using logistic leaf model",
+      "journal": "Hybrid and Advanced Technologies",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P111",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Sharmila Devi R",
+      "title": "Merchant Banking and Financial services",
+      "journal": "Merchant Banking and Financial services",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P112",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "D. Anto Pravin Singh,",
+      "title": "Data Science collaboration in Human AI: Decision  Optimization using Human-centered Automation",
+      "journal": "2024 Second International Conference Computational and Characterization Techniques in Engineering & Sciences (IC3TES) Lucknow, India. Nov 15-16, 2024(IEEE)",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P113",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.D.Anto Pravin Singh",
+      "title": "Analysing the Effectiveness, Consumer Trust, and ROI of Micro-Influencer Marketing in a Saturated Social Media Landscape",
+      "journal": "INTERNATIONAL CONFERENCE ON   VIRTUAL REALITY IN RETAIL, INDUSTRY, BANKING & MARKETING",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P114",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.Harish.M",
+      "title": "The effect of Immersive wellness on Employee Engagement Mediated by Emotional intelligence:An Analytical Study",
+      "journal": "Dr.BGR Publication",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P115",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. V. Sivakamy*,",
+      "title": "Machine Learning for Fraud Detection in Banking Systems",
+      "journal": "2025 International Conference on Pervasive Computational Technologies (ICPCT)",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P116",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr Thandauthapani A",
+      "title": "Principles of Management and Concepts(Book)",
+      "journal": "Principles of Management and Concepts",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P117",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr N. Yuvaraja",
+      "title": "A study on rice supply chain in vellore district, Tamilnadu",
+      "journal": "International Conference on Global Agribusiness Summit: Skill development in the era of Digital Transformation: Tamil Nadu Agricultural University, Coimbatore",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P118",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Lakshmi",
+      "title": "A Study on Good Customer Experience through service Excellence",
+      "journal": "Responsibile Business practices for corporate sustainability in India",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P119",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Anandhi. S",
+      "title": "EXPLORING THE IMPACT OF VIRAL MARKETING ON  BEHAVIOURAL INTENTIONS OF GEN Z CONSUMERS",
+      "journal": "Entrepreneurship and Innovation in the Digital Economy: Shaping the Future of Global Business",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P120",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "D. Anto Pravin Singh",
+      "title": "Development of Hybrid Genetic Algorithm for Automated Task Planning in Multi-Satellite System",
+      "journal": "2025 First International Conference on Advances in Computer Science, Electrical, Electronics, and Communication Technologies (CE2CT)",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P121",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. Harish M",
+      "title": "Strategic Human Resource  Management",
+      "journal": "Strategic Human Resource  Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P122",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. Harish. M",
+      "title": "Evaluating the Influence of ESG Ratings on Investment Decision-Making and Portfolio Performance",
+      "journal": "Multidisciplinary Research & Innovation",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P123",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. D. Anto Pravin Singh",
+      "title": "The Role of Artificial Intelligence in Enhancing Consumer Personalization Strategies",
+      "journal": "Multidisciplinary Research & Innovation",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P124",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. S. Loganatha Prasanna",
+      "title": "An Empirical Study on Artificial Intelligence in Social Media Marketing  within the Retail Industry",
+      "journal": "MULTIDISCIPLINARY RESEARCH & INNOVATION",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P125",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Anandhi. S",
+      "title": "EXPLORING THE FINTECH FRONTIER: INNOVATIONS,  CHALLENGES, AND OPPORTUNITIES",
+      "journal": "Advanced Contemporary Research Trends in Sustainable Business and Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P126",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Harish.M",
+      "title": "THE IMPORTANCE OF SUSTAINABLE PRACTICES: A REVIEW",
+      "journal": "Conference Proceedings",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P127",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Harish.M",
+      "title": "AN ANALYTICAL STUDY TO EXPLORE THE RELATIONSHIP BETWEEN DIVERSITY AND EMPLOYEE ENGAGEMENT IN HEALTHCARE SECTOR, CHENNAI CITY CORPORATION",
+      "journal": "Conference Proceedings",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P128",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Thandauthapani, A",
+      "title": "Factors influencing two-wheeler purchase intention in  Chennai, South India: a comprehensive exploration",
+      "journal": "Recent Research in Management, Accounting and Economics",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P129",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Thandauthapani, A",
+      "title": "Shaping the Future of Service Marketing: The Impact and Evolution of Voice Search in the Age of AI",
+      "journal": "Strategic Workforce Reskilling in Service Marketing",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P130",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. S. Praveen Kumar",
+      "title": "The Case Story Book",
+      "journal": "The Case Story Book",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P131",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. S. Praveen Kumar",
+      "title": "Case Canvas: Illustrations from SRM Ramapuram",
+      "journal": "Case Canvas: Illustrations from SRM Ramapuram",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P132",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Thandauthapani, A",
+      "title": "Rethinking Managerial Practices for Successful Digital Transformation",
+      "journal": "INTERNATIONAL CONFERENCE PROCEEDINGS ON EMERGING TRENDS IN MULTIDISCIPLINARY RESEARCH AND TECHNOLOGY",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P133",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Mrs. Anandhi S",
+      "title": "ENHANCING CONSUMER TRUST AND ADOPTION OF DIGITAL  PAYMENT SYSTEMS IN THE HOSPITALITY INDUSTRY:  A CASE STUDY OF RAMADA PLAZA, CHENNAI",
+      "journal": "Knowledge, Innovation & Education -A Multidisciplinary approach",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P134",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Mrs.Anandhi S",
+      "title": "People-Powered Sustainability: Embedding Human Capital in ESG Strategy",
+      "journal": "International Scientific Journal of Engineering and Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P135",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.T.Rekha Kiran Kumar",
+      "title": "Developing HR Strategies for Empowering ‘Silver Workers’ and Building Age-Diverse Organizations – A Critical Analysis on Inclusive and Sustainable Talent Management",
+      "journal": "International Scientific Journal of Engineering and Management (ISJEM)",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P136",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Mrs. ANANDHI S",
+      "title": "Integrating Human Capital into ESG Reporting: A Pathway to Sustainable  Value Creation",
+      "journal": "International Scientific Journal of Engineering and Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P137",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. P.Sathiyabama",
+      "title": "AI Powered HR for Sustainable Workforce Optimization",
+      "journal": "International Scientific Journal of Engineering and Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P138",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Ramanathan",
+      "title": "A STUDY ON FINANCIAL STATEMENT  ANALYSIS AT EMERALD TRADING  CORPORATION",
+      "journal": "INTERNATIONAL CONFERENCE PROCEEDINGS ON EMERGING TREDNS IN  MULTIDICIPLINARY RESEARCH AND TECHNOLOGY",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P139",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Ramanathan",
+      "title": "A STUDY ON THE IMPACT OF NON-PERFORMING ASSETS  (NPAS) ON THE PROFITABILITY AND FINANCIAL STABILITY  OF INDIAN OVERSEAS BANK",
+      "journal": "Digital Transformation: Challenges and Opportunities in the Global Business  and Service Sectors",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P140",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Loganatha Prasanna S",
+      "title": "A Study on Customer Perception towards Brand Positioning Strategies for Electric  Cars in the Indian Market",
+      "journal": "THE STRATEGIC ROLE OF MULTIDISCIPLINARY  ACADEMIC RESEARCH AND PRACTICE",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P141",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.K.Prakash",
+      "title": "A Study on Finance and Cash Flow in Construction Staffing Startups",
+      "journal": "THE STRATEGIC ROLE OF MULTIDISCIPLINARY ACADEMIC RESEARCH AND PRACTICE",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P142",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.M.Sowmiya",
+      "title": "STRATEGIC HUMAN RESOURCE MANAGEMENT",
+      "journal": "STRATEGIC HUMAN RESOURCE MANAGEMENT",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P143",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.K.Prakash",
+      "title": "A STUDY ON FINANCIAL STATEMENT ANALYSIS ON SIEGER GROUP INDIA",
+      "journal": "THE POWER OF MULTIDISCIPLINARY PERSPECTIVES IN ACADEMIC RESEARCH",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P144",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr K Priya",
+      "title": "Fintech",
+      "journal": "Fintech",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P145",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. V. Sivakamy",
+      "title": "Enhancing Customer Credit Analysis Using Advanced AI Business Predictive Models",
+      "journal": "Utilizing Advanced AI to Revolutionize Business Intelligence",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P146",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. P. Sathiyabama",
+      "title": "A Study on the Impact of brand positioning on customer perception and satisfaction in relation to demand machine",
+      "journal": "Proceedings of the National Conference on “Entrepreneurial Governance: Nurturing Innovation and Growth”",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P147",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. N. Yuvaraja",
+      "title": "Commencement of Business",
+      "journal": "MULTIDISCIPLINARY RESEARCH & INNOVATION",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P148",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "S. Vaishnavi",
+      "title": "Cloud-Based HR Platforms for Scalable Workforce Management in Multinational Organizations",
+      "journal": "3rd International Conference on Disruptive Technologies (ICDT)",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P149",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.P.Sathiyabama",
+      "title": "Emotional Intelligence and its Components",
+      "journal": "Advanced Contemporary Research Trends in Sustainable Business and Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P150",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Mrs. Anandhi S",
+      "title": "ENHANCING CONSUMER TRUST AND ADOPTION OF DIGITAL  PAYMENT SYSTEMS IN THE HOSPITALITY INDUSTRY:  A CASE STUDY OF RAMADA PLAZA, CHENNAI",
+      "journal": "Knowledge, Innovation & Education -A Multidisciplinary approach",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P151",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "D. Anto Pravin Singh,",
+      "title": "Shaping the Future of Service Marketing: The Impact and Evolution of Voice Search in the Age of AI",
+      "journal": "Strategic Workforce Reskilling in Service Marketing",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P152",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.K.Prakash",
+      "title": "A Study on Finance and Cash Flow in Construction Staffing Startups",
+      "journal": "THE STRATEGIC ROLE OF MULTIDISCIPLINARY ACADEMIC RESEARCH AND PRACTICE",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P153",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. P. Sathiyabama",
+      "title": "Business Management Infographic Design",
+      "journal": "Business Management Infographic Design",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P154",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr P Subha",
+      "title": "Next-Generation Stock Market Forecasting: Role of LSTM in Real-Time Financial Decision Support",
+      "journal": "Proceedings of the International Conference on Sustainable Communication Networks and Application",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P155",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. V. Sivakamy",
+      "title": "Time Series Analysis System Using Multimodal Deep Learning for Macroeconomic Forecasting",
+      "journal": "2025 International Conference on Recent Innovation in Science Engineering and Technology (ICRISET)",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P156",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "K. Prakash",
+      "title": "Decision-Making Frameworks for Integrating Motion Control in Business Operations",
+      "journal": "Methodologies and applications of intelligent motion control systems",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P157",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "M Jaiganesh",
+      "title": "The Adoption and Effectiveness of Social Media Marketing in India's Health Care sector: Insights into Emerging Trends and Practices",
+      "journal": "A Contemporary Outlook of Multidisciplinary Research Practices",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P158",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Kavitha Bagilesh",
+      "title": "The Evolution of Cybersecurity Technologies in Banking and Finance.",
+      "journal": "AI-Powered Cybersecurity for Banking and Finance: How to Enhance Security, Protect Data, and Prevent Attacks",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P159",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "S. Thandayuthapani",
+      "title": "Shaping the Future of  Service Marketing:  The Impact and Evolution of  Voice Search in the Age of AI",
+      "journal": "Strategic Workforce Reskilling in Service Marketing",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P160",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "M Jaiganesh",
+      "title": "Fundamentals of Management",
+      "journal": "Fundamentals of Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P161",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. S. Vaishnavi",
+      "title": "Enhancing Solar Power Forecasting with LSTM for Reliable Grid energy Management",
+      "journal": "Second International Conference on Electronic Circuits and Signaling Technologies (ICECST - 2025)",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P162",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.K.Priya",
+      "title": "Impact of E-HRM Practices in the Working Environment",
+      "journal": "Gen-Al Driven Transformation: Business and Management Context",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P163",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.K.PRIYA",
+      "title": "Serverless Cloud Computing for Scalable ECommerce Applications Utilizing Load Balancing Algorithms and Docker Swarm",
+      "journal": "2025 International Conference on Networks and Cryptology (NETCRYPT)",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P164",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.V. Susan Jayaseeli Manue",
+      "title": "AI ENABLED WORKFORCE PLANNING AND OPTIMIZATION",
+      "journal": "Gen-Al Driven Transformation: Business and Management Context",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P165",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.Harish .M",
+      "title": "Principles of Management",
+      "journal": "Principles of Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P166",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.K.PRIYA",
+      "title": "Machine Learning vs. Traditional Models: A Comparative Analysis of LSTM and ARIMA for Stock Prediction With Management Education Applications",
+      "journal": "Integrating AI and machine learning into business  and management education",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P167",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.P.Mohanraj",
+      "title": "Strategic Management",
+      "journal": "Strategic Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P168",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Ramanathan",
+      "title": "A STUDY ON FINANCIAL ANALYSIS AND OPTIMIZATION STRATEGIES AT  MAPe IT SOLUTIONS",
+      "journal": "The Power of Multidisciplinary Perspectives in Academic Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P169",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "DR.HARISH.M",
+      "title": "Strategic Human Resource Management",
+      "journal": "Strategic Human Resource Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P170",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.Harish.M",
+      "title": "INDUSTRIAL RELATION MANAGEMENT",
+      "journal": "INDUSTRIAL RELATION MANAGEMENT",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P171",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.Sowmiya.M",
+      "title": "Revolutionizing Retail Banking: Harnessing AI and Virtual Technologies for a New Era of Personalized Financial Services",
+      "journal": "Intersecting Language processing and Fintech Innovation in Service Marketing",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P172",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Manimegalai D",
+      "title": "UNLOCKING OF CONSUMER SENTIMENT THROUGH SOCIAL MEDIA: HOW REAL-TIME FEEDBACK AFFECTS THE PERCEPTION OF BRANDS",
+      "journal": "International Conference on \nENTREPRENEURSHIP AND INNOVATION IN THE DIGITAL ECONOMY: SHAPING\nTHE FUTURE OF GLOBAL BUSINESS",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P173",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Mrs.Kavitha Bagilesh",
+      "title": "It’s Not Just Grades: Sensemaking and Emotional Strain Among Indian MBA Students During Campus Placements",
+      "journal": "International Scientific Journal of Engineering and Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P174",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. V. Sivakamy",
+      "title": "Technology Transforming Indian Financial Markets NSE, BSE & Trading Apps",
+      "journal": "Global Dimensions of Multidisciplinary Research and Innovation",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P175",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. D. Anto Pravin Singh",
+      "title": "HR- Driven Safety Culture: Enhancing Workplace Safety Initiatives at K.R.P. Agencies",
+      "journal": "Global Dimensions of Multidisciplinary Research and Innovation",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P176",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. D Anto Pravin Singh",
+      "title": "Analysing the Effectiveness, Consumer Trust, and ROI of Micro-Influencer Marketing in a Saturated Social Media Landscape",
+      "journal": "INTERNATIONAL CONFERENCE ON   VIRTUAL REALITY IN RETAIL, INDUSTRY, BANKING & MARKETING",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P177",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.Sowmiya.M",
+      "title": "Human Resource and Management and Artificial Intelligence",
+      "journal": "Human Resource and Management and Artificial Intelligence",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P178",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. Harish M",
+      "title": "Sales And Retail Management",
+      "journal": "Book",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P179",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Jeffrey Jim Salvius J. \nDr. Prasad babu P, \nDr. P. Mohanraj",
+      "title": "SWAY OF ARTIFICIAL INTELLIGENCE ON STUDENT ACADEMIC PERFORMANCE MEDIATING ROLE OF INSTITUTIONAL CULTURE IN PRIVATE UNIVERSITIES",
+      "journal": "Revolutionizing the Future: I ntegrating Artificial Intelligence with Innovative Commerce and Management Practices",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P180",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.Sowmiya.M",
+      "title": "HR Policy Effectiveness in the Era of Digital HR: A Study of ITES Firms in Chennai",
+      "journal": "National Conference on Innovative Computing Techniques",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P181",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.P.Mohanraj",
+      "title": "Blockchain Technology in Supply Chain Management Prospects and Challenges for Implementation",
+      "journal": "Harnessing Innovation for Sustainability in Computing and Engineering Solutions (ICSICE- 2025)",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P182",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Vijayarani",
+      "title": "THE IMPACT OF WORKFORCE DIVERSITY ON ORGANISATIONAL  PRODUCTIVITY -A REVIEW STUDY",
+      "journal": "5th INTERNATIONAL CONFERENCE ON VIRTUAL REALITY IN RETAIL, INDUSTRY, BANKING & MARKETING",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P183",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Vijayarani",
+      "title": "Exploring the Implementation and Impact of Sustainable HR Practices on Organizational Performance and Employee Engagement",
+      "journal": "MULTIDISCIPLINARY RESEARCH & INNOVATION",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P184",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "P Subha",
+      "title": "CIRCULAR ECONOMY AND THE EVOLUTION OF NETWORKING-DRIVEN LOGISTICS BUSINESS MODELS: EXAMINING THE ROLES OF DIGITAL INTEGRATION AND STAKEHOLDER COLLABORATION",
+      "journal": "MULTIDISCIPLINARY APPROACHES AND CHOICES OF INNOVATION AND TECHNOLOGY IN ACHIEVING SUSTAINABLE  DEVELOPMENT GOALS",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P185",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.Sowmiya.M",
+      "title": "STUDY ON IMPACT OF ORGANISATION CULTURE ON EMPLOYEE PERFORMANCE AT AUTOMOBILE INDUSTRY",
+      "journal": "EMERGING TRENDS IN MULTIDISCIPLINARY RESEARCH AND TECHNOLOGY",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P186",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Gautam Shivaraj1*, \nM. Gurusamy1, \nMohanraj. P.2, \nS. Thiruselvan3",
+      "title": "Textile-to-Textile Recycling: Technologies, Sorting, and Management Pathways",
+      "journal": "Journal of the TEXTILE Association",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P187",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "K. Bharath1, \nDr. S. THILAK2, \nMohanraj P3 \nDr. S. Dharmalingam4",
+      "title": "Fintech and Evolution of Commerce Law Challenges",
+      "journal": "Journal of International Commercial Law and Technology",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P188",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Jain Prabhu Thomas, \nK. Asha, \nG M. Shaju, \nD. Anto Pravin Singh \nR. Melba Kani",
+      "title": "Enhancing organizational dynamics: the impact of emotional intelligence on managerial performance and employee engagement in Tamil Nadu's banking industry",
+      "journal": "International Journal of Occupational Safety and Ergonomics",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P189",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Deepak Kumaran P, \nDr. D. Anto Pravin Singh",
+      "title": "The Impact of Artificial Intelligence (AI) on HRM in Digital phase: a descriptive research",
+      "journal": "Conference",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P190",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "S. Kumaraguru\nDr. V. Sivakamy",
+      "title": "AI in Financial Services",
+      "journal": "Conference",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P191",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr K. Prakash, \nDr M Franklin, \nDr D. Anto Pravin Singh, \nDr V. Rohini, \nDr S. Loganatha Prasanna",
+      "title": "Harnessing AI for Aligning Human Resource Management with Sustainability Goals to Enhance Workforce Productivity",
+      "journal": "World Journal of ENTREPRENEURSHIP, MANAGEMENT AND SUSTAINABLE DEVELOPMENT",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P192",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "P Venkatesh\nDr. V. Sivakamy",
+      "title": "Examining the determinants of investor confidence and project success in crowdfunding: a comprehensive statistical analysis",
+      "journal": "MSW MANAGEMENT",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P193",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr AL. Chidambaram, \nDr Prasad Babu P \nDr Jeffrey Jim Salvius J",
+      "title": "Human Resource Marketing as a Driver of Talent Competitiveness",
+      "journal": "Economic Sciences",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P194",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Y. Jenusha Ananthy, \nDr. K. Asha",
+      "title": "Adoption of Digital Payments and Its Influence on Financial Inclusion: A Study of Rural and Urban Areas",
+      "journal": "INTERNATIONAL CONFERENCE ON FUTURE DRIVEN COMPUTING TECHNOLOGIES",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P195",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Vijayarani, Dr.D.Anto Pravin Singh, Mr.R.Rajesh",
+      "title": "Green Human Resource Management",
+      "journal": "Green Human Resource Management - Strategies for Sustainable Organizational Development",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P196",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.. R. Sharmila Devi",
+      "title": "Unveiling the drivers of sustainable housing choices among millennials in emerging markets",
+      "journal": "International Journal of Housing Market and Analysis",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P197",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.. R. Sharmila Devi",
+      "title": "Beyond blueprints: unveiling sustainable housing ambitions – a TAM and EMGB fusion among paraprofessionals in urban construction landscape",
+      "journal": "Engineering, construction and Architectural Management",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P198",
+      "year": 2026,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.Dhanya Debora, \nDr Poornima A",
+      "title": "Balancing Beauty and Facts: Examining the Dual Impact of Product Presentation and Information on Consumer Purchase Decisions in the Skincare Products",
+      "journal": "International Research Journal of Multidisciplinary Scope",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P199",
+      "year": 2026,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr. P. Sathiyabama, \nDr. T. Rekha Kiran Kumar",
+      "title": "SMART HRM PRACTICES FOR MANAGING GEN Z EMPLOYEES: AN AI-ENABLED APPROACH",
+      "journal": "INTERNATIONAL CONFERENCE PROCEEDINGS The Rise of Gen Z Entrepreneurs – New Mindsets and New Business Model",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P200",
+      "year": 2026,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "A. Ammupriya, \nS. Vaishnavi, \nB. Kavitha, \nR. Sridevi, \nL. Sudha, \nS. Subalya",
+      "title": "AI empowerment for financial decision-making: a quantum graph adversarial network with musical chairs optimization",
+      "journal": "Quality & Quantity",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P201",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "B. Senthil Kumar, \nP. Elantheraiyan, \nR. J. T. Nirmal Raj, \nS. Loganatha Prasanna, \nS. Thandayuthapani, \nM. Vasudevan",
+      "title": "Artificial Intelligence in Modern Manufacturing",
+      "journal": "IGI Global Scientific Publishing",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P202",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "P. Anbarasan, \nN. Yuvaraja, \nG. Surya",
+      "title": "E-COMMERCE AND FARMERS' REVENUE: A BIBLIOMETRIC ANALYSIS OF SCOPUS DATABASE",
+      "journal": "Journal of Animal and Plant Sciences",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P203",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "V.sandhya rani, \nN. Sundaram, \np.prasad babu",
+      "title": "A survey of impact of financial inclusion for various sector indifferent countries",
+      "journal": "International Journal of intelligent enterprise",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P204",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "\"Anik Ghosh, \nAntony Raj J. M.\nAbhishek Majhi\nR. Arul moli\nA. R. Mishra\nPavithra G\"",
+      "title": "Governance and audit blind spots in enterprise AI adoption: Evidence from emerging digital economies",
+      "journal": "EDPACS (The EDP Audit, Control, and Security)",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P205",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "R. Satish1, \nVijayakanthan Selvaraj2, \nG. Aravindhan3, \nB. Selvakumar4",
+      "title": "BRIDGING DIGITAL INNOVATION AND REGENERATIVE VALUE CREATION FOR RESILIENT CIRCULAR ECONOMY TRANSITIONS",
+      "journal": "Acta Innovations",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P206",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Ramila Devi Ram Sing\nPraveen Kumar \nRenne Pramila Punadi",
+      "title": "The Influence of Gamification on University Students’ Learning Outcomes in India and Malaysia Integration of Self-Determination and Social Learning Theory",
+      "journal": "International Academic Journal of Science and Engineering",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P207",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Chidambaram Alagappan \nNagarajan Shanmugavel",
+      "title": "Role of Successful Entrepreneurs’ Message on Perceived Entrepreneurial Desirability",
+      "journal": "Journal of Entrepreneurship and Innovation in Emerging Economies",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P208",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S.Lakshmi",
+      "title": "Screen Time and Academic Performance: An Empirical Analysis",
+      "journal": "National Conference on \" Commerce in Transition: Global Trends in Innovation, Ethics and Strategies\"",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P209",
+      "year": 2026,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "Dr.M. Sowmiya,\nDr.R.S. Tharini\nDr.M. Harish",
+      "title": "Customer Satisfaction Prediction Using Sentiment Analysis With Bert And Gans",
+      "journal": "INTERNATIONAL JOURNAL OF AI AND MACHINE LEARNING",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P210",
+      "year": 2026,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "authors": "DR. M. HARISH \nDR. R. S. THARINI",
+      "title": "AI-DRIVEN PERSONALIZATION IN DIGITAL MARKETING A NEW MODEL FOR PREDICTING CONSUMER BEHAVIOUR",
+      "journal": "BUSINESS AND ECONOMICS RESEARCH JOURNAL",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P211",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "M.Latha\nKalaiarasi H.",
+      "title": "Factors influencing consumer attitudes toward short-form video latforms addiction and their intention to use: An empirical study",
+      "journal": "Entertainment Computing",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P212",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.S. Loganatha Prasanna*\nDr.S. Ramanathan\nDr.S. Bindu Basini\nDr. Poomagal Adhinarayanan \nDr.G. Meena Suguanthi\nDr.R. Sankar Ganesh",
+      "title": "Improving Customer Segmentation In E-Commerce Using  Self-Organizing Maps (Som)",
+      "journal": "International Journal of Artificial Intelligence and Machine Learning",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P213",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr.R. Satish\nDr. Praveen Kumar\nDr.R. Velanganni\nDr.J. Sadeesh",
+      "title": "Investigating the Relationship between Media Misinformation Public Trust and Information Consumption in the Digital Era",
+      "journal": "International Academic Journal of Innovative Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P214",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "Dr. Praveen Kumar\nDr. Indu Purushothaman\nDr. Suresh Arumugam",
+      "title": "Quantum Kernel Mapping Algorithms for Non-Linear Classification in Genomics",
+      "journal": "International Journal of Artificial Intelligence and Machine Learning",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P215",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "A. Bhoomadevi, M. Revathy, Archana Koul, S. Nithya Priya, A. Amutha, M. Ganesh & Shikhar Gupta",
+      "title": "Sustaining quality accreditation in hospitals: a systematic review with narrative synthesis",
+      "journal": "BMC Health Services Research",
+      "link": ""
+    },
+    {
+      "id": "MGMT-P216",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "authors": "K.M. Priya; P. Prasad Babu; R. Manigandan",
+      "title": "From green practices to sustainable supply chains: a mediation-moderation analysis of big data SCM and circular HRM in the pharmaceutical industry",
+      "journal": "World Review of Science Technology and Sustainable Development",
+      "link": ""
+    }
+  ],
+  "patents": [
+    {
+      "id": "MGMT-T1",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. K. Priya, Dr.S.Vijayarani",
+      "title": "Coconut Opener",
+      "patentNumber": "387285-001",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T2",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. V. Sivakamy , Dr. S. Lakshmi",
+      "title": "THE APPLICATION OF MACHINE LEARNING ALGORITHMS IN FINANCIAL INVESTMENT MANAGEMENT",
+      "patentNumber": "202341075544",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T3",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. Bini Marin. V",
+      "title": "EMOTIONAL RESPONSE ANALYSING DEVICE",
+      "patentNumber": "408600-001",
+      "status": "Granted",
+      "rawStatus": "National Granted"
+    },
+    {
+      "id": "MGMT-T4",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. V. Sivakamy",
+      "title": "COMPUTER FOR MANAGING BUSINESS",
+      "patentNumber": "6347615",
+      "status": "Granted",
+      "rawStatus": "International Granted"
+    },
+    {
+      "id": "MGMT-T5",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. D. Anto Pravin Singh, Dr. K. Prakash",
+      "title": "ARTIFICIAL INTELLIGENCE BASED KNOWLEDGE EVOLUTIONARY PROCESS FOR OPTIMIZATION DECISION SUPPORT AND PERSONALIZED RECOMMENDATION IN ECOMMERCE USING MACHINE LEARNING ALGORITHM",
+      "patentNumber": "202441041086 A",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T6",
+      "year": 2024,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Dr THANDAUTHAPANI A, Dr.S.Ramanathan, Mr.M.Jaiganesh",
+      "title": "Robotic Process Automation Framework for Efficient Business Process Management",
+      "patentNumber": "242421044814",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T7",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. V. Sivakamy",
+      "title": "Cyber Risk Management in the Indian Banking Industry",
+      "patentNumber": "202441055896",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T8",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr.S.Vijayarani",
+      "title": "Value Based Learning in the Current Indian Educational Framework",
+      "patentNumber": "202441054006",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T9",
+      "year": 2024,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Dr.Harish.M",
+      "title": "Importance of Marketing Research in Enhancing the Service Level Of Manufacturing Company.",
+      "patentNumber": "613",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T10",
+      "year": 2024,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Dr.Harish.M, Dr. Loganatha Prasanna S",
+      "title": "Artificial Intelligence-based device for E-Commerce B2B transactions",
+      "patentNumber": "6381989",
+      "status": "Granted",
+      "rawStatus": "National Granted"
+    },
+    {
+      "id": "MGMT-T11",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. K. Priya",
+      "title": "AI AND IOT BASED SMART FINANCIAL ASSET TRACKING SYSTEM FOR LARGE ORGANIZATIONS",
+      "patentNumber": "No.202341079745 A",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T12",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr Kamala Kannan Priya, , Dr Chidambaram Sundar ,, Dr. Rathinam Arulmoli, , Dr Alagappan Chidambaram",
+      "title": "AI BASED CYBER CRIME DETECTION DEVICE",
+      "patentNumber": "6371140",
+      "status": "Granted",
+      "rawStatus": "National Granted"
+    },
+    {
+      "id": "MGMT-T13",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. Ramanathan Subramanian",
+      "title": "FINANCIAL DATA MANAGEMENT DEVICE FOR BANKS",
+      "patentNumber": "6371278",
+      "status": "Granted",
+      "rawStatus": "National Granted"
+    },
+    {
+      "id": "MGMT-T14",
+      "year": 2024,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Dr. M. Sowmiya, Dr. K. Prakash, Dr Loganatha Prasanna. S, Dr. D. Anto Pravin Singh",
+      "title": "Portable Nursing Device for Pediatric  Patient",
+      "patentNumber": "421907-001",
+      "status": "Granted",
+      "rawStatus": "National Granted"
+    },
+    {
+      "id": "MGMT-T15",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr.S.Lakshmi",
+      "title": "Analysis of How Bank support E-Commerce Business In India",
+      "patentNumber": "202441054671",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T16",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. V. Sivakamy",
+      "title": "Cyber Risk Management in the Indian Banking Industry",
+      "patentNumber": "202441055896",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T17",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr.S.Vijayarani",
+      "title": "Value Based Learning in the Current Indian Educational Framework",
+      "patentNumber": "202441054006",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T18",
+      "year": 2024,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Dr.Tharini & Dr Sowmiya",
+      "title": "A PORTABLE DEVICE FOR EDUCATIONAL TRAINING",
+      "patentNumber": "6374911",
+      "status": "Granted",
+      "rawStatus": "International Granted"
+    },
+    {
+      "id": "MGMT-T19",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Mr. N. Yuvaraja",
+      "title": "Financial Goals Analyzing Device",
+      "patentNumber": "214713",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T20",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr P.Mohanraj, Dr. P. Prasad Babu",
+      "title": "BLOCKCHAIN AND ARTIFICIAL INTELLIGENCE FOR SECURE DATA MANAGEMENT AND VERIFICATION",
+      "patentNumber": ".202421062337 A",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T21",
+      "year": 2024,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Mrs. Anandhi S",
+      "title": "Comprehensive e-Learning Platform utilizing AI for Content Delivery and Administrative Management",
+      "patentNumber": "202441069359",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T22",
+      "year": 2024,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Dr A Poornima",
+      "title": "Kids Active Learning Device",
+      "patentNumber": "6392831",
+      "status": "Granted",
+      "rawStatus": "International Granted"
+    },
+    {
+      "id": "MGMT-T23",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "DR.SUSAN JAYASEELI  MANUEL",
+      "title": "Social Media's role in shaping consumer preferences and brand loyalty",
+      "patentNumber": "202441080700",
+      "status": "Published",
+      "rawStatus": "International Published"
+    },
+    {
+      "id": "MGMT-T24",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. Sharmila Devi R, Jeffrey Jim Salvius J, Kavitha Bagilesh",
+      "title": "AI Enabled Smart Home Automation System",
+      "patentNumber": "6399612",
+      "status": "Granted",
+      "rawStatus": "International Granted"
+    },
+    {
+      "id": "MGMT-T25",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr.S.Vijayarani",
+      "title": "Device to Calculate Business Requirement",
+      "patentNumber": "427649-001",
+      "status": "Granted",
+      "rawStatus": "National Granted"
+    },
+    {
+      "id": "MGMT-T26",
+      "year": 2024,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Dr.A.Poornima",
+      "title": "DEEP LEARNING-BASED PREDICTION OF ACADEMIC PERFORMANCE OF STUDENTS IN HIGHER EDUCATION INFLUENCED BY INTERNET USAGE",
+      "patentNumber": "202411083490",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T27",
+      "year": 2024,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "M Jaiganesh",
+      "title": "Efficient database management device",
+      "patentNumber": "6403724",
+      "status": "Granted",
+      "rawStatus": "International Granted"
+    },
+    {
+      "id": "MGMT-T28",
+      "year": 2024,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Dr.T.Rekha Kiran Kumar",
+      "title": "Systematic Approach to analyze the impact of design thinking as an effective method for problem setting and need finding for entrepreneurial teams addressing wicked problems.",
+      "patentNumber": "202341084044",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T29",
+      "year": 2024,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Dr.Sowmiya.M",
+      "title": "MAJOR ANTECEDENTS OF ELECTRONIC CUSTOMER RELATIONSHIP MANAGEMENT (E-CRM) STUDIES IN THE INDIAN BANKING SECTOR*",
+      "patentNumber": "184",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T30",
+      "year": 2024,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Dr. Harish M",
+      "title": "SMART LOGISTICS TRACKING AND MONITORING DEVICE",
+      "patentNumber": "422253-001",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T31",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. BINI MARIN V",
+      "title": "DEVICE FOR MARKETING ANALYSIS",
+      "patentNumber": "423266-001",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T32",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. S. Umarani, Dr. C. Sundar",
+      "title": "ALZCARE: PERSONALIZED VOICE ASSISTANT FOR ALZHEIMER PATIENTS LEVERAGING DEEP LEARNING AND AZURE IOT",
+      "patentNumber": "No.202441089436 A",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T33",
+      "year": 2024,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. C. Sundar, Dr. S. Umarani",
+      "title": "Centralised Photo Storage and Sharing System Integrated with Advanced Facial Recognition Technologies",
+      "patentNumber": "202441098496",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T34",
+      "year": 2024,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Dr.Sowmiya.M",
+      "title": "MAJOR ANTECEDENTS OF ELECTRONIC CUSTOMER RELATIONSHIP MANAGEMENT (E-CRM) STUDIES IN THE INDIAN BANKING SECTOR*",
+      "patentNumber": "IN/PA-1549",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T35",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Dr.Sathiyabama",
+      "title": "Integrated Cloud-based system for Educational Resource Management",
+      "patentNumber": "202541032697",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T36",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Dr.Harish.M",
+      "title": "IOT - Based Automatic Medical Dispatcher For Rural Zones with Dynamic Telemonitoring.",
+      "patentNumber": "202541035499A",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T37",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. Sharmila Devi R , Mrs. Kavitha Bagilesh , Dr. Loganatha Prasanna. S , Dr. R. S. Tharini , Dr. Sathiyabama. P , Mrs. Anandhi S , Dr. Harish. M , Mr. M. Jaiganesh , Dr. K. Prakash , Dr. D. Anto Pravin Singh",
+      "title": "ANALYSIS OF CREDIT MANAGEMENT AND ISSUES OF BAD DEBTS INCOMMERCIAL BANKS",
+      "patentNumber": "202541047078",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T38",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr.K.Priya , Dr. Sowmiya M , Dr.A.Poornima , Dr. RS Tharini , Dr. Chidambaram , Dr. Harish M",
+      "title": "A SYSTEM AND METHOD FOR PREDICTIVE ANALYTICS IN STOCK MARKET FORECASTING USING MACHINE LEARNING AND BIG DATA PROCESSING",
+      "patentNumber": "202541032232 A",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T39",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "DR . V. SIVAKAMY , DR.SOWMIYA.M , DR.S.VIJAYARANI , DR.D.ANTO PRAVIN SINGH , DR.S.RAMANATHAN , DR. LOGANATHA PRASANNA. S",
+      "title": "“ML - DRIVEN CUSTOMER RELATIONSHIP MANAGEMENT SYSTEM”",
+      "patentNumber": "453501-001",
+      "status": "Granted",
+      "rawStatus": "National Granted"
+    },
+    {
+      "id": "MGMT-T40",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "Dr. R. SENKAMALA VALLI 2 . Dr. R. S. THARINI 3 . Dr. D. LAKSHMI 4 . Dr. N. MOHANKUMAR 5 . BHARAT TIDKE 6 . JENILA. J 7 . BHAVADHARANI.S 8 . BHARANITHARAN. J 9 . PRAMOD K PANDEY 10 . S.MURUGAN 11 . C. SRINIVASAN",
+      "title": "EFFICIENT HEAT STRESS MANAGEMENT IN WORK ENVIRONMENTS THROUGH WEARABLES AND CLOUD-ENABLED SYSTEMS",
+      "patentNumber": "202541035490",
+      "status": "Granted",
+      "rawStatus": "National Granted"
+    },
+    {
+      "id": "MGMT-T41",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "1.Dr. Prachi Rath , 2)Dr. Ruchi Mantri  , 3)Dr. Leela M H  , 4)Dr. Anoop Jagetia  , 5)Dr. V. Kannan  , 6)Dr. Sonia Riyat  , 7)Dr. K. Poongothai  , 8)Dr. Saraswathy C  , 9)Madhankumar A  , 10)Dr. A. Thandauthapani  , 11)Dr. Rajeev Singh",
+      "title": "Impact of Credit Management and NPA Issues in Commercial Banks in India",
+      "patentNumber": "202521062003 A",
+      "status": "Granted",
+      "rawStatus": "National Granted"
+    },
+    {
+      "id": "MGMT-T42",
+      "year": 2025,
+      "department": "BBA",
+      "departmentGroup": "BBA",
+      "inventors": "1.Mrs. Kavitha R , 2. Deepa R , 3.Thilakavathy P. , 4.Jayalakshmi V , 5.Mrs. A. Ashwini",
+      "title": "ADAPTIVE TRAFFIC SIGNAL DEVICE",
+      "patentNumber": "454270-001",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T43",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. V. Sivakamy, , Dr. R. Arulmoli, , Dr. J Jeffrey Jim Salvius, , Dr. P. Prasad Babu, , Dr. S. Ramanathan, , Dr. P. Mohanraj, , Harish.M, , M. Jaiganesh",
+      "title": "QUANTUMTRADE HUB PREDICTIVE AI FOR HIGH-FREQUENCY TRADING",
+      "patentNumber": "202541042486A",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T44",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "DR. K. ASHA  , DR. S. M. GOLDYN ABRIC SAM  , S.R. KALAIARASI  , DR. A. PRAVEEM KUMAR  , MRS. M. LATHA  , DR. D. ANTO PRAVIN SINGH",
+      "title": "PREDICTIVE HR ANALYTICS ENGINE USING MULTI-MODAL DATA FUSION FOR TALENT MANAGEMENT",
+      "patentNumber": "202541091717 A",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T45",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "Dr. S. Vijayarani, , Mr. Saladi Jaswanth Seshasai , Dr. Yuvaraja N, , Dr. Jeffrey Jim Salvius J, , Dr. AL. Chidambaram",
+      "title": "MACHINE LEARNING FRAMEWORK FOR WORKFORCE PLANNING,TALENT MANAGEMENT, AND ROLE OPTIMIZATION",
+      "patentNumber": "202541087103",
+      "status": "Published",
+      "rawStatus": "National Published"
+    },
+    {
+      "id": "MGMT-T46",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "inventors": "1. Dr. A.POORNIMA, 2. Dr. SWATHI SASIKUMAR, 3. Mrs. KAVITHA R, 4. Dr. A.  PRAVEEN KUMAR, 5. Dr. NIVEDITHA M, 6. Mr. KANUMURI VINOD VARMA, 7. Dr. RABUNI AISWARYA  P, 8. Mrs. A ASHWINI",
+      "title": "ARTIFICIAL INTELLIGENCE  BASED ENTERPRISE RESOURCE PLANNING KIOSK",
+      "patentNumber": "468096-001",
+      "status": "Published",
+      "rawStatus": "National Published"
+    }
+  ],
+  "fundedProjects": [
+    {
+      "id": "MGMT-F1",
+      "year": 2023,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "principalInvestigator": "Dr.C.Sundar",
+      "coInvestigator": "Dr.K.Priya",
+      "title": "Emerging trends on AI enabled data analytics for business decision making",
+      "agency": "AICTE Training and Learning  Academy",
+      "status": "Completed",
+      "amount": "Rs.3,50,000/-",
+      "period": "6 days FDP"
+    },
+    {
+      "id": "MGMT-F2",
+      "year": 2025,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "principalInvestigator": "Dr.S.Lakshmi",
+      "coInvestigator": "Dr.J.Kumar",
+      "title": "Study of Making children to make up street play again",
+      "agency": "SERI (SELECTIVE EXCELLENCE RESEARCH INITIATIVE)",
+      "status": "ONGOING",
+      "amount": "Rs.1,10,000/-",
+      "period": "2 Years"
+    },
+    {
+      "id": "MGMT-F3",
+      "year": 2026,
+      "department": "MBA",
+      "departmentGroup": "MBA",
+      "principalInvestigator": "M Latha",
+      "coInvestigator": "nil",
+      "title": "LightShield Smart Human Animal Identification and Deterrent System for Village Forest Safety",
+      "agency": "MSME Idea Hackathon 5.0 / Incubation Component of MSME Innovative Scheme GoI assistance",
+      "status": "Sanctioned",
+      "amount": "Rs.15,00,000",
+      "period": "2 Years"
+    }
+  ]
+};
+
+/* Management Research Supervisors & Scholars 2024–2026
+   Source: management_research_supervisors_scholars_2024_2026.json */
+window.MGMT_SUPERVISORS_SCHOLARS = {
+  "academic_years": {
+    "2024": {
+      "no_of_guides": 10,
+      "no_of_scholars_enrolled": 1,
+      "supervisors": [
+        { "name": "Dr.C.Sundar",           "department": null,  "scholars": [] },
+        { "name": "Dr.R.Arulmoli",          "department": null,  "scholars": [] },
+        { "name": "Dr.S.Vijayarani",        "department": null,  "scholars": [] },
+        { "name": "Dr.RS.Tharini",          "department": null,  "scholars": [] },
+        { "name": "Dr.K.Priya",             "department": "MBA", "scholars": [
+            { "register_no": "PC2453001023001", "name": "MARIMUTHU P",   "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr.S.Ramanathan",        "department": null,  "scholars": [] },
+        { "name": "Dr.V.Sivakamy",          "department": null,  "scholars": [] },
+        { "name": "Dr.S.Lakshmi",           "department": null,  "scholars": [] },
+        { "name": "Dr. Rekha Kiran Kumar",  "department": null,  "scholars": [] },
+        { "name": "Dr. Sathiyabama",        "department": null,  "scholars": [] }
+      ]
+    },
+    "2025": {
+      "no_of_guides": 12,
+      "no_of_scholars_enrolled": 6,
+      "supervisors": [
+        { "name": "Dr.C.Sundar",            "department": "MBA", "scholars": [] },
+        { "name": "Dr.R.Arulmoli",          "department": "MBA", "scholars": [
+            { "register_no": "PA2553001023003", "name": "Aakash M",          "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr.S.Vijayarani",        "department": "MBA", "scholars": [
+            { "register_no": "PA2553001023002", "name": "R.RAJESH",          "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr.RS.Tharini",          "department": "BBA", "scholars": [] },
+        { "name": "Dr.K.Priya",             "department": "MBA", "scholars": [
+            { "register_no": "PC2553001023001", "name": "Arun Kumar S",      "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr.S.Ramanathan",        "department": "MBA", "scholars": [] },
+        { "name": "Dr.V.Sivakamy",          "department": "MBA", "scholars": [
+            { "register_no": "PC2553001023002", "name": "KUMARAGURU RAJU",   "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr.S.Lakshmi",           "department": "MBA", "scholars": [] },
+        { "name": "Dr. Rekha Kiran Kumar",  "department": "BBA", "scholars": [] },
+        { "name": "Dr. Sathiyabama",        "department": "BBA", "scholars": [] },
+        { "name": "Dr. Anto Pravin Singh.", "department": "MBA", "scholars": [
+            { "register_no": "PA2553001023004", "name": "Mr.Deepak Kumaran.P", "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr. K. Prakash",         "department": "MBA", "scholars": [
+            { "register_no": "PA2553001023001", "name": "Muthuvijayan T",    "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        }
+      ]
+    },
+    "2026": {
+      "no_of_guides": 16,
+      "no_of_scholars_enrolled": 20,
+      "supervisors": [
+        { "name": "Dr.R.Arulmoli",          "department": "MBA", "scholars": [
+            { "register_no": "RC2653001023011", "name": "ADHITHYAN A",              "mode": "FULL TIME",     "department": "MBA" },
+            { "register_no": "RA2653001021001", "name": "AAKIFA SIDDIQUA ST",       "mode": "FULL TIME",     "department": "MBA" },
+            { "register_no": "PC2653001023001", "name": "KR Suresh",                "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr.S.Vijayarani",        "department": "MBA", "scholars": [
+            { "register_no": "PC2653001023012", "name": "Mudliyar Vinod Subramani", "mode": "PT (EXTERNAL)", "department": "MBA" },
+            { "register_no": "PC2653001023002", "name": "S RAGHAVENDRAN",           "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr.RS.Tharini",          "department": "BBA", "scholars": [] },
+        { "name": "Dr.K.Priya",             "department": "MBA", "scholars": [
+            { "register_no": "PC2653001023009", "name": "Dhinesh Kumar",            "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr.S.Ramanathan",        "department": "MBA", "scholars": [] },
+        { "name": "Dr.V.Sivakamy",          "department": "MBA", "scholars": [
+            { "register_no": "PC2653001023007", "name": "BALAJI R S",              "mode": "PT (EXTERNAL)", "department": "MBA" },
+            { "register_no": "PC2653001023003", "name": "Bharathkumar. M",         "mode": "PT (EXTERNAL)", "department": "MBA" },
+            { "register_no": "PA2653001023004", "name": "SANGEETHA P",             "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr.S.Lakshmi",           "department": "MBA", "scholars": [
+            { "register_no": "PC2653001023008", "name": "SAVITHA M S",             "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr. Rekha Kiran Kumar",  "department": "BBA", "scholars": [
+            { "register_no": "PC2653001023007", "name": "Rashmi ML",               "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr. Sathiyabama",        "department": "BBA", "scholars": [
+            { "register_no": "PA2653001023002", "name": "Sathya Narayanan B",      "mode": "PT (EXTERNAL)", "department": "BBA" }
+          ]
+        },
+        { "name": "Dr. Anto Pravin Singh.", "department": "MBA", "scholars": [
+            { "register_no": "PC2653001023006", "name": "JAYASHRI PALANIVEL",      "mode": "PT (EXTERNAL)", "department": "MBA" },
+            { "register_no": "PC2653001023009", "name": "Prakash . M",             "mode": "PT (EXTERNAL)", "department": "MBA" },
+            { "register_no": "PA2653001023005", "name": "I.Jenifer Hebziba",       "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr. K. Prakash",         "department": "MBA", "scholars": [
+            { "register_no": "PC2653001024010", "name": "Arularasu.K",             "mode": "PT (EXTERNAL)", "department": "MBA" },
+            { "register_no": "PA2653001023006", "name": "Rameshnivash",            "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr.S.Loganatha Prasanna","department": "MBA", "scholars": [
+            { "register_no": "PA2653001023008", "name": "Shailesh P Rao",          "mode": "PT (EXTERNAL)", "department": "MBA" }
+          ]
+        },
+        { "name": "Dr. A. Poornima",        "department": "BBA", "scholars": [
+            { "register_no": "PC2653001023001", "name": "SARVANI DEVI G",          "mode": "PT (EXTERNAL)", "department": "BBA" }
+          ]
+        },
+        { "name": "Dr.MOHAN RAJ P",         "department": "MBA", "scholars": [] },
+        { "name": "Dr. M. Sowmiya",         "department": "BBA", "scholars": [] },
+        { "name": "Dr Rengaraj R",           "department": "B. Com (Mgmt Guideship)", "scholars": [
+            { "register_no": "PA2653001023003", "name": "MONISHA JAYAKUMAR",       "mode": "PT (EXTERNAL)", "department": "B. Com (Mgmt Guideship)" }
+          ]
+        }
+      ]
+    }
+  }
+};
