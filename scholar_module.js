@@ -1855,8 +1855,17 @@
 
     var DATA = global.SCHOLAR_REPORTS_DATA;
     var reports = DATA ? DATA.getReportsForDeputyDean(user.group) : [];
-    var scholars = DATA ? DATA.getAllScholars() : []; // Could filter by group if needed
-    var supervisors = DATA ? DATA.getAllSupervisors() : [];
+    var scholars = DATA ? DATA.getAllScholars().filter(function(s) {
+      var g = s.group || s._group;
+      var y = s.year || s.Year_of_Enrollment || (s.registrationDate ? s.registrationDate.substring(0,4) : '2026');
+      return g === user.group && String(y) === '2026';
+    }) : [];
+    var supervisors = DATA ? DATA.getAllSupervisors().filter(function(s) {
+      var g = s.group || s._group;
+      // Default mock supervisors to 2026 if they don't have a year field, so they match the mock 2026 scholars
+      var y = s.year || s.Year || '2026';
+      return g === user.group && String(y) === '2026';
+    }) : [];
 
     var monthlyReports = reports.filter(function(r) { return r.reportType !== 'DAY8' && r.reportType !== 'DAILY'; });
     var day8Reports = reports.filter(function(r) { return r.reportType === 'DAY8' || r.reportType === 'DAILY'; });

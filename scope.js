@@ -590,11 +590,11 @@
     if (!records) return [];
     var base = year ? records.filter(function (r) { return r.year === year; }) : records;
     if (!deptNode || deptNode.type !== 'dept') return base;
+    var label = deptNode.label.toLowerCase().trim();
     var aliases = (deptNode.publicationAliases || []).map(function (a) { return a.toLowerCase().trim(); });
-    if (!aliases.length) return [];
     return base.filter(function (r) {
       var raw = (r.department || '').toLowerCase().trim();
-      return raw && aliases.includes(raw);
+      return raw === label || aliases.includes(raw);
     });
   }
 
@@ -621,11 +621,11 @@
     if (!records) return [];
     var base = year ? records.filter(function (r) { return r.year === year; }) : records;
     if (!deptNode || deptNode.type !== 'dept') return base;
+    var label = deptNode.label.toLowerCase().trim();
     var aliases = (deptNode.patentAliases || []).map(function (a) { return a.toLowerCase().trim(); });
-    if (!aliases.length) return []; // department has no patent aliases
     return base.filter(function (r) {
       var raw = (r.departmentGroup || r.department || '').toLowerCase().trim();
-      return aliases.includes(raw);
+      return raw === label || aliases.includes(raw);
     });
   }
 
@@ -640,11 +640,11 @@
     if (!records) return [];
     var base = year ? records.filter(function (r) { return r.year === year; }) : records;
     if (!deptNode || deptNode.type !== 'dept') return base;
+    var label = deptNode.label.toLowerCase().trim();
     var aliases = (deptNode.scholarAliases || []).map(function (a) { return a.toLowerCase().trim(); });
-    if (!aliases.length) return []; // department has no scholar aliases
     return base.filter(function (r) {
       var raw = (r.departmentGroup || r.department || '').toLowerCase().trim();
-      return aliases.includes(raw);
+      return raw === label || aliases.includes(raw);
     });
   }
 

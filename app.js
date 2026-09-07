@@ -782,7 +782,11 @@
 
       const unfilteredBase = c.getRecords(y, true);
       const fallbackDeptKey = (r) => {
-        let d = r.departmentGroup || r.department || r.dept || r.program || r['Department'] || '';
+        // For Research Community: normalise raw program string → canonical E&T dept label
+        if (type === 'people') {
+          return normalizeETDepartment(r) || (r.departmentGroup || r.department || r.dept || '');
+        }
+        let d = r.departmentGroup || r.department || r.dept || r['Department'] || '';
         return getOldETLabel(d);
       };
       const deptData = rank(by(unfilteredBase, fallbackDeptKey)).filter(x => x[0] && x[0] !== '—');
