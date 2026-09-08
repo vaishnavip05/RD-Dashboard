@@ -27,11 +27,7 @@
     { id: 'hod_lcs_tamil', name: 'Dr. K. Chitra', employeeId: 'TSH046', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science and Technology', group: 'FLABS', department: 'LCS (Tamil)', scope: 'DEPARTMENT_ONLY' },
     { id: 'hod_biotechnology', name: 'Dr.M.Kamaraj', employeeId: 'TSH022', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science and Technology', group: 'FLABS', department: 'Biotechnology', scope: 'DEPARTMENT_ONLY' },
     { id: 'hod_psychology', name: 'Dr. Psychology HOD', employeeId: 'HOD_PSY001', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science and Technology', group: 'FLABS', department: 'Psychology', scope: 'DEPARTMENT_ONLY' },
-    { id: 'hod_mathematics', name: 'Dr. T. HARIKRISHNAN', employeeId: 'TSH135', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science and Technology', group: 'FLABS', department: 'Mathematics', scope: 'DEPARTMENT_ONLY' },
-    { id: 'hod_physics', name: 'Dr. Physics HOD', employeeId: 'HOD_PHY001', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science and Technology', group: 'FLABS', department: 'Physics', scope: 'DEPARTMENT_ONLY' },
-    { id: 'hod_chemistry', name: 'Dr. Chemistry HOD', employeeId: 'HOD_CHEM001', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science and Technology', group: 'FLABS', department: 'Chemistry', scope: 'DEPARTMENT_ONLY' },
-    { id: 'hod_economics', name: 'Dr. Economics HOD', employeeId: 'HOD_ECO001', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science and Technology', group: 'FLABS', department: 'Economics', scope: 'DEPARTMENT_ONLY' },
-    { id: 'hod_english', name: 'Dr. English HOD', employeeId: 'HOD_ENG001', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science and Technology', group: 'FLABS', department: 'English', scope: 'DEPARTMENT_ONLY' }
+    { id: 'hod_mathematics', name: 'Dr. T. HARIKRISHNAN', employeeId: 'TSH135', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science and Technology', group: 'FLABS', department: 'Mathematics', scope: 'DEPARTMENT_ONLY' }
   ];
 
   // ─────────────────────────────────────────────────────────────────────────────
@@ -51,10 +47,7 @@
     { id: 'hod_ent_civil', name: 'Dr. R. Divahar (CIVIL)', employeeId: 'HOD_ET_CIVIL', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science & Technology', group: 'E&T', department: 'Civil', scope: 'DEPARTMENT_ONLY' },
     { id: 'hod_ent_biotech', name: 'Dr. Hemavathy. V. R (BIOTECH)', employeeId: 'HOD_ET_BIOTECH', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science & Technology', group: 'E&T', department: 'Biotechnology', scope: 'DEPARTMENT_ONLY' },
     { id: 'hod_ent_bme', name: 'Dr. Ushus S Kumar (BME)', employeeId: 'HOD_ET_BME', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science & Technology', group: 'E&T', department: 'BME', scope: 'DEPARTMENT_ONLY' },
-    { id: 'hod_ent_maths', name: 'Dr. R. Srinivasan (MATHS)', employeeId: 'HOD_ET_MATHS', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science & Technology', group: 'E&T', department: 'Mathematics', scope: 'DEPARTMENT_ONLY' },
-    { id: 'hod_ent_physics', name: 'Dr. N. Balamurugan (PHY)', employeeId: 'HOD_ET_PHYSICS', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science & Technology', group: 'E&T', department: 'Physics', scope: 'DEPARTMENT_ONLY' },
-    { id: 'hod_ent_chem', name: 'Dr. Helen P Kavitha (CHEM)', employeeId: 'HOD_ET_CHEM', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science & Technology', group: 'E&T', department: 'Chemistry', scope: 'DEPARTMENT_ONLY' },
-    { id: 'hod_ent_efl', name: 'Dr. Dr. Nagaradhika (LCS/EFL)', employeeId: 'HOD_ET_EFL', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science & Technology', group: 'E&T', department: 'EFL', scope: 'DEPARTMENT_ONLY' }
+    { id: 'hod_ent_maths', name: 'Dr. R. Srinivasan (MATHS)', employeeId: 'HOD_ET_MATHS', password: '123456', role: 'hod', campus: 'SRM Ramapuram', college: 'SRM Institute of Science & Technology', group: 'E&T', department: 'Mathematics', scope: 'DEPARTMENT_ONLY' }
   ];
 
   var BARCH_HOD_USERS = [

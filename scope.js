@@ -267,46 +267,6 @@
       scholarAliases: [
         'mathematics'
       ]
-    },
-    {
-      id: 'physics',
-      label: 'Physics',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: ['physics'],
-      patentAliases: [],
-      scholarAliases: []
-    },
-    {
-      id: 'chemistry',
-      label: 'Chemistry',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: ['chemistry'],
-      patentAliases: [],
-      scholarAliases: []
-    },
-    {
-      id: 'economics',
-      label: 'Economics',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: ['economics'],
-      patentAliases: [],
-      scholarAliases: []
-    },
-    {
-      id: 'english',
-      label: 'English',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: ['english'],
-      patentAliases: [],
-      scholarAliases: []
     }
   ];
 
@@ -324,10 +284,7 @@
     { id: 'dept_ent_civil', label: 'CIVIL', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['civil'], scholarAliases: ['civil'] },
     { id: 'dept_ent_biotech', label: 'BIOTECH', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['biotechnology', 'biotech'], scholarAliases: ['biotechnology', 'biotech'] },
     { id: 'dept_ent_bme', label: 'BME', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['bme', 'biomedical'], scholarAliases: ['bme', 'biomedical'] },
-    { id: 'dept_ent_maths', label: 'MATHS', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['mathematics', 'maths'], scholarAliases: ['mathematics', 'maths'] },
-    { id: 'dept_ent_physics', label: 'PHY', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['physics'], scholarAliases: ['physics'] },
-    { id: 'dept_ent_chem', label: 'CHEM', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['chemistry'], scholarAliases: ['chemistry'] },
-    { id: 'dept_ent_efl', label: 'LCS/EFL', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['efl'], scholarAliases: ['efl'] }
+    { id: 'dept_ent_maths', label: 'MATHS', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['mathematics', 'maths'], scholarAliases: ['mathematics', 'maths'] }
   ];
 
   // ─── COMPLETE INSTITUTIONAL HIERARCHY TREE ──────────────────────────────────
