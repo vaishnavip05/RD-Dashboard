@@ -407,6 +407,40 @@
  }
 
  const FLABS_FACULTY_BY_DEPT = {
+    2024: {
+      'Commerce': 40,
+      'Commerce - PA, ISM, IAF & SF': 60,
+      'BCA': 18,
+      'Commerce (A&F)': 19,
+      'Data Science': 12,
+      'B.Sc Cyber Security': 10,
+      'B.Sc Computer Science': 20,
+      'B.Sc. (AI & ML)': 15,
+      'MCA': 10,
+      'Viscom': 20,
+      'Fashion Designing': 8,
+      'LCS (English)': 18,
+      'Biotechnology': 5,
+      'Psychology': 2,
+      'Mathematics': 12
+    },
+    2025: {
+      'Commerce': 42,
+      'Commerce - PA, ISM, IAF & SF': 65,
+      'BCA': 21,
+      'Commerce (A&F)': 20,
+      'Data Science': 15,
+      'B.Sc Cyber Security': 14,
+      'B.Sc Computer Science': 22,
+      'B.Sc. (AI & ML)': 17,
+      'MCA': 12,
+      'Viscom': 23,
+      'Fashion Designing': 9,
+      'LCS (English)': 21,
+      'Biotechnology': 6,
+      'Psychology': 3,
+      'Mathematics': 13
+    },
     2026: {
       'Commerce': 44,
       'Commerce - PA, ISM, IAF & SF': 69,

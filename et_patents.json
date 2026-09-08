@@ -237,7 +237,7 @@
     "inventors": "Mr.S.D.Kumar, Dr.A.Mathivanan,",
     "applicationNo": "202441033737",
     "filingDate": "2024",
-    "department": "Mech",
+    "department": "MECH",
     "proofLink": "https://drive.google.com/file/d/1CYBV--Vr2GY5GpeXiex7aNSYKKA8zJ-g/view?usp=drive_link"
   },
   {
@@ -270,7 +270,7 @@
     "inventors": "Mr.C Uthirapathy, Dr.G.Swaminathan, Dr.A.Mathivanan, Mr. S.D.Kumar",
     "applicationNo": "202241058674",
     "filingDate": "2024",
-    "department": "Mech",
+    "department": "MECH",
     "proofLink": "https://drive.google.com/file/d/1pfxln6rmxK5fvfA5whxSoqSRKwmnRKJ7/view?usp=drive_link"
   },
   {
@@ -334,7 +334,8 @@
     "category": "Published",
     "inventors": "Dr. Parthasarathy Sundararajan",
     "applicationNo": "202541011589",
-    "filingDate": "12.02.2025"
+    "filingDate": "12.02.2025",
+    "department": "CSE"
   },
   {
     "year": 2025,
@@ -342,7 +343,8 @@
     "category": "Published",
     "inventors": "Dr. Sanju Rani",
     "applicationNo": "202541091190",
-    "filingDate": "24.09.2025"
+    "filingDate": "24.09.2025",
+    "department": "CSE"
   },
   {
     "year": 2025,
@@ -350,7 +352,8 @@
     "category": "Published",
     "inventors": "Dr. G. Venkat Kumar",
     "applicationNo": "202541010196",
-    "filingDate": "07.02.2025"
+    "filingDate": "07.02.2025",
+    "department": "CSE"
   },
   {
     "year": 2025,
@@ -358,7 +361,8 @@
     "category": "Published",
     "inventors": "Dr. A. Umamageswari",
     "applicationNo": "202541001850",
-    "filingDate": "08.01.2025"
+    "filingDate": "08.01.2025",
+    "department": "CSE"
   },
   {
     "year": 2025,
@@ -366,7 +370,8 @@
     "category": "Published",
     "inventors": "J R Maithreyi",
     "applicationNo": "202541078418 A",
-    "filingDate": "18.08.2025"
+    "filingDate": "18.08.2025",
+    "department": "CSE"
   },
   {
     "year": 2025,
@@ -374,7 +379,8 @@
     "category": "Published",
     "inventors": "Dr. R. Shelishiyah R",
     "applicationNo": "202541119496",
-    "filingDate": "29.11.2025"
+    "filingDate": "29.11.2025",
+    "department": "CSE"
   },
   {
     "year": 2025,
@@ -382,7 +388,8 @@
     "category": "Published",
     "inventors": "Dr. K. N. Srinivas",
     "applicationNo": "202541067616 A",
-    "filingDate": "25.07.2025"
+    "filingDate": "25.07.2025",
+    "department": "CSE"
   },
   {
     "year": 2025,
@@ -390,7 +397,8 @@
     "category": "Published",
     "inventors": "Dr. N. Suganthi",
     "applicationNo": "202541003152",
-    "filingDate": "14.01.2025"
+    "filingDate": "14.01.2025",
+    "department": "CSE"
   },
   {
     "year": 2025,
@@ -398,7 +406,8 @@
     "category": "Published",
     "inventors": "Dr. Aarthi B",
     "applicationNo": "202541005665",
-    "filingDate": "23.01.2025"
+    "filingDate": "23.01.2025",
+    "department": "CSE"
   },
   {
     "year": 2025,
@@ -406,7 +415,8 @@
     "category": "Published",
     "inventors": "Dr. B. Dwarakanath",
     "applicationNo": "202541009087",
-    "filingDate": "04.02.2025"
+    "filingDate": "04.02.2025",
+    "department": "CSE"
   },
   {
     "year": 2025,
@@ -414,7 +424,8 @@
     "category": "Published",
     "inventors": "Dr. Ramya",
     "applicationNo": "202541002518",
-    "filingDate": "10.01.2025"
+    "filingDate": "10.01.2025",
+    "department": "CSE-AIML"
   },
   {
     "year": 2025,
@@ -422,7 +433,8 @@
     "category": "Published",
     "inventors": "Dr. Helen P Kavitha",
     "applicationNo": "202541088007",
-    "filingDate": "16.09.2025"
+    "filingDate": "16.09.2025",
+    "department": "CSE-AIML"
   },
   {
     "year": 2025,
@@ -430,7 +442,8 @@
     "category": "Published",
     "inventors": "S Keerthi Vardhan",
     "applicationNo": "202541043623",
-    "filingDate": "05.05.2025"
+    "filingDate": "05.05.2025",
+    "department": "CSE-AIML"
   },
   {
     "year": 2025,
@@ -438,7 +451,8 @@
     "category": "Published",
     "inventors": "Dr. Subashini",
     "applicationNo": "202541009028",
-    "filingDate": "04.02.2025"
+    "filingDate": "04.02.2025",
+    "department": "CSE-AIML"
   },
   {
     "year": 2025,
@@ -446,7 +460,8 @@
     "category": "Published",
     "inventors": "Dhakshnamoorthy",
     "applicationNo": "202541044508",
-    "filingDate": "08.05.2025"
+    "filingDate": "08.05.2025",
+    "department": "CSE-BDA"
   },
   {
     "year": 2025,
@@ -454,7 +469,8 @@
     "category": "Granted",
     "inventors": "Dr. Sathyapriya",
     "applicationNo": "4445440-001",
-    "filingDate": "11.04.2025"
+    "filingDate": "11.04.2025",
+    "department": "CSE-BDA"
   },
   {
     "year": 2025,
@@ -462,7 +478,8 @@
     "category": "Granted",
     "inventors": "Dr. J. Jean Justus",
     "applicationNo": "458947-001",
-    "filingDate": "15.05.2025"
+    "filingDate": "15.05.2025",
+    "department": "CSE-BDA"
   },
   {
     "year": 2025,
@@ -470,7 +487,8 @@
     "category": "Granted",
     "inventors": "Dr. S. Veena",
     "applicationNo": "445443-001",
-    "filingDate": "24.01.2025"
+    "filingDate": "24.01.2025",
+    "department": "CSE-BDA"
   },
   {
     "year": 2025,
@@ -478,7 +496,8 @@
     "category": "Published",
     "inventors": "Dr. S. Veena",
     "applicationNo": "202541003158",
-    "filingDate": "14.01.2025"
+    "filingDate": "14.01.2025",
+    "department": "CSE-BDA"
   },
   {
     "year": 2025,
@@ -486,7 +505,8 @@
     "category": "Published",
     "inventors": "Dr. M. S. Bennet Praba",
     "applicationNo": "202541003188",
-    "filingDate": "14.01.2025"
+    "filingDate": "14.01.2025",
+    "department": "CSE-BDA"
   },
   {
     "year": 2025,
@@ -494,7 +514,8 @@
     "category": "Published",
     "inventors": "Dr. Arthi R",
     "applicationNo": "202541007772",
-    "filingDate": "30.01.2025"
+    "filingDate": "30.01.2025",
+    "department": "CSE-IoT & CSBS"
   },
   {
     "year": 2025,
@@ -502,7 +523,8 @@
     "category": "Published",
     "inventors": "Dr. C. Ashwini",
     "applicationNo": "202541004290",
-    "filingDate": "18.01.2025"
+    "filingDate": "18.01.2025",
+    "department": "CSE-IoT & CSBS"
   },
   {
     "year": 2025,
@@ -510,7 +532,8 @@
     "category": "Granted",
     "inventors": "Dr. Shiny Duela J",
     "applicationNo": "460613-001",
-    "filingDate": "29.05.2025"
+    "filingDate": "29.05.2025",
+    "department": "CSE-CS"
   },
   {
     "year": 2025,
@@ -518,7 +541,8 @@
     "category": "Published",
     "inventors": "Dr. Ramani P",
     "applicationNo": "202541002748",
-    "filingDate": "13.01.2025"
+    "filingDate": "13.01.2025",
+    "department": "CSE-CS"
   },
   {
     "year": 2025,
@@ -526,7 +550,8 @@
     "category": "Published",
     "inventors": "Dr. R. Kavitha",
     "applicationNo": "202541089330",
-    "filingDate": "19.09.2025"
+    "filingDate": "19.09.2025",
+    "department": "CSE-CS"
   },
   {
     "year": 2025,
@@ -534,7 +559,8 @@
     "category": "Granted",
     "inventors": "Dr. Deva Hema Deva Raj",
     "applicationNo": "445441-001",
-    "filingDate": "24.01.2025"
+    "filingDate": "24.01.2025",
+    "department": "CSE-CS"
   },
   {
     "year": 2025,
@@ -542,7 +568,8 @@
     "category": "Published",
     "inventors": "Dr. T. Beena",
     "applicationNo": "202541091786",
-    "filingDate": "25.09.2025"
+    "filingDate": "25.09.2025",
+    "department": "MECH"
   },
   {
     "year": 2025,
@@ -550,7 +577,8 @@
     "category": "Published",
     "inventors": "Ms. S. Abirami",
     "applicationNo": "202541007786",
-    "filingDate": "30.01.2025"
+    "filingDate": "30.01.2025",
+    "department": "MECH"
   },
   {
     "year": 2025,
@@ -558,7 +586,8 @@
     "category": "Published",
     "inventors": "Dr. R. Suthan",
     "applicationNo": "202541019570",
-    "filingDate": "05.03.2025"
+    "filingDate": "05.03.2025",
+    "department": "MECH"
   },
   {
     "year": 2025,
@@ -566,7 +595,8 @@
     "category": "Published",
     "inventors": "Dr. K. Manikandan",
     "applicationNo": "202541044594",
-    "filingDate": "30.05.2025"
+    "filingDate": "30.05.2025",
+    "department": "MECH"
   },
   {
     "year": 2025,
@@ -574,7 +604,8 @@
     "category": "Published",
     "inventors": "Dr. S. Ida",
     "applicationNo": "202541108188",
-    "filingDate": "07.11.2025"
+    "filingDate": "07.11.2025",
+    "department": "MECH"
   },
   {
     "year": 2025,
@@ -582,7 +613,8 @@
     "category": "Granted",
     "inventors": "Dr. S. Dhanalakshmi",
     "applicationNo": "448156-001",
-    "filingDate": "14.02.2025"
+    "filingDate": "14.02.2025",
+    "department": "MECH"
   },
   {
     "year": 2025,
@@ -590,7 +622,8 @@
     "category": "Published",
     "inventors": "Dr. R. Mythili",
     "applicationNo": "202541009079",
-    "filingDate": "04.02.2025"
+    "filingDate": "04.02.2025",
+    "department": "MECH"
   },
   {
     "year": 2025,
@@ -598,7 +631,8 @@
     "category": "Granted",
     "inventors": "Dr. M. Prabu",
     "applicationNo": "450145-001",
-    "filingDate": "26.02.2025"
+    "filingDate": "26.02.2025",
+    "department": "MECH"
   },
   {
     "year": 2025,
@@ -606,7 +640,8 @@
     "category": "Granted",
     "inventors": "Mr. R. Kingsly Stephen",
     "applicationNo": "456638-001",
-    "filingDate": "14.05.2025"
+    "filingDate": "14.05.2025",
+    "department": "MECH"
   },
   {
     "year": 2025,
@@ -614,7 +649,8 @@
     "category": "Published",
     "inventors": "Dr. M. Latha",
     "applicationNo": "202541009084",
-    "filingDate": "04.02.2025"
+    "filingDate": "04.02.2025",
+    "department": "MECH"
   },
   {
     "year": 2025,
@@ -622,7 +658,8 @@
     "category": "Published",
     "inventors": "Abinaya R",
     "applicationNo": "202541119487",
-    "filingDate": "29.11.2025"
+    "filingDate": "29.11.2025",
+    "department": "IT"
   },
   {
     "year": 2025,
@@ -630,7 +667,8 @@
     "category": "Published",
     "inventors": "Dr. Mathivanan",
     "applicationNo": "202541114923",
-    "filingDate": "21.11.2025"
+    "filingDate": "21.11.2025",
+    "department": "IT"
   },
   {
     "year": 2025,
@@ -638,7 +676,8 @@
     "category": "Published",
     "inventors": "Dr. Sanju Rani",
     "applicationNo": "202541013206",
-    "filingDate": "16.02.2025"
+    "filingDate": "16.02.2025",
+    "department": "IT"
   },
   {
     "year": 2025,
@@ -646,7 +685,8 @@
     "category": "Published",
     "inventors": "Mr.C.Uthirapathy",
     "applicationNo": "202541123156",
-    "filingDate": "06.12.2025"
+    "filingDate": "06.12.2025",
+    "department": "IT"
   },
   {
     "year": 2025,
@@ -654,7 +694,8 @@
     "category": "Published",
     "inventors": "Mr. N. Manikandan",
     "applicationNo": "202541120461",
-    "filingDate": "02.12.2025"
+    "filingDate": "02.12.2025",
+    "department": "IT"
   },
   {
     "year": 2025,
@@ -662,7 +703,8 @@
     "category": "Published",
     "inventors": "Mr. Selva Balaji N",
     "applicationNo": "202541043647",
-    "filingDate": "05.05.2025"
+    "filingDate": "05.05.2025",
+    "department": "IT"
   },
   {
     "year": 2025,
@@ -670,7 +712,8 @@
     "category": "Published",
     "inventors": "Dr. G. Nithya",
     "applicationNo": "202541009632",
-    "filingDate": "06.02.2025"
+    "filingDate": "06.02.2025",
+    "department": "IT"
   },
   {
     "year": 2025,
@@ -678,7 +721,8 @@
     "category": "Published",
     "inventors": "Dr. A. Mohanbabu",
     "applicationNo": "202541004959",
-    "filingDate": "22.01.2025"
+    "filingDate": "22.01.2025",
+    "department": "IT"
   },
   {
     "year": 2025,
@@ -686,7 +730,8 @@
     "category": "Published",
     "inventors": "Mr. R. Anna Thirumalai",
     "applicationNo": "202541076561",
-    "filingDate": "11.08.2025"
+    "filingDate": "11.08.2025",
+    "department": "ECE"
   },
   {
     "year": 2025,
@@ -694,7 +739,8 @@
     "category": "Published",
     "inventors": "Mr. R. Anna Thirumalai",
     "applicationNo": "202541071923",
-    "filingDate": "29.07.2025"
+    "filingDate": "29.07.2025",
+    "department": "ECE"
   },
   {
     "year": 2025,
@@ -702,7 +748,8 @@
     "category": "Published",
     "inventors": "Dr. M. Vikneswaran",
     "applicationNo": "202541073731",
-    "filingDate": "22.08.2025"
+    "filingDate": "22.08.2025",
+    "department": "ECE"
   },
   {
     "year": 2025,
@@ -710,7 +757,8 @@
     "category": "Published",
     "inventors": "Dr. M. Prasanna Jeyanthi",
     "applicationNo": "202541082818",
-    "filingDate": "01.09.2025"
+    "filingDate": "01.09.2025",
+    "department": "ECE"
   },
   {
     "year": 2025,
@@ -718,7 +766,8 @@
     "category": "Published",
     "inventors": "Dr. Vasthi Gnana Rani",
     "applicationNo": "202541081579",
-    "filingDate": "28.08.2025"
+    "filingDate": "28.08.2025",
+    "department": "ECE"
   },
   {
     "year": 2025,
@@ -726,7 +775,8 @@
     "category": "Published",
     "inventors": "Dr. B. Senthil",
     "applicationNo": "202541009636",
-    "filingDate": "06.02.2025"
+    "filingDate": "06.02.2025",
+    "department": "ECE"
   },
   {
     "year": 2025,
@@ -734,7 +784,8 @@
     "category": "Published",
     "inventors": "Dr. Lakshmi M",
     "applicationNo": "202541013109",
-    "filingDate": "15.02.2025"
+    "filingDate": "15.02.2025",
+    "department": "ECE"
   },
   {
     "year": 2025,
@@ -742,7 +793,8 @@
     "category": "Published",
     "inventors": "Dr. Varatharaj K",
     "applicationNo": "202541011287",
-    "filingDate": "11.02.2025"
+    "filingDate": "11.02.2025",
+    "department": "ECE"
   },
   {
     "year": 2025,
@@ -750,7 +802,8 @@
     "category": "Published",
     "inventors": "Dr. Rajenderan",
     "applicationNo": "202541020069",
-    "filingDate": "06.03.2025"
+    "filingDate": "06.03.2025",
+    "department": "ECE"
   },
   {
     "year": 2025,
@@ -758,7 +811,8 @@
     "category": "Published",
     "inventors": "Dr. S. Raja Ratna",
     "applicationNo": "202541007849",
-    "filingDate": "30.01.2025"
+    "filingDate": "30.01.2025",
+    "department": "EEE"
   },
   {
     "year": 2025,
@@ -766,7 +820,8 @@
     "category": "Published",
     "inventors": "Dr. Rajendran M",
     "applicationNo": "202541128972",
-    "filingDate": "19.12.2025"
+    "filingDate": "19.12.2025",
+    "department": "EEE"
   },
   {
     "year": 2025,
@@ -774,7 +829,8 @@
     "category": "Published",
     "inventors": "Dr. Sowmya",
     "applicationNo": "202541009762",
-    "filingDate": "06.02.2025"
+    "filingDate": "06.02.2025",
+    "department": "EEE"
   },
   {
     "year": 2025,
@@ -782,7 +838,8 @@
     "category": "Published",
     "inventors": "Dr. K. Manikandan",
     "applicationNo": "202541009355",
-    "filingDate": "05.02.2025"
+    "filingDate": "05.02.2025",
+    "department": "EEE"
   },
   {
     "year": 2025,
@@ -790,7 +847,8 @@
     "category": "Published",
     "inventors": "Dr. Helen P Kavitha",
     "applicationNo": "202541008250",
-    "filingDate": "31.01.2025"
+    "filingDate": "31.01.2025",
+    "department": "PHY"
   },
   {
     "year": 2025,
@@ -798,7 +856,8 @@
     "category": "Published",
     "inventors": "Dr. R. Mythili",
     "applicationNo": "202541090585",
-    "filingDate": "22.09.2025"
+    "filingDate": "22.09.2025",
+    "department": "PHY"
   },
   {
     "year": 2025,
@@ -806,7 +865,8 @@
     "category": "Published",
     "inventors": "Dr. Monika V",
     "applicationNo": "202541087926",
-    "filingDate": "16.09.2025"
+    "filingDate": "16.09.2025",
+    "department": "PHY"
   },
   {
     "year": 2025,
@@ -814,7 +874,8 @@
     "category": "Published",
     "inventors": "Mrs. P. Padmapriya",
     "applicationNo": "202541091184",
-    "filingDate": "24.09.2025"
+    "filingDate": "24.09.2025",
+    "department": "PHY"
   },
   {
     "year": 2025,
@@ -822,7 +883,8 @@
     "category": "Published",
     "inventors": "Dr. S. Dhanalakshmi",
     "applicationNo": "202541013252",
-    "filingDate": "16.02.2025"
+    "filingDate": "16.02.2025",
+    "department": "PHY"
   },
   {
     "year": 2025,
@@ -830,7 +892,8 @@
     "category": "Published",
     "inventors": "Dr. J. Saral",
     "applicationNo": "202541013182",
-    "filingDate": "15.02.2025"
+    "filingDate": "15.02.2025",
+    "department": "PHY"
   },
   {
     "year": 2025,
@@ -838,7 +901,8 @@
     "category": "Published",
     "inventors": "Dr. N. Sujatha",
     "applicationNo": "202541013118",
-    "filingDate": "15.02.2025"
+    "filingDate": "15.02.2025",
+    "department": "PHY"
   },
   {
     "year": 2025,
@@ -846,7 +910,8 @@
     "category": "Published",
     "inventors": "Sai Prashanth M",
     "applicationNo": "202541010652",
-    "filingDate": "08.02.2025"
+    "filingDate": "08.02.2025",
+    "department": "PHY"
   },
   {
     "year": 2025,
@@ -854,7 +919,8 @@
     "category": "Published",
     "inventors": "Dr. V. Gowri",
     "applicationNo": "202541003193",
-    "filingDate": "14.01.2025"
+    "filingDate": "14.01.2025",
+    "department": "PHY"
   },
   {
     "year": 2025,
@@ -862,7 +928,8 @@
     "category": "Published",
     "inventors": "Dr. Kapileswar N",
     "applicationNo": "202541007765",
-    "filingDate": "30.01.2025"
+    "filingDate": "30.01.2025",
+    "department": "PHY"
   },
   {
     "year": 2025,
@@ -870,7 +937,8 @@
     "category": "Published",
     "inventors": "Dr. Manikandan N",
     "applicationNo": "202541113364",
-    "filingDate": "18.11.2025"
+    "filingDate": "18.11.2025",
+    "department": "PHY"
   },
   {
     "year": 2025,
@@ -878,7 +946,8 @@
     "category": "Published",
     "inventors": "Dr. S. Manivannan",
     "applicationNo": "202541128746",
-    "filingDate": "18.12.2025"
+    "filingDate": "18.12.2025",
+    "department": "PHY"
   },
   {
     "year": 2025,
@@ -886,7 +955,8 @@
     "category": "Published",
     "inventors": "Dr. R. Angeline,",
     "applicationNo": "202541128789",
-    "filingDate": "18.12.2025"
+    "filingDate": "18.12.2025",
+    "department": "BME"
   },
   {
     "year": 2025,
@@ -894,7 +964,8 @@
     "category": "Published",
     "inventors": "Griffun Kris A",
     "applicationNo": "202541043613",
-    "filingDate": "05.05.2025"
+    "filingDate": "05.05.2025",
+    "department": "BME"
   },
   {
     "year": 2025,
@@ -902,7 +973,8 @@
     "category": "Published",
     "inventors": "Dr. V. Megala",
     "applicationNo": "202541010172",
-    "filingDate": "07.02.2025"
+    "filingDate": "07.02.2025",
+    "department": "BME"
   },
   {
     "year": 2025,
@@ -910,7 +982,8 @@
     "category": "Published",
     "inventors": "Dr. B. Dwarakanath",
     "applicationNo": "202541091187",
-    "filingDate": "24.09.2025"
+    "filingDate": "24.09.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -918,7 +991,8 @@
     "category": "Published",
     "inventors": "Vikneswaran Malaiperumal",
     "applicationNo": "202541067181",
-    "filingDate": "15.07.2025"
+    "filingDate": "15.07.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -926,7 +1000,8 @@
     "category": "Published",
     "inventors": "Mr. Leela Krishnan",
     "applicationNo": "202541056517",
-    "filingDate": "20.06.2025"
+    "filingDate": "20.06.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -934,7 +1009,8 @@
     "category": "Published",
     "inventors": "Dr. Gangadevi G",
     "applicationNo": "202541007853",
-    "filingDate": "30.01.2025"
+    "filingDate": "30.01.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -942,7 +1018,8 @@
     "category": "Published",
     "inventors": "Dr. J. Sutha",
     "applicationNo": "202514005280",
-    "filingDate": "22.01.2025"
+    "filingDate": "22.01.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -950,7 +1027,8 @@
     "category": "Published",
     "inventors": "K. Lalitha",
     "applicationNo": "202541010171",
-    "filingDate": "07.02.2025"
+    "filingDate": "07.02.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -958,7 +1036,8 @@
     "category": "Published",
     "inventors": "Dr. C. Jayashree",
     "applicationNo": "202541010800",
-    "filingDate": "09.02.2025"
+    "filingDate": "09.02.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -966,7 +1045,8 @@
     "category": "Published",
     "inventors": "Dr. T.Ch. Madhavi",
     "applicationNo": "202541098610",
-    "filingDate": "13.10.2025"
+    "filingDate": "13.10.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -974,7 +1054,8 @@
     "category": "Published",
     "inventors": "Dr. Senthil Babu S",
     "applicationNo": "202541123063",
-    "filingDate": "06.12.2025"
+    "filingDate": "06.12.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -982,7 +1063,8 @@
     "category": "Published",
     "inventors": "T. Bharanidharan",
     "applicationNo": "202541091206",
-    "filingDate": "24.09.2025"
+    "filingDate": "24.09.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -990,7 +1072,8 @@
     "category": "Published",
     "inventors": "Dr. Surendar R",
     "applicationNo": "202541013251",
-    "filingDate": "16.02.2025"
+    "filingDate": "16.02.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -998,7 +1081,8 @@
     "category": "Published",
     "inventors": "Dr. S. Prema",
     "applicationNo": "202541013022",
-    "filingDate": "14.02.2025"
+    "filingDate": "14.02.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -1006,7 +1090,8 @@
     "category": "Published",
     "inventors": "Dr. N. Karunagaran",
     "applicationNo": "202541013207",
-    "filingDate": "16.02.2025"
+    "filingDate": "16.02.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -1014,7 +1099,8 @@
     "category": "Published",
     "inventors": "Dr. A. R. Baby Suganthi",
     "applicationNo": "202541013208",
-    "filingDate": "16.02.2025"
+    "filingDate": "16.02.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -1022,7 +1108,8 @@
     "category": "Published",
     "inventors": "Dr. R. Bhuvaneswari",
     "applicationNo": "202541050641",
-    "filingDate": "20.06.2025"
+    "filingDate": "20.06.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -1030,7 +1117,8 @@
     "category": "Published",
     "inventors": "Dr. Pragya Pandey",
     "applicationNo": "202541011341",
-    "filingDate": "11.02.2025"
+    "filingDate": "11.02.2025",
+    "department": "CHEM"
   },
   {
     "year": 2025,
@@ -1038,7 +1126,8 @@
     "category": "Published",
     "inventors": "Dr. Amirthalakshmi T.M",
     "applicationNo": "202541006031",
-    "filingDate": "31.01.2025"
+    "filingDate": "31.01.2025",
+    "department": "MATHS"
   },
   {
     "year": 2025,
@@ -1046,7 +1135,8 @@
     "category": "Published",
     "inventors": "Dr. Banu priya",
     "applicationNo": "202541114895",
-    "filingDate": "21.11.2025"
+    "filingDate": "21.11.2025",
+    "department": "MATHS"
   },
   {
     "year": 2025,
@@ -1054,7 +1144,8 @@
     "category": "Published",
     "inventors": "Dr. A. Umamageswari",
     "applicationNo": "202541008638",
-    "filingDate": "04.01.2025"
+    "filingDate": "04.01.2025",
+    "department": "MATHS"
   },
   {
     "year": 2025,
@@ -1062,7 +1153,8 @@
     "category": "Published",
     "inventors": "Dr. G. Sudha",
     "applicationNo": "202541091785",
-    "filingDate": "25.09.2025"
+    "filingDate": "25.09.2025",
+    "department": "MATHS"
   },
   {
     "year": 2025,
@@ -1070,7 +1162,8 @@
     "category": "Published",
     "inventors": "Dr. J. Jansi Rani",
     "applicationNo": "202541074267",
-    "filingDate": "05.08.2025"
+    "filingDate": "05.08.2025",
+    "department": "MATHS"
   },
   {
     "year": 2025,
@@ -1078,7 +1171,8 @@
     "category": "Published",
     "inventors": "Pavithran E",
     "applicationNo": "202541057194",
-    "filingDate": "13.06.2025"
+    "filingDate": "13.06.2025",
+    "department": "MATHS"
   },
   {
     "year": 2025,
@@ -1086,7 +1180,8 @@
     "category": "Published",
     "inventors": "Dr. C. Saravanan",
     "applicationNo": "202541043087",
-    "filingDate": "03.05.2025"
+    "filingDate": "03.05.2025",
+    "department": "MATHS"
   },
   {
     "year": 2025,
@@ -1094,7 +1189,8 @@
     "category": "Published",
     "inventors": "S. R. Sitaaraman",
     "applicationNo": "202541012486",
-    "filingDate": "14.02.2025"
+    "filingDate": "14.02.2025",
+    "department": "MATHS"
   },
   {
     "year": 2025,
@@ -1102,7 +1198,8 @@
     "category": "Published",
     "inventors": "Dr. Judy Flavia B",
     "applicationNo": "202541005664",
-    "filingDate": "23.01.2025"
+    "filingDate": "23.01.2025",
+    "department": "MATHS"
   },
   {
     "year": 2025,
@@ -1110,7 +1207,8 @@
     "category": "Published",
     "inventors": "Dr. B. Senthil",
     "applicationNo": "202541074284",
-    "filingDate": "05.08.2025"
+    "filingDate": "05.08.2025",
+    "department": "MATHS"
   },
   {
     "year": 2025,
@@ -1118,7 +1216,8 @@
     "category": "Published",
     "inventors": "Dr. A. Manju",
     "applicationNo": "202541005286",
-    "filingDate": "22.01.2025"
+    "filingDate": "22.01.2025",
+    "department": "MATHS"
   },
   {
     "year": 2025,
@@ -1126,7 +1225,8 @@
     "category": "Published",
     "inventors": "Dr. R. Kavitha",
     "applicationNo": "202541009062",
-    "filingDate": "04.02.2025"
+    "filingDate": "04.02.2025",
+    "department": "MATHS"
   },
   {
     "year": 2025,
@@ -1134,7 +1234,8 @@
     "category": "Published",
     "inventors": "Dr. M. Saravanan",
     "applicationNo": "202541091189",
-    "filingDate": "24.09.2025"
+    "filingDate": "24.09.2025",
+    "department": "MATHS"
   },
   {
     "year": 2025,
@@ -1142,7 +1243,8 @@
     "category": "Published",
     "inventors": "Dr. Mothilal T",
     "applicationNo": "202541108184",
-    "filingDate": "07.11.2025"
+    "filingDate": "07.11.2025",
+    "department": "MATHS"
   },
   {
     "year": 2025,
@@ -1150,7 +1252,8 @@
     "category": "Published",
     "inventors": "Dr. S. Ida",
     "applicationNo": "202541128739",
-    "filingDate": "18.12.2025"
+    "filingDate": "18.12.2025",
+    "department": "BIOTECH"
   },
   {
     "year": 2025,
@@ -1336,7 +1439,7 @@
     "status": "Published",
     "inventor": "Dr. M. Prasanna Jeyanthi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -1346,7 +1449,7 @@
     "status": "Published",
     "inventor": "S. Prema",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -1366,7 +1469,7 @@
     "status": "Published",
     "inventor": "Dr. Banupriya D",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Biotech"
+    "department": "BIOTECH"
   },
   {
     "year": 2026,
@@ -1376,7 +1479,7 @@
     "status": "Published",
     "inventor": "Dr.Suthan",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -1386,7 +1489,7 @@
     "status": "Published",
     "inventor": "Dr.V.Thanigaivelan",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -1396,7 +1499,7 @@
     "status": "Published",
     "inventor": "Dr. S. Senthil Babu",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -1406,7 +1509,7 @@
     "status": "Published",
     "inventor": "Dr.M. Vikneswaran",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -1416,7 +1519,7 @@
     "status": "Published",
     "inventor": "Dr. Madhurima Joardar",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Biotech"
+    "department": "BIOTECH"
   },
   {
     "year": 2026,
@@ -1426,7 +1529,7 @@
     "status": "Published",
     "inventor": "Dr. Indhumadhi Ravichandran",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Biomedical"
+    "department": "BME"
   },
   {
     "year": 2026,
@@ -1436,7 +1539,7 @@
     "status": "Published",
     "inventor": "Dr. Indhumadhi Ravichandran",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Biomedical"
+    "department": "BME"
   },
   {
     "year": 2026,
@@ -1446,7 +1549,7 @@
     "status": "Published",
     "inventor": "Dr. Indhumadhi Ravichandran",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Biomedical"
+    "department": "BME"
   },
   {
     "year": 2026,
@@ -1456,7 +1559,7 @@
     "status": "Published",
     "inventor": "Dr. Indhumadhi Ravichandran",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Biomedical"
+    "department": "BME"
   },
   {
     "year": 2026,
@@ -1466,7 +1569,7 @@
     "status": "Published",
     "inventor": "Dr T Ch Madhavi",
     "designation": "PROFESSOR",
-    "department": "Civil"
+    "department": "CIVIL"
   },
   {
     "year": 2026,
@@ -1476,7 +1579,7 @@
     "status": "Published",
     "inventor": "Dr. B. Senthil",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -1496,7 +1599,7 @@
     "status": "Published",
     "inventor": "Dr.R.Angeline",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -1506,7 +1609,7 @@
     "status": "Published",
     "inventor": "Dr.B.Deepa",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -1516,7 +1619,7 @@
     "status": "Published",
     "inventor": "Dr. Ida",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -1526,7 +1629,7 @@
     "status": "Published",
     "inventor": "Dr.G. Venkat Kumar",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -1536,7 +1639,7 @@
     "status": "Published",
     "inventor": "Dr. C. Uthirapathy",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -1546,7 +1649,7 @@
     "status": "Published",
     "inventor": "Dr. N. Manikandan",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -1556,7 +1659,7 @@
     "status": "Published",
     "inventor": "Dr. S. Manivannan",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -1616,7 +1719,7 @@
     "status": "Published",
     "inventor": "Dhanalakshmi S",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -1626,7 +1729,7 @@
     "status": "Published",
     "inventor": "Dhanalakshmi S",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -1636,7 +1739,7 @@
     "status": "Published",
     "inventor": "Dhanalakshmi S",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -1846,7 +1949,7 @@
     "status": "Published",
     "inventor": "Dr.N.Manikandan",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -1856,7 +1959,7 @@
     "status": "Published",
     "inventor": "Dr.V.Thanigaivelan",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -1866,7 +1969,7 @@
     "status": "Published",
     "inventor": "Dr.N.Manikandan",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -1876,7 +1979,7 @@
     "status": "Published",
     "inventor": "Dr.N.Manikandan",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -1886,7 +1989,7 @@
     "status": "Published",
     "inventor": "Dr.N.Manikandan",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -1896,7 +1999,7 @@
     "status": "Published",
     "inventor": "Dr.N.Manikandan",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -1906,7 +2009,7 @@
     "status": "Published",
     "inventor": "Dr. Helen P Kavitha",
     "designation": "PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -1916,7 +2019,7 @@
     "status": "Published",
     "inventor": "Dr. Helen P Kavitha",
     "designation": "PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -1966,7 +2069,7 @@
     "status": "Published",
     "inventor": "Dr. Jospin Jeya",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "CS"
+    "department": "CSE-CS"
   },
   {
     "year": 2026,
@@ -1976,7 +2079,7 @@
     "status": "Published",
     "inventor": "Dr.M. Muralidharan",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Physics"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -1986,7 +2089,7 @@
     "status": "Published",
     "inventor": "Dr. T. Bharanidharan",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Physics"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -1996,7 +2099,7 @@
     "status": "Published",
     "inventor": "Dr. A.R.Baby Suganthi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Physics"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -2006,7 +2109,7 @@
     "status": "Published",
     "inventor": "Dr. G. Sudha",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Physics"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -2016,7 +2119,7 @@
     "status": "Published",
     "inventor": "Dr. J.T.Anandhi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Physics"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -2026,7 +2129,7 @@
     "status": "Published",
     "inventor": "Dr. R.S.Priyadharshini",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Physics"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -2036,7 +2139,7 @@
     "status": "Published",
     "inventor": "Dr.M.Saravanan",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Physics"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -2056,7 +2159,7 @@
     "status": "Published",
     "inventor": "Dr. Hema",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -2096,7 +2199,7 @@
     "status": "Published",
     "inventor": "Vanishree S",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -2106,7 +2209,7 @@
     "status": "Published",
     "inventor": "Dr. J. Saral",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -2116,7 +2219,7 @@
     "status": "Published",
     "inventor": "Mrs. R. Senthamizh Selvi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -2126,7 +2229,7 @@
     "status": "Published",
     "inventor": "Dr. R. Aruna Devi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -2136,7 +2239,7 @@
     "status": "Published",
     "inventor": "Perumal S\n Dhanalakshmi S\n S Vanishree",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -2216,7 +2319,7 @@
     "status": "Published",
     "inventor": "Dr.A.Umamageswari",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "BDA&CC"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -2226,7 +2329,7 @@
     "status": "Published",
     "inventor": "Dr.A.Umamageswari",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "BDA&CC"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -2236,7 +2339,7 @@
     "status": "Published",
     "inventor": "Dr. T. Beena",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "PHYSICS"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -2246,7 +2349,7 @@
     "status": "Published",
     "inventor": "Dr. M. Prabu",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "PHYSICS"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -2256,7 +2359,7 @@
     "status": "Published",
     "inventor": "Dr.M.Saravanan",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "PHYSICS"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -2266,7 +2369,7 @@
     "status": "Published",
     "inventor": "Dr. V. Jayalakshmi",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "PHYSICS"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -2286,7 +2389,7 @@
     "status": "Published",
     "inventor": "Dr. N. Sankar Ram",
     "designation": "PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -2296,7 +2399,7 @@
     "status": "Published",
     "inventor": "Dr. A. Shalini",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -2316,7 +2419,7 @@
     "status": "Published",
     "inventor": "Dr. T. Mothilal",
     "designation": "PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -2326,7 +2429,7 @@
     "status": "Published",
     "inventor": "Dr. Sathya Priya S",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "CS"
+    "department": "CSE-CS"
   },
   {
     "year": 2026,
@@ -2346,7 +2449,7 @@
     "status": "Published",
     "inventor": "Dr. G. Kaladevi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -2356,7 +2459,7 @@
     "status": "Published",
     "inventor": "Dr. C. Jayashree",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -2386,7 +2489,7 @@
     "status": "Published",
     "inventor": "Dr. Ballika J Chelliah",
     "designation": "PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -2406,7 +2509,7 @@
     "status": "Published",
     "inventor": "Dr. Arthi P",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -2566,7 +2669,7 @@
     "status": "Published",
     "inventor": "Dr.N.SANKAR RAM",
     "designation": "PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -2576,7 +2679,7 @@
     "status": "Published",
     "inventor": "Dr.JUDY FLAVIA",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -2596,7 +2699,7 @@
     "status": "Published",
     "inventor": "Dr.M.Veeramanikandan",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -2606,7 +2709,7 @@
     "status": "Published",
     "inventor": "Dr. Anand Babu",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -2616,7 +2719,7 @@
     "status": "Published",
     "inventor": "Dr. N. Sujatha",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -2626,7 +2729,7 @@
     "status": "Published",
     "inventor": "Dr. M. Lakshmi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -2636,7 +2739,7 @@
     "status": "Published",
     "inventor": "Dr. T. Yogashanthi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -2646,7 +2749,7 @@
     "status": "Published",
     "inventor": "Ramya B",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -2776,7 +2879,7 @@
     "status": "Published",
     "inventor": "Dr. M.S. Minu",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "BDA&CC"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -2786,7 +2889,7 @@
     "status": "Published",
     "inventor": "Dr. M.S. Minu",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "BDA&CC"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -2796,7 +2899,7 @@
     "status": "Published",
     "inventor": "J Arthy",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "BDA&CC"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -2966,7 +3069,7 @@
     "status": "Published",
     "inventor": "Dr. R. Arunkumar",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "IOT & CSBS"
+    "department": "CSE-IoT & CSBS"
   },
   {
     "year": 2026,
@@ -3136,7 +3239,7 @@
     "status": "Published",
     "inventor": "Dr. B. Deepa",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -3166,7 +3269,7 @@
     "status": "Published",
     "inventor": "S.Nalini Poornima",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -3176,7 +3279,7 @@
     "status": "Published",
     "inventor": "J Arthy",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "BDA&CC"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -3186,7 +3289,7 @@
     "status": "Published",
     "inventor": "Dr.M.S.Minu",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "BDA&CC"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -3206,7 +3309,7 @@
     "status": "Published",
     "inventor": "Dr. MANIKANDAN K",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -3216,7 +3319,7 @@
     "status": "Published",
     "inventor": "Dr. L. Madhuridevi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -3226,7 +3329,7 @@
     "status": "Published",
     "inventor": "Dr. G. Deena",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -3246,7 +3349,7 @@
     "status": "Published",
     "inventor": "Dr. S. Veena",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "IOT"
+    "department": "CSE-IoT & CSBS"
   },
   {
     "year": 2026,
@@ -3256,7 +3359,7 @@
     "status": "Published",
     "inventor": "Dr.D.Rajalakshmi",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "BDA"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -3296,7 +3399,7 @@
     "status": "Published",
     "inventor": "Dr.A.Sandhya",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -3336,7 +3439,7 @@
     "status": "Published",
     "inventor": "Dr. Usha Ruby A",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "IOT"
+    "department": "CSE-IoT & CSBS"
   },
   {
     "year": 2026,
@@ -3346,7 +3449,7 @@
     "status": "Published",
     "inventor": "Dr.A.Senthilselvi",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -3556,7 +3659,7 @@
     "status": "Published",
     "inventor": "Dr. T K S Rathish Babu",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "IOT"
+    "department": "CSE-IoT & CSBS"
   },
   {
     "year": 2026,
@@ -3586,7 +3689,7 @@
     "status": "Published",
     "inventor": "Dr.D.Rajalakshmi",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "BDA&CC"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -3596,7 +3699,7 @@
     "status": "Published",
     "inventor": "Dr. N. Suganthi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "BDA&CC"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -3666,7 +3769,7 @@
     "status": "Published",
     "inventor": "Dr.B.Deepa",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -3676,7 +3779,7 @@
     "status": "Published",
     "inventor": "Dr.G.DEENA",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -3686,7 +3789,7 @@
     "status": "Published",
     "inventor": "S.Nalini Poornima",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -3696,7 +3799,7 @@
     "status": "Published",
     "inventor": "Dr.MOHAN",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -3706,7 +3809,7 @@
     "status": "Published",
     "inventor": "Dr.Sandhya",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -3716,7 +3819,7 @@
     "status": "Published",
     "inventor": "Dr. C. Saravanan",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "BDA&CC"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -3726,7 +3829,7 @@
     "status": "Published",
     "inventor": "Mrs. G. Sumathi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "BDA&CC"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -3736,7 +3839,7 @@
     "status": "Published",
     "inventor": "Mrs. Archana T",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "BDA&CC"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -3746,7 +3849,7 @@
     "status": "Published",
     "inventor": "Dr. Kaladevvi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -3756,7 +3859,7 @@
     "status": "Published",
     "inventor": "Dr. Sowmya",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -3776,7 +3879,7 @@
     "status": "Published",
     "inventor": "Dr. A. Shalini",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -3786,7 +3889,7 @@
     "status": "Published",
     "inventor": "Dr. Jospin Jeya",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "CS"
+    "department": "CSE-CS"
   },
   {
     "year": 2026,
@@ -3796,7 +3899,7 @@
     "status": "Published",
     "inventor": "Dr. Sathya priya S",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "CS"
+    "department": "CSE-CS"
   },
   {
     "year": 2026,
@@ -3806,7 +3909,7 @@
     "status": "Published",
     "inventor": "Ms.J.Juslin Sega",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "CS"
+    "department": "CSE-CS"
   },
   {
     "year": 2026,
@@ -3816,7 +3919,7 @@
     "status": "Published",
     "inventor": "Dr. N. Sankar Ram",
     "designation": "PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -3826,7 +3929,7 @@
     "status": "Published",
     "inventor": "Dr. R. Vijaylakshmi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -3836,7 +3939,7 @@
     "status": "Published",
     "inventor": "Dr. S. Parthasarathy",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -3856,7 +3959,7 @@
     "status": "Published",
     "inventor": "Dr. M. Nithya",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -3866,7 +3969,7 @@
     "status": "Published",
     "inventor": "Bala samuvel",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -3896,7 +3999,7 @@
     "status": "Published",
     "inventor": "Dr. Kanimozhiraman",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -3906,7 +4009,7 @@
     "status": "Published",
     "inventor": "Mrs. Yamini Latha D L",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -3926,7 +4029,7 @@
     "status": "Published",
     "inventor": "Dr. N. Parthiban",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -3936,7 +4039,7 @@
     "status": "Published",
     "inventor": "Dr. Jananee V",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -3966,7 +4069,7 @@
     "status": "Published",
     "inventor": "Dr. G. Deena",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -4006,7 +4109,7 @@
     "status": "Published",
     "inventor": "Dr. E. Balaji",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -4026,7 +4129,7 @@
     "status": "Published",
     "inventor": "Ms. S. Lakshmi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "CS & GT"
+    "department": "CSE-GT"
   },
   {
     "year": 2026,
@@ -4066,7 +4169,7 @@
     "status": "Published",
     "inventor": "Ms. G. Sumathi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "BDA"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -4076,7 +4179,7 @@
     "status": "Published",
     "inventor": "Dr. Rama Chaithanya Tanguturi",
     "designation": "PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -4086,7 +4189,7 @@
     "status": "Published",
     "inventor": "Dr.S.Deepa",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "BDA"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -4146,7 +4249,7 @@
     "status": "Published",
     "inventor": "Dr. Vinoth R",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -4156,7 +4259,7 @@
     "status": "Published",
     "inventor": "Dr. E. Pandian",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "CHEMISTRY"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -4186,7 +4289,7 @@
     "status": "Published",
     "inventor": "Dr. VASTHI GNANA RANI S",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "CHEMISTRY"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -4196,7 +4299,7 @@
     "status": "Published",
     "inventor": "Mrs.G.D.Meivezhi",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -4206,7 +4309,7 @@
     "status": "Published",
     "inventor": "Dr Banupriya D",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Biotech"
+    "department": "BIOTECH"
   },
   {
     "year": 2026,
@@ -4246,7 +4349,7 @@
     "status": "Published",
     "inventor": "Dr. R. Angeline",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -4256,7 +4359,7 @@
     "status": "Published",
     "inventor": "Dr. P. Arthi",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -4266,7 +4369,7 @@
     "status": "Published",
     "inventor": "Dr. G. Nithya",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -4276,7 +4379,7 @@
     "status": "Published",
     "inventor": "Dr.S.D.Kumar",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -4286,7 +4389,7 @@
     "status": "Published",
     "inventor": "Dr. R. DIVAHAR",
     "designation": "PROFESSOR",
-    "department": "Civil"
+    "department": "CIVIL"
   },
   {
     "year": 2026,
@@ -4296,7 +4399,7 @@
     "status": "Published",
     "inventor": "Dr. Rama Chaithanya Tanguturi",
     "designation": "PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -4316,7 +4419,7 @@
     "status": "Published",
     "inventor": "Dr. J. Daisy rani",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -4335,7 +4438,7 @@
     "status": "Published",
     "inventor": "Renuka P",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "CS & GT"
+    "department": "CSE-GT"
   },
   {
     "year": 2026,
@@ -4372,7 +4475,7 @@
     "status": "Published",
     "inventor": "Dhanalakshmi S",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -4382,7 +4485,7 @@
     "status": "Published",
     "inventor": "Dhanalakshmi S",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Maths"
+    "department": "MATHS"
   },
   {
     "year": 2026,
@@ -4392,7 +4495,7 @@
     "status": "Published",
     "inventor": "Dr.M.Saravanan",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "Physics"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -4402,7 +4505,7 @@
     "status": "Published",
     "inventor": "Dr. V. Vinodkumar",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -4412,7 +4515,7 @@
     "status": "Published",
     "inventor": "Dr. Rubin Bose S",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -4442,7 +4545,7 @@
     "status": "Published",
     "inventor": "Ms.Sowmiya Sree C",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "CS & GT"
+    "department": "CSE-GT"
   },
   {
     "year": 2026,
@@ -4452,7 +4555,7 @@
     "status": "Published",
     "inventor": "Dr. S. D. Kumar",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -4462,7 +4565,7 @@
     "status": "Published",
     "inventor": "Dr. V. Vinod kumar",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Mech"
+    "department": "MECH"
   },
   {
     "year": 2026,
@@ -4472,7 +4575,7 @@
     "status": "Published",
     "inventor": "Dr. S.Sajini",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "AIML"
+    "department": "CSE-AIML"
   },
   {
     "year": 2026,
@@ -4502,7 +4605,7 @@
     "status": "Published",
     "inventor": "Dr.R.Bhuvaneswari",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "CS & GT"
+    "department": "CSE-GT"
   },
   {
     "year": 2026,
@@ -4512,7 +4615,7 @@
     "status": "Published",
     "inventor": "Dr. G. Venkat Kumar",
     "designation": "ASSISTANT PROFESSOR",
-    "department": "Chemistry"
+    "department": "CHEM"
   },
   {
     "year": 2026,
@@ -4522,7 +4625,7 @@
     "status": "Published",
     "inventor": "Dr. J. Sutha",
     "designation": "PROFESSOR",
-    "department": "BDA"
+    "department": "CSE-BDA"
   },
   {
     "year": 2026,
@@ -4542,7 +4645,7 @@
     "status": "Published",
     "inventor": "Dr. T. Beena",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "Physics"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -4552,7 +4655,7 @@
     "status": "Published",
     "inventor": "Dr. Balamurugan Natarajan",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "Physics"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -4562,7 +4665,7 @@
     "status": "Published",
     "inventor": "Dr. Sanju Rani",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "Physics"
+    "department": "PHY"
   },
   {
     "year": 2026,
@@ -4572,6 +4675,6 @@
     "status": "Published",
     "inventor": "Dr. Sanju Rani",
     "designation": "ASSOCIATE PROFESSOR",
-    "department": "Physics"
+    "department": "PHY"
   }
 ]
