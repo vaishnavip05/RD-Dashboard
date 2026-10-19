@@ -1,5 +1,9 @@
 (() => {
- const D=window.RESEARCH_DATA,Y=[2024,2025,2026],app=document.querySelector('#app'),title=document.querySelector('#page-title'),nav=[...document.querySelectorAll('.nav-link')];
+ const D = new Proxy({}, {
+   get(target, prop) {
+     return (window.RESEARCH_DATA && window.RESEARCH_DATA[prop]) || [];
+   }
+ }), Y=[2024,2025,2026],app=document.querySelector('#app'),title=document.querySelector('#page-title'),nav=[...document.querySelectorAll('.nav-link')];
  let _activeYear = 2026;
  const E=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const by=(a,k)=>a.reduce((o,x)=>{let v=typeof k==='function'?k(x):x[k];if(v)o[v]=(o[v]||0)+1;return o},{}),rank=o=>Object.entries(o).sort((a,b)=>b[1]-a[1]);
@@ -9,7 +13,7 @@
  const list=(rows,k,colour='')=>{let x=(Array.isArray(rows[0])?rows:rank(by(rows,k))).slice(0,8),m=Math.max(...x.map(z=>z[1]),1);return `<div class="progress-list">${x.map(([n,v],i)=>`<div class="bar-row"><span class="rank">${i+1}</span><span class="bar-name">${E(n)}</span><span class="bar-track"><span class="bar-fill ${colour}" style="width:${v/m*100}%"></span></span><strong>${v}</strong></div>`).join('')}</div>`};
  const chart=(data,c='#526dda')=>{let w=560,h=230,max=Math.max(...data.map(x=>x[1]),1)*1.15;return `<svg class="chart" viewBox="0 0 ${w} ${h}"><line x1="40" y1="192" x2="540" y2="192" stroke="#dfe5ef"/>${data.map(([n,v],i)=>{let x=75+i*165,y=192-v/max*155;return `<rect x="${x}" y="${y}" width="86" height="${192-y}" rx="5" fill="${c}"/><text x="${x+43}" y="${y-7}" text-anchor="middle" fill="#34415a" font-size="13">${v}</text><text x="${x+43}" y="215" text-anchor="middle" fill="#64708a" font-size="12">${n}</text>`}).join('')}</svg>`};
  const donut=(items,label)=>{if(!items.length)return `<div class="empty">No records are available for the selected year.</div>`;let total=items.reduce((s,x)=>s+x[1],0)||1,colors=['#0d5ea6','#2c9d98','#d29b37','#7b62b3','#cf5b58'],run=0,parts=items.map((x,i)=>{let a=run/total*360;run+=x[1];return `${colors[i]} ${a}deg ${run/total*360}deg`}).join(',');return `<div class="focus-chart"><div class="donut" style="background:conic-gradient(${parts})"><span>${total}<small>${label}</small></span></div><div class="legend">${items.map((x,i)=>`<div><i style="background:${colors[i]}"></i><span>${E(x[0])}</span><strong>${x[1]}</strong></div>`).join('')}</div></div>`};
- const focus=(type,rows,y)=>{if(type==='home'){let s=D.summary[y];return donut([['Publications',s.publications],['Patents',s.patents],['Awards',s.awards],['Projects',s.fundedProjects]],'activities')}if(type==='publications')return donut([['With link',rows.filter(x=>x.link).length],['Without link',rows.filter(x=>!x.link).length]],'records');if(type==='patents')return donut([['Granted',rows.filter(x=>x.status==='Granted').length],['Published',rows.filter(x=>x.status==='Published').length],['Other',rows.filter(x=>!['Granted','Published'].includes(x.status)).length]],'patents');if(type==='people')return donut(rank(by(rows,'category')).slice(0,4),'scholars');if(type==='awards')return donut([['Single award',rank(by(rows,'faculty')).filter(x=>x[1]===1).length],['Repeat awardee',rank(by(rows,'faculty')).filter(x=>x[1]>1).length]],'awardees');return donut(rank(by(rows,'agency')).slice(0,4),'projects')};
+ const focus=(type,rows,y)=>{if(type==='home'){let s=getScopedSummary(y);return donut([['Publications',s.publications],['Patents',s.patents],['Awards',s.awards],['Projects',s.fundedProjects]],'activities')}if(type==='publications')return donut([['With link',rows.filter(x=>x.link).length],['Without link',rows.filter(x=>!x.link).length]],'records');if(type==='patents')return donut([['Granted',rows.filter(x=>x.status==='Granted').length],['Published',rows.filter(x=>x.status==='Published').length],['Other',rows.filter(x=>!['Granted','Published'].includes(x.status)).length]],'patents');if(type==='people')return donut(rank(by(rows,'category')).slice(0,4),'scholars');if(type==='awards')return donut([['Single award',rank(by(rows,'faculty')).filter(x=>x[1]===1).length],['Repeat awardee',rank(by(rows,'faculty')).filter(x=>x[1]>1).length]],'awardees');return donut(rank(by(rows,'agency')).slice(0,4),'projects')};
  const link=v=>v?`<a class="link" target="_blank" rel="noopener" href="${/^http/.test(v)?E(v):'https://doi.org/'+E(v)}">Open ↗</a>`:'—';
  const threeYearChart=(data,title,c='#0ea5e9',isCard=true)=>{let w=460,h=180,max=Math.max(...data,1)*1.15,years=[2024,2025,2026];let wrapStyle=isCard?`background:#fff;border-radius:12px;padding:12px 16px;border:1px solid #e1e7f0;box-shadow:0 4px 12px rgba(0,0,0,0.03)`:`width:100%;`;let titleHtml=isCard?`<h3 style="margin-top:0;margin-bottom:12px;font-size:14.5px;color:#34415a;font-weight:600">${title} (3-Year Trend)</h3>`:``;return `<div class="${isCard?'chart-wrapper':'chart-container'}" style="${wrapStyle}">${titleHtml}<svg class="chart" viewBox="0 0 ${w} ${h}" style="width:100%;height:auto;display:block;"><line x1="20" y1="140" x2="440" y2="140" stroke="#dfe5ef"/>${data.map((v,i)=>{let x=65+i*125,y=140-(max?v/max*110:0);return `<rect x="${x}" y="${y}" width="80" height="${140-y}" rx="4" fill="${c}" style="transition:all 0.3s"/><text x="${x+40}" y="${y-8}" text-anchor="middle" fill="#34415a" font-size="14" font-weight="600">${v}</text><text x="${x+40}" y="165" text-anchor="middle" fill="#64708a" font-size="13">${years[i]}</text>`}).join('')}</svg></div>`};
  const departmentComparisonChart=(data,title,c='#10b981',isCard=false)=>{if(!data.length)return `<div class="empty">No records available.</div>`;let rowH=34,h=Math.max(100,data.length*rowH+20),w=740,max=Math.max(...data.map(x=>x[1]),1)*1.15;let wrapStyle=isCard?`background:#fff;border-radius:12px;padding:12px 16px;border:1px solid #e1e7f0;box-shadow:0 4px 12px rgba(0,0,0,0.03);overflow-y:auto;max-height:600px`:`width:100%;overflow-y:auto;max-height:600px;padding-right:8px;`;let titleHtml=isCard?`<h3 style="margin-top:0;margin-bottom:12px;font-size:14.5px;color:#34415a;font-weight:600">${title}</h3>`:``;return `<div class="${isCard?'chart-wrapper':'chart-container'}" style="${wrapStyle}">${titleHtml}<svg class="chart" viewBox="0 0 ${w} ${h}" style="width:100%;min-height:${h}px;display:block;"><line x1="250" y1="10" x2="250" y2="${h-10}" stroke="#dfe5ef"/>${data.map(([n,v],i)=>{let y=10+i*rowH,barW=max?(v/max)*(w-310):0;return `<text x="240" y="${y+16}" text-anchor="end" fill="#64708a" font-size="14" dominant-baseline="middle">${E(n)}</text><rect x="250" y="${y+6}" width="${barW}" height="20" rx="4" fill="${c}" style="transition:all 0.3s"/><text x="${250+barW+10}" y="${y+16}" text-anchor="start" fill="#34415a" font-size="14" font-weight="600" dominant-baseline="middle">${v}</text>`}).join('')}</svg></div>`};
@@ -62,6 +66,55 @@
     return map[newLabel] || newLabel;
   }
 
+  function getCollegeFacultyCount(college, year, deptLabel) {
+    const counts = (window.SRM_FACULTY_COUNTS && window.SRM_FACULTY_COUNTS[college] && window.SRM_FACULTY_COUNTS[college][year]) || {};
+    if (!deptLabel) {
+      return Object.values(counts).reduce((sum, n) => sum + (Number(n) || 0), 0);
+    }
+    if (counts[deptLabel] !== undefined) return Number(counts[deptLabel]) || 0;
+    const targetLower = deptLabel.toLowerCase().trim();
+    for (const [k, v] of Object.entries(counts)) {
+      if (k.toLowerCase().trim() === targetLower) return Number(v) || 0;
+    }
+    if (college === 'E&T') {
+      for (const [k, v] of Object.entries(counts)) {
+        if (typeof matchETDept === 'function' && matchETDept(k, deptLabel)) return Number(v) || 0;
+      }
+    }
+    return 0;
+  }
+
+  function matchETDept(rawDept, target) {
+    if (!rawDept || !target) return false;
+    const d = rawDept.toLowerCase().trim();
+    const t = target.toLowerCase().trim();
+    if (d === t) return true;
+    
+    const norm = (str) => {
+      let s = str.toLowerCase().replace(/^department of\s+/i, '').replace(/ engineering/g, '').trim();
+      if (s === 'cse' || s === 'cse core' || s === 'cse-core' || s === 'computer science and engineering') return 'cse';
+      if (s.includes('aiml') || s.includes('ai & ml') || s.includes('ai&ml') || s === 'aiml & ai') return 'aiml & ai';
+      if (s.includes('bda') || s.includes('big data') || s === 'bda&cc') return 'bda&cc';
+      if (s.includes('iot') || s.includes('csbs') || s === 'iot&csbs') return 'iot&csbs';
+      if (s.includes('cse-cs') || s.includes('cyber security') || s === 'cs') return 'cse-cs';
+      if (s.includes('cse-gt') || s.includes('gt') || s.includes('gaming')) return 'cse-gt';
+      if (s === 'it' || s.includes('information tech')) return 'it';
+      if (s === 'ece' || s.includes('electronics and comm')) return 'ece';
+      if (s === 'eee' || s.includes('electrical')) return 'eee';
+      if (s === 'mech' || s.includes('mechanical')) return 'mech';
+      if (s === 'civil') return 'civil';
+      if (s.includes('biotech')) return 'biotech';
+      if (s === 'bme' || s.includes('biomedical')) return 'bme';
+      if (s.includes('math')) return 'maths';
+      if (s.includes('chem')) return 'chem';
+      if (s.includes('efl') || s.includes('english') || s === 'lcs/efl' || s === 'lcs') return 'efl';
+      if (s.includes('phy')) return 'phy';
+      return s;
+    };
+
+    return norm(d) === norm(t) || d.includes(t) || t.includes(d);
+  }
+
   function normalizeETDepartment(record) {
     let deptStr = (record.department || '').trim();
     let progStr = (record.program || '').trim();
@@ -109,14 +162,15 @@
 
   // ── E&T Data Filtering & Normalization ────────────────────────────────────
   function normET(r, fallbackYear) {
-    const y = r._year || parseInt(r.Year) || fallbackYear;
-    const title = r['Title of the paper'] || r.Title || r['Title of the Paper'] || '—';
-    const authors = r['Authors (ALL)'] || r.Authors || r['Name of Claiming Author'] || '—';
-    const journal = r['Journal Name'] || r['Source title/Journal Name'] || r['Name of the Journal'] || '—';
-    const link = r['Paper Link'] || r['SCOPUS Article Link'] || r['DOI/LINK'] || r.DOI || r['First Page of the Paper LINK'] || '';
-    const dept = r._source_department || r['Dept.'] || r['Department of Authors'] || r['Claiming Author Department'] || '';
+    const y = r._year || r.year || parseInt(r.Year) || fallbackYear;
+    const title = r.title || r['Title of the paper'] || r.Title || r['Title of the Paper'] || '—';
+    const authors = r.authors || r['Authors (ALL)'] || r.Authors || r['Name of Claiming Author'] || '—';
+    const journal = r.journal || r['Journal Name'] || r['Source title/Journal Name'] || r['Name of the Journal'] || '—';
+    const link = r.link || r['Paper Link'] || r['SCOPUS Article Link'] || r['DOI/LINK'] || r.DOI || r['First Page of the Paper LINK'] || '';
+    const dept = r.department || r.dept || r._source_department || r['Dept.'] || r['Department of Authors'] || r['Claiming Author Department'] || '';
     return { year: y, title, authors, journal, link, dept };
   }
+
 
   function getETPublications(year, ignoreScope = false) {
     const p2024 = (window.ET_PUBLICATIONS_2024 || []).map(r => normET(r, 2024));
@@ -127,8 +181,7 @@
     const etScope = getETScope();
     let src = all;
     if (!ignoreScope && etScope && etScope.dept) {
-      const oldDept = getOldETLabel(etScope.dept).toLowerCase();
-      src = src.filter(r => (r.dept || '').toLowerCase() === oldDept);
+      src = src.filter(r => matchETDept(r.dept, etScope.dept));
     }
 
     return year ? src.filter(r => r.year === year) : src;
@@ -140,7 +193,7 @@
       title: r.title || r.Title || r['Patent title'] || r.patentTitle || '—',
       departmentGroup: r.department || r.Dept || r.Department || 'E&T',
       inventors: r.inventors || r.Inventor || r['Inventor(s)'] || r.inventor || '—',
-      status: r.category || r.status || 'Published',
+      status: r.status || r.patent_status || r.category || 'Published',
       applicationNo: r.applicationNo || r['Application No'] || '—',
       filingDate: r.filingDate || r['Filing Date'] || '—',
       proofLink: r.proofLink || ''
@@ -153,8 +206,7 @@
 
     const etScope = getETScope();
     if (!ignoreScope && etScope && etScope.dept) {
-      const oldDept = getOldETLabel(etScope.dept).toLowerCase();
-      src = src.filter(r => (r.departmentGroup || '').toLowerCase().includes(oldDept));
+      src = src.filter(r => matchETDept(r.departmentGroup, etScope.dept));
     }
 
     return year ? src.filter(r => r.year === year) : src;
@@ -180,8 +232,7 @@
 
     const etScope = getETScope();
     if (!ignoreScope && etScope && etScope.dept) {
-      const oldDept = getOldETLabel(etScope.dept).toLowerCase();
-      src = src.filter(r => (r.department || '').toLowerCase().includes(oldDept));
+      src = src.filter(r => matchETDept(r.department, etScope.dept));
     }
 
     return year ? src.filter(r => r.year === year) : src;
@@ -206,8 +257,7 @@
 
     const etScope = getETScope();
     if (!ignoreScope && etScope && etScope.dept) {
-      const oldDept = getOldETLabel(etScope.dept).toLowerCase();
-      src = src.filter(r => (r.department || '').toLowerCase().includes(oldDept));
+      src = src.filter(r => matchETDept(r.department, etScope.dept));
     }
 
     return year ? src.filter(r => r.year === year) : src;
@@ -240,14 +290,6 @@
     return clean;
   }
 
-  // Exact hardcoded faculty counts — not calculated from any dataset
-  const ET_FACULTY = { 2024: 343, 2025: 334, 2026: 366 };
-  const ET_FACULTY_BY_DEPT = {
-    2024: { 'CSE': 120, 'MECH': 37, 'IT': 16, 'ECE': 35, 'EEE': 10, 'PHY': 15, 'CIVIL': 13, 'BME': 8, 'CHEM': 24, 'LCS/EFL': 17, 'MATHS': 42, 'BIOTECH': 6 },
-    2025: { 'CSE': 52, 'CSE-AIML': 22, 'CSE-BDA': 18, 'CSE-IoT & CSBS': 7, 'CSE-CS': 13, 'CSE-GT': 3, 'MECH': 37, 'IT': 15, 'ECE': 39, 'EEE': 11, 'PHY': 16, 'CIVIL': 5, 'BME': 6, 'CHEM': 21, 'LCS/EFL': 18, 'MATHS': 43, 'BIOTECH': 8 },
-    2026: { 'CSE': 53, 'CSE-AIML': 25, 'CSE-BDA': 17, 'CSE-IoT & CSBS': 9, 'CSE-CS': 17, 'CSE-GT': 5, 'MECH': 37, 'IT': 15, 'ECE': 44, 'EEE': 11, 'PHY': 20, 'CIVIL': 13, 'BME': 7, 'CHEM': 24, 'LCS/EFL': 23, 'MATHS': 48, 'BIOTECH': 15 }
-  };
-
   function getETSummary(y) {
     const etScope = getETScope();
     const deptLabel = etScope && etScope.dept ? etScope.dept : 'E&T';
@@ -259,10 +301,7 @@
     const granted = pats.filter(r => (r.status || '').toLowerCase() === 'granted').length;
     const published = pats.filter(r => (r.status || '').toLowerCase() === 'published').length;
     
-    const deptCounts = ET_FACULTY_BY_DEPT[y] || {};
-    const facultyCount = etScope && etScope.dept
-      ? (deptCounts[etScope.dept] || 0)
-      : (ET_FACULTY[y] || 0);
+    const facultyCount = getCollegeFacultyCount('E&T', y, etScope && etScope.dept ? etScope.dept : null);
 
     let supervisorCount = supData.supervisorCount || 0;
     let scholarCount = supData.scholarCount || 0;
@@ -271,7 +310,7 @@
       const peeps = getETPeopleRecords(y);
       scholarCount = peeps.length;
       const uniqueSups = new Set();
-      peeps.forEach(p => { if (p.supervisor) uniqueSups.add(p.supervisor); });
+      peeps.forEach(p => { if (p.supervisor && p.supervisor !== '—') uniqueSups.add(p.supervisor); });
       supervisorCount = uniqueSups.size;
     }
 
@@ -289,45 +328,37 @@
     };
   }
 
- // ── Management Data Filtering ──────────────────────────────────────────────
- function getMgmtRecords(dataType, year, ignoreScope = false) {
-   const M = window.MANAGEMENT_RESEARCH_DATA;
-   if (!M) return [];
-   const mgmtScope = getManagementScope();
-   const deptFilter = (!ignoreScope && mgmtScope && mgmtScope.dept) ? mgmtScope.dept : null;
+  // ── Management Data Filtering ──────────────────────────────────────────────
+  function getMgmtRecords(dataType, year, ignoreScope = false) {
+    const M = window.MANAGEMENT_RESEARCH_DATA;
+    if (!M) return [];
+    const mgmtScope = getManagementScope();
+    const deptFilter = (!ignoreScope && mgmtScope && mgmtScope.dept) ? mgmtScope.dept : null;
 
-   let src = [];
-   if (dataType === 'publications') src = M.publications;
-   else if (dataType === 'patents') src = M.patents;
-   else if (dataType === 'funded') src = M.fundedProjects;
-   else if (dataType === 'people') src = getMgmtPeopleRecords(year, ignoreScope);
-   else return [];
+    let src = [];
+    if (dataType === 'publications') src = M.publications || [];
+    else if (dataType === 'patents') src = M.patents || [];
+    else if (dataType === 'funded') src = M.fundedProjects || [];
+    else if (dataType === 'people' || dataType === 'scholars') src = M.scholars || [];
+    else if (dataType === 'supervisors') src = M.supervisors || [];
+    else if (dataType === 'awards') src = M.awards || [];
+    else return [];
 
-   // Filter by department if a specific dept is selected
-   if (deptFilter && dataType !== 'people') {
-     src = src.filter(r => r.department === deptFilter);
-   }
+    if (deptFilter) {
+      const df = deptFilter.toLowerCase();
+      src = src.filter(r => {
+        const d = (r.department || r.departmentGroup || '').trim().toLowerCase();
+        return d === df || d.includes(df);
+      });
+    }
 
-   // Filter by year — if year not found in dataset return all-time for "all years" view
-   // but honour the year selector on the page
-   const filtered = year ? src.filter(r => r.year === year) : src;
-   return filtered;
- }
+    const filtered = year ? src.filter(r => r.year === year) : src;
+    return filtered;
+  }
 
-  // Exact hardcoded faculty counts for Management
-  const MGMT_FACULTY = { 2024: 35, 2025: 41, 2026: 39 };
-  const MGMT_FACULTY_BY_DEPT = {
-    2024: { MBA: 22, BBA: 13 },
-    2025: { MBA: 25, BBA: 16 },
-    2026: { MBA: 25, BBA: 14 }
-  };
-
-  // Exact hardcoded supervisor/scholar counts sourced from JSON
-  const MGMT_PEOPLE = {
-    2024: { supervisors: 10, scholars: 1 },
-    2025: { supervisors: 12, scholars: 6 },
-    2026: { supervisors: 16, scholars: 20 }
-  };
+  function getMgmtPeopleRecords(year, ignoreScope = false) {
+    return getMgmtRecords('people', year, ignoreScope);
+  }
 
   function getMgmtSummary(y) {
     const mgmtScope = getManagementScope();
@@ -335,54 +366,14 @@
     const pubs  = getMgmtRecords('publications', y);
     const pats  = getMgmtRecords('patents', y);
     const fund  = getMgmtRecords('funded', y);
-    const granted  = pats.filter(r => r.status === 'Granted').length;
-    const published = pats.filter(r => r.status === 'Published').length;
-    const people = MGMT_PEOPLE[y] || { supervisors: 0, scholars: 0 };
-    const deptCounts = MGMT_FACULTY_BY_DEPT[y] || {};
-    const faculty = mgmtScope && mgmtScope.dept
-      ? (deptCounts[mgmtScope.dept] || 0)
-      : (MGMT_FACULTY[y] || 0);
+    const sups  = getMgmtRecords('supervisors', y);
+    const schs  = getMgmtRecords('people', y);
+    const granted  = pats.filter(r => (r.status || '').toLowerCase() === 'granted').length;
+    const published = pats.filter(r => (r.status || '').toLowerCase() === 'published').length;
 
-    let supervisors = people.supervisors;
-    let scholars = people.scholars;
-    if (mgmtScope && mgmtScope.dept) {
-      const peeps = getMgmtPeopleRecords(y);
-      scholars = peeps.length;
-      const uniqueSups = new Set();
-      peeps.forEach(p => { if (p.supervisor) uniqueSups.add(p.supervisor); });
-      supervisors = uniqueSups.size;
-    }
+    const faculty = getCollegeFacultyCount('Management', y, mgmtScope && mgmtScope.dept ? mgmtScope.dept : null);
 
-    return { faculty, publications: pubs.length, patents: pats.length, granted, published, fundedProjects: fund.length, supervisors, scholars, deptLabel };
-  }
-
-  function getMgmtPeopleRecords(year, ignoreScope = false) {
-    const data = window.MGMT_SUPERVISORS_SCHOLARS;
-    if (!data || !data.academic_years) return [];
-    const mgmtScope = getManagementScope();
-    const deptFilter = (!ignoreScope && mgmtScope && mgmtScope.dept) ? mgmtScope.dept : null;
-
-    const yearKey = String(year);
-    const yearData = data.academic_years[yearKey];
-    if (!yearData || !yearData.supervisors) return [];
-
-    const rows = [];
-    yearData.supervisors.forEach(sup => {
-      if (!sup.scholars || sup.scholars.length === 0) return;
-      sup.scholars.forEach(scholar => {
-        const dept = scholar.department || sup.department || '—';
-        if (deptFilter && dept !== deptFilter) return;
-        rows.push({
-          name:         scholar.name,
-          registration: scholar.register_no,
-          department:   dept,
-          supervisor:   sup.name,
-          mode:         scholar.mode || '—',
-          year:         year
-        });
-      });
-    });
-    return rows;
+    return { faculty, publications: pubs.length, patents: pats.length, granted, published, fundedProjects: fund.length, supervisors: sups.length, scholars: schs.length, deptLabel };
   }
  // ── Dataset-Specific Scoped Filtering (FLABS / Module 3) ──────────────────
  function getScopedRecords(type, dataset, year) {
@@ -406,79 +397,24 @@
     return dataset.filter(r => r.year === year);
  }
 
- const FLABS_FACULTY_BY_DEPT = {
-    2024: {
-      'Commerce': 40,
-      'Commerce - PA, ISM, IAF & SF': 60,
-      'BCA': 18,
-      'Commerce (A&F)': 19,
-      'Data Science': 12,
-      'B.Sc Cyber Security': 10,
-      'B.Sc Computer Science': 20,
-      'B.Sc. (AI & ML)': 15,
-      'MCA': 10,
-      'Viscom': 20,
-      'Fashion Designing': 8,
-      'LCS (English)': 18,
-      'Biotechnology': 5,
-      'Psychology': 2,
-      'Mathematics': 12
-    },
-    2025: {
-      'Commerce': 42,
-      'Commerce - PA, ISM, IAF & SF': 65,
-      'BCA': 21,
-      'Commerce (A&F)': 20,
-      'Data Science': 15,
-      'B.Sc Cyber Security': 14,
-      'B.Sc Computer Science': 22,
-      'B.Sc. (AI & ML)': 17,
-      'MCA': 12,
-      'Viscom': 23,
-      'Fashion Designing': 9,
-      'LCS (English)': 21,
-      'Biotechnology': 6,
-      'Psychology': 3,
-      'Mathematics': 13
-    },
-    2026: {
-      'Commerce': 44,
-      'Commerce - PA, ISM, IAF & SF': 69,
-      'BCA': 23,
-      'Commerce (A&F)': 21,
-      'Data Science': 16,
-      'B.Sc Cyber Security': 16,
-      'B.Sc Computer Science': 24,
-      'B.Sc. (AI & ML)': 19,
-      'MCA': 13,
-      'Viscom': 25,
-      'Fashion Designing': 10,
-      'LCS (English)': 23,
-      'Biotechnology': 7,
-      'Psychology': 4,
-      'Mathematics': 14
-    }
-  };
-
  // Build live KPI counts for the home page (FLABS path)
  function getScopedSummary(y) {
    const SCOPE = window.SRM_SCOPE;
    const dept = SCOPE && SCOPE.getSelectedDept();
+   const deptLabel = dept ? dept.label : null;
 
    const pubs     = SCOPE ? SCOPE.filterPublicationsByDepartment(D.publications, dept, y) : D.publications.filter(r => r.year === y);
-   const awards   = D.awards.filter(r => r.year === y);
+   const awards   = deptLabel ? D.awards.filter(r => r.year === y && (r.department === deptLabel || r.departmentGroup === deptLabel)) : D.awards.filter(r => r.year === y);
    const funded   = SCOPE ? SCOPE.filterFundedProjectsByDepartment(D.funded, dept, y) : D.funded.filter(r => r.year === y);
 
    const patents  = SCOPE ? SCOPE.filterPatentsByDepartment(D.patents, dept, y) : D.patents.filter(r => r.year === y);
    const scholars = SCOPE ? SCOPE.filterResearchCommunityByDepartment(D.scholars, dept, y) : D.scholars.filter(r => r.year === y);
 
-   const granted  = patents.filter(r => r.status === 'Granted').length;
-   const published = patents.filter(r => r.status === 'Published').length;
+   const granted  = patents.filter(r => (r.status || '').toLowerCase() === 'granted').length;
+   const published = patents.filter(r => (r.status || '').toLowerCase() === 'published').length;
    const supervisorSet = new Set(scholars.map(r => r.supervisor).filter(Boolean));
 
-   const facultyCount = dept
-     ? (FLABS_FACULTY_BY_DEPT[y] && FLABS_FACULTY_BY_DEPT[y][dept.label] !== undefined ? FLABS_FACULTY_BY_DEPT[y][dept.label] : 0)
-     : D.summary[y].faculty;
+   const facultyCount = getCollegeFacultyCount('FLABS', y, deptLabel);
 
    return {
      faculty:        facultyCount,
@@ -497,159 +433,162 @@
  // ── Current page tracker ───────────────────────────────────────────────────
  let _currentPage = 'home';
 
- // ══════════════════════════════════════════════════════════════════════════
- // MANAGEMENT HOME PAGE
- // ══════════════════════════════════════════════════════════════════════════
- function mgmtHome() {
-   const mgmtScope = getManagementScope();
-   const scopeLabel = mgmtScope.dept ? `<strong>${E(mgmtScope.dept)}</strong>` : '<strong>Management</strong>';
-   const introText = `Viewing research performance for ${scopeLabel} (Faculty of Management). Publications, Patents, and Funded Projects are filtered by the selected scope.`;
-   return `${intro(introText)}<div class="filterbar home-filter">${filter('home-year')}</div><div class="metric-grid home-kpis" id="home-kpis"></div><div class="panel-grid" style="grid-template-columns: 1fr"><section class="panel focus-panel"><h2>3-Year Research Trends</h2><p class="sub">Performance comparison across 2024–2026</p><div id="home-trend-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:20px"></div></section></div>`;
- }
+   // ══════════════════════════════════════════════════════════════════════════
+  // MANAGEMENT HOME PAGE
+  // ══════════════════════════════════════════════════════════════════════════
+  function mgmtHome() {
+    const mgmtScope = getManagementScope();
+    const scopeLabel = mgmtScope.dept ? `<strong>${E(mgmtScope.dept)}</strong>` : '<strong>Management</strong>';
+    const introText = `Viewing research performance for ${scopeLabel} (Faculty of Management). Publications, Patents, and Funded Projects are filtered by the selected scope.`;
+    return `${intro(introText)}<div class="filterbar home-filter">${filter('home-year')}</div><div class="metric-grid home-kpis" id="home-kpis"></div><div class="panel-grid" style="grid-template-columns: 1fr"><section class="panel focus-panel"><h2>3-Year Research Trends</h2><p class="sub">Performance comparison across 2024–2026</p><div id="home-trend-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:20px"></div></section></div>`;
+  }
 
- function bindMgmtHome() {
-   const q = document.querySelector('#home-year');
-   const r = () => {
-     const y = +q.value;
-     const s = getMgmtSummary(y);
-
+  function bindMgmtHome() {
+    const q = document.querySelector('#home-year');
+    const r = () => {
+      const y = +q.value;
+      const s = getMgmtSummary(y);
       document.querySelector('#home-kpis').innerHTML = [
-        card('Total Faculty',        s.faculty,        s.deptLabel + ' · Faculty members',            'people'),
-        card('Publications',         s.publications,   s.deptLabel + ' · Publications',               'publications'),
-        card('Patent records',       s.patents,        s.deptLabel + ' · Patents recorded',           'patents'),
-        card('Granted patents',      s.granted,        s.deptLabel + ' · Granted status',             'patents'),
-        card('Published patents',    s.published,      s.deptLabel + ' · Published status',           'patents'),
-        card('Funded projects',      s.fundedProjects, s.deptLabel + ' · Projects awarded',           'funded'),
-        card('Research Supervisors', s.supervisors,    s.deptLabel + ' · Research supervisors',       'people'),
-        card('Research Scholars',    s.scholars,       s.deptLabel + ' · Enrolled PhD scholars',      'people')
+        card('Total Faculty',        s.faculty,        s.deptLabel + ' · Faculty members',       'people'),
+        card('Publications',         s.publications,   s.deptLabel + ' · Publications',          'publications'),
+        card('Patent records',       s.patents,        s.deptLabel + ' · Patents recorded',      'patents'),
+        card('Granted patents',      s.granted,        s.deptLabel + ' · Granted status',        'patents'),
+        card('Published patents',    s.published,      s.deptLabel + ' · Published status',      'patents'),
+        card('Funded projects',      s.fundedProjects, s.deptLabel + ' · Projects awarded',      'funded'),
+        card('Research Supervisors', s.supervisors,    s.deptLabel + ' · Research supervisors',  'people'),
+        card('Research Scholars',    s.scholars,       s.deptLabel + ' · Enrolled PhD scholars', 'people')
       ].join('');
-     let s24 = getMgmtSummary(2024), s25 = getMgmtSummary(2025), s26 = getMgmtSummary(2026);
-     document.querySelector('#home-trend-charts').innerHTML = [
-       threeYearChart([s24.publications, s25.publications, s26.publications], 'Publications', '#0ea5e9'),
-       threeYearChart([s24.patents, s25.patents, s26.patents], 'Patents', '#10b981'),
-       threeYearChart([s24.fundedProjects, s25.fundedProjects, s26.fundedProjects], 'Funded Projects', '#f59e0b'),
-       threeYearChart([s24.scholars, s25.scholars, s26.scholars], 'Research Scholars', '#8b5cf6')
-     ].join('');
+      
+      const s24 = getMgmtSummary(2024);
+      const s25 = getMgmtSummary(2025);
+      const s26 = getMgmtSummary(2026);
 
-     document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
-   };
-   q.onchange = r;
-   r();
- }
+      document.querySelector('#home-trend-charts').innerHTML = [
+        threeYearChart([s24.publications, s25.publications, s26.publications], 'Publications', '#0ea5e9'),
+        threeYearChart([s24.patents, s25.patents, s26.patents], 'Patents', '#10b981'),
+        threeYearChart([s24.fundedProjects, s25.fundedProjects, s26.fundedProjects], 'Funded Projects', '#f59e0b'),
+        threeYearChart([s24.scholars, s25.scholars, s26.scholars], 'Research Scholars', '#8b5cf6')
+      ].join('');
 
- // ══════════════════════════════════════════════════════════════════════════
- // MANAGEMENT DETAIL PAGES
- // ══════════════════════════════════════════════════════════════════════════
- const mgmtConfig = {
-   publications: {
-     label: 'Publications (Management)',
-     desc: 'Publications by Faculty of Management researchers, filtered by selected department.',
-     go: 'publications',
-     cols: ['Year', 'Publication', 'Authors', 'Journal', 'Link'],
-     row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.authors)}</td><td>${E(r.journal)}</td><td>${link(r.link)}</td></tr>`,
-     key: 'journal',
-     caption: 'Leading journals',
-     metrics: (y, a) => [
-        ['Publications', a.length, 'Dept-filtered total'],
-        ['Journals', Object.keys(by(a, 'journal')).length, 'Represented journals']
+      document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
+    };
+    if (q) q.onchange = (e) => { _activeYear = +e.target.value; r(); };
+    r();
+  }
+
+  // ══════════════════════════════════════════════════════════════════════════
+  // MANAGEMENT DETAIL PAGES
+  // ══════════════════════════════════════════════════════════════════════════
+  const mgmtConfig = {
+    publications: {
+      label: 'Publications (Management)',
+      desc: 'Publications by Faculty of Management researchers, filtered by selected department.',
+      go: 'publications',
+      cols: ['Year', 'Publication', 'Authors', 'Journal', 'Link'],
+      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.authors)}</td><td>${E(r.journal || r.journal_name)}</td><td>${link(r.link || r.publication_link)}</td></tr>`,
+      key: 'journal',
+      caption: 'Leading journals',
+      metrics: (y, a) => [
+         ['Publications', a.length, 'Dept-filtered total'],
+         ['Journals', Object.keys(by(a, 'journal')).length, 'Represented journals']
+       ]
+    },
+    patents: {
+      label: 'Patent portfolio (Management)',
+      desc: 'Patents filed and granted by Faculty of Management researchers, filtered by selected department.',
+      go: 'patents',
+      cols: ['Year', 'Patent title', 'Department', 'Inventor(s)', 'Status'],
+      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.department || r.departmentGroup)}</td><td>${E(r.inventors || r.inventor_name)}</td><td><span class="badge ${(r.status||'').toLowerCase()}">${E(r.status)}</span></td></tr>`,
+      key: 'department',
+      caption: 'Patent status breakdown',
+      metrics: (y, a) => [
+        ['Patent records', a.length, 'Year total'],
+        ['Granted patents', a.filter(x => (x.status||'').toLowerCase() === 'granted').length, 'Granted'],
+        ['Published patents', a.filter(x => (x.status||'').toLowerCase() === 'published').length, 'Published'],
+        ['Other / filed', a.filter(x => !['granted', 'published'].includes((x.status||'').toLowerCase())).length, 'Other status']
       ]
-   },
-   patents: {
-     label: 'Patent portfolio (Management)',
-     desc: 'Patents filed and granted by Faculty of Management researchers, filtered by selected department.',
-     go: 'patents',
-     cols: ['Year', 'Patent title', 'Department', 'Inventor(s)', 'Status'],
-     row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.departmentGroup)}</td><td>${E(r.inventors)}</td><td><span class="badge ${(r.status||'').toLowerCase()}">${E(r.status)}</span></td></tr>`,
-     key: 'departmentGroup',
-     caption: 'Patent status breakdown',
-     metrics: (y, a) => [
-       ['Patent records', a.length, 'Year total'],
-       ['Granted patents', a.filter(x => x.status === 'Granted').length, 'Granted'],
-       ['Published patents', a.filter(x => x.status === 'Published').length, 'Published'],
-       ['Other / filed', a.filter(x => !['Granted', 'Published'].includes(x.status)).length, 'Other status']
-     ]
-   },
-   funded: {
-     label: 'Funded projects (Management)',
-     desc: 'Research funding awarded to Faculty of Management, filtered by selected department.',
-     go: 'funded',
-     cols: ['Year', 'Project', 'Principal investigator', 'Department', 'Funding agency', 'Amount'],
-     row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator) || '—'}</td><td>${E(r.departmentGroup) || '—'}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td></tr>`,
-     key: 'agency',
-     caption: 'Funding agencies',
-     metrics: (y, a) => [
-       ['Funded projects', a.length, 'Dept-filtered total'],
-       ['Detailed projects', a.length, 'Available records'],
-       ['Funding agencies', Object.keys(by(a, 'agency')).length, 'Supporting agencies'],
-       ['Selected year', y, 'Current filter']
-     ]
-   },
+    },
+    funded: {
+      label: 'Funded projects (Management)',
+      desc: 'Research funding awarded to Faculty of Management, filtered by selected department.',
+      go: 'funded',
+      cols: ['Year', 'Project', 'Principal investigator', 'Department', 'Funding agency', 'Amount'],
+      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator || r.investigator_name) || '—'}</td><td>${E(r.department || r.departmentGroup) || '—'}</td><td>${E(r.agency || r.funding_agency)}</td><td>${E(r.amount)}</td></tr>`,
+      key: 'agency',
+      caption: 'Funding agencies',
+      metrics: (y, a) => [
+        ['Funded projects', a.length, 'Dept-filtered total'],
+        ['Detailed projects', a.length, 'Available records'],
+        ['Funding agencies', Object.keys(by(a, 'agency')).length, 'Supporting agencies'],
+        ['Selected year', y, 'Current filter']
+      ]
+    },
     people: {
       label: 'Supervisors & scholars (Management)',
       desc: 'Research supervisors and enrolled PhD scholars for Faculty of Management.',
       go: 'people',
       cols: ['Scholar', 'Registration No', 'Department', 'Supervisor', 'Mode'],
-      row: r => `<tr><td class="title-cell">${E(r.name)}</td><td>${E(r.registration) || '—'}</td><td>${E(r.department) || '—'}</td><td>${E(r.supervisor) || '—'}</td><td><span class="badge ${(r.mode||'').toLowerCase().includes('full') ? 'granted' : 'published'}">${E(r.mode)}</span></td></tr>`,
+      row: r => `<tr><td class="title-cell">${E(r.name)}</td><td>${E(r.registration) || '—'}</td><td>${E(r.department || r.departmentGroup) || '—'}</td><td>${E(r.supervisor) || '—'}</td><td><span class="badge ${(r.category||r.mode||'').toLowerCase().includes('full') ? 'granted' : 'published'}">${E(r.category || r.mode || 'Full-time')}</span></td></tr>`,
       key: 'supervisor',
       caption: 'Scholars by supervisor',
       metrics: (y, a) => [
-        ['Research Supervisors', MGMT_PEOPLE[y] ? MGMT_PEOPLE[y].supervisors : Object.keys(a.reduce((s,r)=>{ if(r.supervisor)s[r.supervisor]=1; return s; },{})).length, 'Active research guides for ' + y],
-        ['Registered Scholars',  MGMT_PEOPLE[y] ? MGMT_PEOPLE[y].scholars  : a.length, 'Enrolled scholars for ' + y],
-        ['Full-Time scholars',   a.filter(x => (x.mode||'').toLowerCase().includes('full')).length, 'Full-time mode'],
-        ['Part-Time scholars',   a.filter(x => (x.mode||'').toLowerCase().includes('part')).length, 'Part-time mode']
+        ['Research Supervisors', Object.keys(a.reduce((s,r)=>{ if(r.supervisor && r.supervisor !== '—')s[r.supervisor]=1; return s; },{})).length, 'Active research guides for ' + y],
+        ['Registered Scholars',  a.length, 'Enrolled scholars for ' + y],
+        ['Full-Time scholars',   a.filter(x => (x.category||x.mode||'').toLowerCase().includes('full')).length, 'Full-time mode'],
+        ['Part-Time scholars',   a.filter(x => (x.category||x.mode||'').toLowerCase().includes('part')).length, 'Part-time mode']
       ]
     }
- };
+  };
 
- function mgmtDetail(type) {
-   const c = mgmtConfig[type];
-   if (!c) return `<div class="empty">Unknown section.</div>`;
-   const mgmtBadge = `<span class="badge" style="background:#eef4ff;color:#1E5AA8;border:1px solid #c8d8ed;margin-left:8px;font-size:11.5px;padding:3px 8px;vertical-align:middle;">Management</span>`;
-   return `${intro(c.desc + mgmtBadge)}<div class="filterbar table-filters">${filter(type + '-year')}<input id="${type}-search" placeholder="Search ${type === 'funded' ? 'project or investigator' : type}"></div><div class="metric-grid" id="${type}-kpis"></div><div class="panel-grid" style="grid-template-columns: minmax(250px, 0.7fr) 1.3fr; align-items: start;"><section class="panel focus-panel" style="padding:16px;"><h2>3-Year Trend</h2><p class="sub">Performance across 2024–2026</p><div id="${type}-chart"></div></section><section class="panel" style="padding:16px;"><h2>Department Comparison</h2><p class="sub">Ranked performance for selected year</p><div id="${type}-list"></div></section></div><section style="margin-top:18px"><div class="table-wrap"><table><thead><tr>${c.cols.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody id="${type}-table"></tbody></table></div><p class="footer-note" id="${type}-count"></p></section>`;
- }
+  function mgmtDetail(type) {
+    const c = mgmtConfig[type];
+    if (!c) return `<div class="empty">Unknown section.</div>`;
+    const mgmtBadge = `<span class="badge" style="background:#eef4ff;color:#1E5AA8;border:1px solid #c8d8ed;margin-left:8px;font-size:11.5px;padding:3px 8px;vertical-align:middle;">Management</span>`;
+    return `${intro(c.desc + mgmtBadge)}<div class="filterbar table-filters">${filter(type + '-year')}<input id="${type}-search" placeholder="Search ${type === 'funded' ? 'project or investigator' : type}"></div><div class="metric-grid" id="${type}-kpis"></div><div class="panel-grid" style="grid-template-columns: minmax(250px, 0.7fr) 1.3fr; align-items: start;"><section class="panel focus-panel" style="padding:16px;"><h2>3-Year Trend</h2><p class="sub">Performance across 2024–2026</p><div id="${type}-chart"></div></section><section class="panel" style="padding:16px;"><h2>Department Comparison</h2><p class="sub">Ranked performance for selected year</p><div id="${type}-list"></div></section></div><section style="margin-top:18px"><div class="table-wrap"><table><thead><tr>${c.cols.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody id="${type}-table"></tbody></table></div><p class="footer-note" id="${type}-count"></p></section>`;
+  }
 
- function bindMgmtDetail(type) {
-   const c = mgmtConfig[type];
-   if (!c) return;
-   const yr = document.querySelector('#' + type + '-year');
-   const search = document.querySelector('#' + type + '-search');
+  function bindMgmtDetail(type) {
+    const c = mgmtConfig[type];
+    if (!c) return;
+    const yr = document.querySelector('#' + type + '-year');
+    const search = document.querySelector('#' + type + '-search');
 
-   const r = () => {
-     const y = +yr.value;
-     const base = type === 'people' ? getMgmtPeopleRecords(y) : getMgmtRecords(type === 'funded' ? 'funded' : type, y);
-     const z = search.value.toLowerCase();
-     const rows = base.filter(x => !z || Object.values(x).join(' ').toLowerCase().includes(z));
+    const r = () => {
+      const y = +yr.value;
+      const base = type === 'people' ? getMgmtPeopleRecords(y) : getMgmtRecords(type === 'funded' ? 'funded' : type, y);
+      const z = (search ? search.value : '').toLowerCase();
+      const rows = base.filter(x => !z || Object.values(x).join(' ').toLowerCase().includes(z));
 
-     const mgmtScope = getManagementScope();
-     const deptLabel = mgmtScope && mgmtScope.dept ? mgmtScope.dept : 'Management';
+      const mgmtScope = getManagementScope();
+      const deptLabel = mgmtScope && mgmtScope.dept ? mgmtScope.dept : 'Management';
 
-     document.querySelector('#' + type + '-kpis').innerHTML = c.metrics(y, base).map(x => card(x[0], x[1], x[2], c.go)).join('');
+      document.querySelector('#' + type + '-kpis').innerHTML = c.metrics(y, base).map(x => card(x[0], x[1], x[2], c.go)).join('');
 
-     // 3-Year Trend Data
-     const base24 = type === 'people' ? getMgmtPeopleRecords(2024) : getMgmtRecords(type === 'funded' ? 'funded' : type, 2024);
-     const base25 = type === 'people' ? getMgmtPeopleRecords(2025) : getMgmtRecords(type === 'funded' ? 'funded' : type, 2025);
-     const base26 = type === 'people' ? getMgmtPeopleRecords(2026) : getMgmtRecords(type === 'funded' ? 'funded' : type, 2026);
-     
-     document.querySelector('#' + type + '-chart').innerHTML = threeYearChart([base24.length, base25.length, base26.length], c.label, '#0ea5e9', false);
+      // 3-Year Trend Data
+      const base24 = type === 'people' ? getMgmtPeopleRecords(2024) : getMgmtRecords(type === 'funded' ? 'funded' : type, 2024);
+      const base25 = type === 'people' ? getMgmtPeopleRecords(2025) : getMgmtRecords(type === 'funded' ? 'funded' : type, 2025);
+      const base26 = type === 'people' ? getMgmtPeopleRecords(2026) : getMgmtRecords(type === 'funded' ? 'funded' : type, 2026);
+      
+      document.querySelector('#' + type + '-chart').innerHTML = threeYearChart([base24.length, base25.length, base26.length], c.label, '#0ea5e9', false);
 
-     // Department Comparison (Selected Year)
-     const unfilteredBase = type === 'people' ? getMgmtPeopleRecords(y, true) : getMgmtRecords(type === 'funded' ? 'funded' : type, y, true);
-     const deptKey = type === 'patents' ? 'departmentGroup' : 'department';
-     const deptData = rank(by(unfilteredBase, deptKey)).filter(x => x[0] && x[0] !== '—');
-     document.querySelector('#' + type + '-list').innerHTML = departmentComparisonChart(deptData, 'Departments', '#10b981');
+      // Department Comparison (Selected Year)
+      const unfilteredBase = type === 'people' ? getMgmtPeopleRecords(y, true) : getMgmtRecords(type === 'funded' ? 'funded' : type, y, true);
+      const deptKey = type === 'patents' ? 'departmentGroup' : 'department';
+      const deptData = rank(by(unfilteredBase, deptKey)).filter(x => x[0] && x[0] !== '—');
+      document.querySelector('#' + type + '-list').innerHTML = departmentComparisonChart(deptData, 'Departments', '#10b981');
 
-     const emptyMsg = `No matching ${c.label.toLowerCase()} found for ${y} in ${deptLabel}.`;
-     document.querySelector('#' + type + '-table').innerHTML = rows.map(c.row).join('') || `<tr><td colspan="${c.cols.length}" class="empty">${emptyMsg}</td></tr>`;
+      const emptyMsg = `No matching ${c.label.toLowerCase()} found for ${y} in ${deptLabel}.`;
+      document.querySelector('#' + type + '-table').innerHTML = rows.map(c.row).join('') || `<tr><td colspan="${c.cols.length}" class="empty">${emptyMsg}</td></tr>`;
 
-     document.querySelector('#' + type + '-count').textContent = `Showing ${rows.length} of ${base.length} records for ${y} · ${deptLabel}`;
-     document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
-   };
-   search.oninput = r;
-   yr.onchange = r;
-   r();
- }
+      document.querySelector('#' + type + '-count').textContent = `Showing ${rows.length} of ${base.length} records for ${y} · ${deptLabel}`;
+      document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
+    };
+    if (search) search.oninput = r;
+    if (yr) yr.onchange = (e) => { _activeYear = +e.target.value; r(); };
+    r();
+  }
 
-  // ══════════════════════════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════════════════════════════
   // E&T HOME & DETAIL PAGES
   // ══════════════════════════════════════════════════════════════════════════
   const etConfig = {
@@ -664,7 +603,7 @@
       getRecords: (y, ignoreScope) => getETPublications(y, ignoreScope),
       metrics: (y, a) => [
         ['Publications', a.length, 'E&T total for ' + y],
-        ['Journals', Object.keys(by(a, 'journal')).length, 'Represented journals']
+        ['Journals', Object.keys(by(a, 'journal_name')).length, 'Represented journals']
       ]
     },
     patents: {
@@ -885,6 +824,15 @@
        card('Funded projects',s.fundedProjects,instNote + 'Projects awarded','funded')
      ].join('');
 
+     const chartEl = document.querySelector('#home-chart');
+     if (chartEl) chartEl.innerHTML = focus('home', [], y);
+
+     const listEl = document.querySelector('#home-list');
+     if (listEl) {
+       const pubs = D.publications.filter(x => x.year === y);
+       listEl.innerHTML = list(rank(by(pubs, 'department')), 'publications');
+     }
+
      let s24 = getScopedSummary(2024), s25 = getScopedSummary(2025), s26 = getScopedSummary(2026);
      document.querySelector('#home-trend-charts').innerHTML = [
        threeYearChart([s24.publications, s25.publications, s26.publications], 'Publications', '#0ea5e9'),
@@ -907,8 +855,13 @@
    const search=document.querySelector('#'+id.replace('-year','-search'));
    if(search)search.value='';
  },true);
-
- const records={publications:D.publications,patents:D.patents,awards:D.awards,people:D.scholars,funded:D.funded};
+  const records = new Proxy({}, {
+    get(target, prop) {
+      const data = window.RESEARCH_DATA || {};
+      if (prop === 'people') return data.scholars || [];
+      return data[prop] || [];
+    }
+  });
 
  const config={
    publications:{
@@ -964,7 +917,7 @@
      row:r=>`<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator)||'—'}</td><td>${E(r.departmentGroup)||'—'}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td></tr>`,
      key:'agency',
      caption:'Funding agencies',
-     metrics:(y,a)=>[['Funded projects',D.summary[y].fundedProjects,'Institution-wide total'],['Detailed projects',a.length,'Available records'],['Funding agencies',Object.keys(by(a,'agency')).length,'Supporting agencies'],['Selected year',y,'Current filter']]
+     metrics:(y,a)=>[['Funded projects',a.length,'Institution-wide total'],['Detailed projects',a.length,'Available records'],['Funding agencies',Object.keys(by(a,'agency')).length,'Supporting agencies'],['Selected year',y,'Current filter']]
    }
  };
 
@@ -1226,6 +1179,19 @@
   function show(p){
     _currentPage = p;
 
+    if (window.SupabaseDataService && !window.SupabaseDataService.isReady) {
+      nav.forEach(n => n.classList.toggle('active', n.dataset.page === p));
+      app.innerHTML = `
+        <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:360px;gap:16px;text-align:center;padding:60px 20px;">
+          <div style="width:40px;height:40px;border:3px solid #e2e8f0;border-top-color:#0284c7;border-radius:50%;animation:srmSpin 0.8s linear infinite;"></div>
+          <style>@keyframes srmSpin{to{transform:rotate(360deg)}}</style>
+          <div style="font-weight:700;font-size:16px;color:#0f172a;">Connecting to Supabase Cloud Backend...</div>
+          <div style="font-size:13.5px;color:#64748b;max-width:480px;">Fetching 3,532 live records across 8 database tables directly from <code>pndvjkcoroadxonvpphb.supabase.co</code></div>
+        </div>
+      `;
+      return;
+    }
+
     if (p === 'scholar-reports') {
       const user = window.SRM_AUTH ? window.SRM_AUTH.getCurrentUser() : null;
       if (user && window.SCHOLAR_MODULE) {
@@ -1379,14 +1345,12 @@
 (function () {
   'use strict';
   var AUTH = window.SRM_AUTH;
-  if (!AUTH) return;
-
-  var user    = AUTH.getCurrentUser();
+  var user = (AUTH && AUTH.getCurrentUser()) || { role: 'chairman', name: 'Chairman', scope: 'ALL' };
   var userBar = document.getElementById('user-bar');
   var userBarInfo = document.getElementById('user-bar-info');
   var logoutBtn   = document.getElementById('logout-btn');
 
-  if (!user || !userBar) return;
+  if (!userBar) return;
 
   var ROLE_LABELS = {
     chairman:             'Chairman',
@@ -1399,7 +1363,9 @@
   };
 
   var roleLabel = ROLE_LABELS[user.role] || user.role;
-  userBarInfo.textContent = (user.role === 'chairman' || user.name === roleLabel) ? 'Chairman' : (user.name + ' · ' + roleLabel);
+  if (userBarInfo) {
+    userBarInfo.textContent = (user.role === 'chairman' || user.name === roleLabel) ? 'Chairman' : (user.name + ' · ' + roleLabel);
+  }
   userBar.style.display = 'flex';
 
   // Hover effect for logout button
@@ -1412,7 +1378,13 @@
     });
     logoutBtn.addEventListener('click', function () {
       if (window.confirm('Sign out of the SRM R&D Portal?')) {
-        AUTH.logout();
+        if (AUTH && typeof AUTH.logout === 'function') {
+          AUTH.logout();
+        } else {
+          sessionStorage.removeItem('srm_rd_current_user');
+          sessionStorage.setItem('srm_rd_logged_out', '1');
+          window.location.replace('/login.html');
+        }
       }
     });
   }
@@ -1429,15 +1401,19 @@
   var SCOPE   = window.SRM_SCOPE;
   var SIDEBAR = window.SRM_SIDEBAR;
 
-  if (!AUTH || !SCOPE || !SIDEBAR) return;
+  if (!SCOPE) return;
 
-  var user = AUTH.getCurrentUser();
-  if (!user) return;
+  var user = (AUTH && AUTH.getCurrentUser()) || { role: 'chairman', name: 'Chairman', scope: 'ALL' };
 
-  // ── 1. Determine initial scope from user profile ────────────────────────────
+  // ── 1. Determine initial scope from user profile or saved session ─────────
   var tree = SCOPE.getTree();
+  var savedNodeId = null;
+  try { savedNodeId = sessionStorage.getItem('srm_rd_selected_node_id'); } catch(e){}
+  var savedNode = savedNodeId ? SCOPE.findNodeById(tree, savedNodeId) : null;
 
-  if (user.scope === 'DEPARTMENT_ONLY' && user.department) {
+  if (savedNode) {
+    SCOPE.setSelectedNode(savedNode);
+  } else if (user.scope === 'DEPARTMENT_ONLY' && user.department) {
     // HOD: auto-select their own department
     var hodDept = SCOPE.findNodeByLabel(tree, user.department, user.group);
     if (hodDept) {
@@ -1461,8 +1437,13 @@
       SCOPE.selectGroup('FLABS');
     }
   } else {
-    // Chairman: starts with ALL CAMPUSES (root node) selected by default on the dashboard
-    SCOPE.setSelectedNode(tree);
+    // Chairman default: select FLABS group so research stats & KPI cards are immediately visible
+    var flabsGrp = SCOPE.findNodeByKey(tree, 'FLABS');
+    if (flabsGrp) {
+      SCOPE.setSelectedNode(flabsGrp);
+    } else {
+      SCOPE.setSelectedNode(tree);
+    }
   }
 
   // ── 2. Render the sidebar ───────────────────────────────────────────────────

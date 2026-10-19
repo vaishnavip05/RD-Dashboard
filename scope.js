@@ -18,72 +18,24 @@
   // - "Computer Applications" and "Efl" are kept unmapped in Research Community.
   var FLABS_DEPARTMENTS = [
     {
-      id: 'commerce',
-      label: 'Commerce',
+      id: 'mca_mca_genai',
+      label: 'MCA & MCA Gen AI',
       type: 'dept',
       groupKey: 'FLABS',
       hasData: true,
-      publicationAliases: ['commerce'],
-      patentAliases: [
-        'commerce- shift 1',
-        'commerce (shift 2 gen)',
-        'commerce shift 1 gen',
-        'commerce -shift ii',
-        'commerce shift ii gen',
-        'commerce shift i',
-        'commerce shift ii',
-        'commerce (shift 2 cs)'
-      ],
-      scholarAliases: [
-        'commerce shift1',
-        'department of commerce',
-        'commerce shift2'
-      ]
+      publicationAliases: ['mca', 'mca & mca gen ai', 'computer science and applications'],
+      patentAliases: ['mca', 'mca & mca gen ai'],
+      scholarAliases: ['mca', 'mca & mca gen ai']
     },
     {
-      id: 'commerce_pa',
-      label: 'Commerce - PA, ISM, IAF & SF',
+      id: 'bca_bca_genai',
+      label: 'BCA & BCA Gen AI',
       type: 'dept',
       groupKey: 'FLABS',
       hasData: true,
-      publicationAliases: ['ism', 'pa, ism, iaf & sf'],
-      patentAliases: [
-        'commerce - ism,pa & iaf',
-        'commerce - pa,ism,iaf',
-        'commerce ism, pa & iaf'
-      ],
-      scholarAliases: [
-        'commerce (pa & ism)'
-      ]
-    },
-    {
-      id: 'bca',
-      label: 'BCA',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: ['computer science and applications', 'bca'],
-      patentAliases: [
-        'bca',
-        'bca data science'
-      ],
-      scholarAliases: []
-    },
-    {
-      id: 'commerce_af',
-      label: 'Commerce (A&F)',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: ['a&f', 'commerce (a&f)', 'commerce - af'],
-      patentAliases: [
-        'commerce(a&f)',
-        'commerce - af'
-      ],
-      scholarAliases: [
-        'commerce (a&f)',
-        'commerce (accounting &finance)'
-      ]
+      publicationAliases: ['bca', 'bca & bca gen ai'],
+      patentAliases: ['bca', 'bca data science', 'bca & bca gen ai'],
+      scholarAliases: ['bca', 'bca & bca gen ai']
     },
     {
       id: 'data_science',
@@ -92,167 +44,48 @@
       groupKey: 'FLABS',
       hasData: true,
       publicationAliases: ['data sciences', 'data science'],
-      patentAliases: [
-        'data science'
-      ],
-      scholarAliases: [
-        'data science'
-      ]
-    },
-    {
-      id: 'cyber_security',
-      label: 'B.Sc Cyber Security',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: ['cyber security'],
-      patentAliases: [
-        'cyber security'
-      ],
-      scholarAliases: [
-        'cyber security'
-      ]
+      patentAliases: ['data science'],
+      scholarAliases: ['data science']
     },
     {
       id: 'computer_science',
-      label: 'B.Sc Computer Science',
+      label: 'Computer Science',
       type: 'dept',
       groupKey: 'FLABS',
       hasData: true,
-      publicationAliases: ['computer science'],
-      patentAliases: [
-        'computer science'
-      ],
-      scholarAliases: [
-        'computer science',
-        'b.sc computer science'
-      ]
+      publicationAliases: ['computer science', 'b.sc computer science'],
+      patentAliases: ['computer science'],
+      scholarAliases: ['computer science', 'b.sc computer science']
+    },
+    {
+      id: 'computer_science_batch_ii',
+      label: 'Computer Science (Batch II)',
+      type: 'dept',
+      groupKey: 'FLABS',
+      hasData: true,
+      publicationAliases: ['computer science (batch ii)'],
+      patentAliases: ['computer science (batch ii)'],
+      scholarAliases: ['computer science (batch ii)']
+    },
+    {
+      id: 'cyber_security',
+      label: 'Cyber Security',
+      type: 'dept',
+      groupKey: 'FLABS',
+      hasData: true,
+      publicationAliases: ['cyber security', 'b.sc cyber security'],
+      patentAliases: ['cyber security'],
+      scholarAliases: ['cyber security']
     },
     {
       id: 'ai_ml',
-      label: 'B.Sc. (AI & ML)',
+      label: 'AI & ML',
       type: 'dept',
       groupKey: 'FLABS',
       hasData: true,
-      publicationAliases: ['ai & ml', 'ai&ml'],
-      patentAliases: [
-        'ai & ml',
-        'b.sc ai & ml'
-      ],
-      scholarAliases: [
-        'ai & ml',
-        'dept of ai ml'
-      ]
-    },
-    {
-      id: 'mca',
-      label: 'MCA',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: ['mca', 'computer science and applications'],
-      patentAliases: [
-        'mca'
-      ],
-      scholarAliases: [
-        'mca'
-      ]
-    },
-    {
-      id: 'viscom',
-      label: 'Viscom',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: ['visual communication', 'visual communicatino'],
-      patentAliases: [
-        'visual communication'
-      ],
-      scholarAliases: [
-        'department of viscom',
-        'visual communication'
-      ]
-    },
-    {
-      id: 'film_tech',
-      label: 'Film Tech',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: [],
-      patentAliases: [],
-      scholarAliases: []
-    },
-    {
-      id: 'fashion',
-      label: 'Fashion Designing',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: [],
-      patentAliases: [
-        'fashion designing'
-      ],
-      scholarAliases: []
-    },
-    {
-      id: 'jmc',
-      label: 'JMC',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: ['jmc'],
-      patentAliases: [],
-      scholarAliases: []
-    },
-    {
-      id: 'lcs_english',
-      label: 'LCS (English)',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: ['lcs'],
-      patentAliases: [
-        'lcs - english'
-      ],
-      scholarAliases: []
-    },
-    {
-      id: 'lcs_tamil',
-      label: 'LCS (Tamil)',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: [],
-      patentAliases: [],
-      scholarAliases: [
-        'tamil',
-        'department of tamil'
-      ]
-    },
-    {
-      id: 'biotechnology',
-      label: 'Biotechnology',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: ['biotechnology'],
-      patentAliases: [
-        'biotechnology'
-      ],
-      scholarAliases: [
-        'biotechnology'
-      ]
-    },
-    {
-      id: 'psychology',
-      label: 'Psychology',
-      type: 'dept',
-      groupKey: 'FLABS',
-      hasData: true,
-      publicationAliases: [],
-      patentAliases: [],
-      scholarAliases: []
+      publicationAliases: ['ai & ml', 'ai&ml', 'b.sc. (ai & ml)'],
+      patentAliases: ['ai & ml', 'b.sc ai & ml'],
+      scholarAliases: ['ai & ml', 'dept of ai ml']
     },
     {
       id: 'mathematics',
@@ -261,30 +94,109 @@
       groupKey: 'FLABS',
       hasData: true,
       publicationAliases: ['mathematics'],
-      patentAliases: [
-        'mathematics'
-      ],
-      scholarAliases: [
-        'mathematics'
-      ]
+      patentAliases: ['mathematics'],
+      scholarAliases: ['mathematics']
+    },
+    {
+      id: 'biotech_psychology',
+      label: 'Biotechnology & Psychology',
+      type: 'dept',
+      groupKey: 'FLABS',
+      hasData: true,
+      publicationAliases: ['biotechnology', 'psychology', 'biotechnology & psychology'],
+      patentAliases: ['biotechnology', 'psychology', 'biotechnology & psychology'],
+      scholarAliases: ['biotechnology', 'psychology', 'biotechnology & psychology']
+    },
+    {
+      id: 'commerce_general_batch_i',
+      label: 'Commerce General (Batch I)',
+      type: 'dept',
+      groupKey: 'FLABS',
+      hasData: true,
+      publicationAliases: ['commerce', 'commerce general (batch i)'],
+      patentAliases: ['commerce', 'commerce- shift 1', 'commerce shift 1 gen', 'commerce shift i'],
+      scholarAliases: ['commerce shift1', 'department of commerce']
+    },
+    {
+      id: 'commerce_general_cs_batch_ii',
+      label: 'Commerce General & CS (Batch II)',
+      type: 'dept',
+      groupKey: 'FLABS',
+      hasData: true,
+      publicationAliases: ['commerce (shift 2 cs)', 'commerce general & cs (batch ii)'],
+      patentAliases: ['commerce (shift 2 gen)', 'commerce -shift ii', 'commerce shift ii gen', 'commerce shift ii', 'commerce (shift 2 cs)'],
+      scholarAliases: ['commerce shift2']
+    },
+    {
+      id: 'commerce_af',
+      label: 'Commerce A & F',
+      type: 'dept',
+      groupKey: 'FLABS',
+      hasData: true,
+      publicationAliases: ['a&f', 'commerce (a&f)', 'commerce - af', 'commerce a & f'],
+      patentAliases: ['commerce(a&f)', 'commerce - af', 'commerce a & f'],
+      scholarAliases: ['commerce (a&f)', 'commerce (accounting &finance)']
+    },
+    {
+      id: 'commerce_pa_ism',
+      label: 'Commerce PA & ISM',
+      type: 'dept',
+      groupKey: 'FLABS',
+      hasData: true,
+      publicationAliases: ['ism', 'pa, ism, iaf & sf', 'commerce pa & ism'],
+      patentAliases: ['commerce - ism,pa & iaf', 'commerce - pa,ism,iaf', 'commerce ism, pa & iaf'],
+      scholarAliases: ['commerce (pa & ism)']
+    },
+    {
+      id: 'fashion',
+      label: 'Fashion Designing',
+      type: 'dept',
+      groupKey: 'FLABS',
+      hasData: true,
+      publicationAliases: ['fashion designing'],
+      patentAliases: ['fashion designing'],
+      scholarAliases: ['fashion designing']
+    },
+    {
+      id: 'viscom',
+      label: 'Visual Communication',
+      type: 'dept',
+      groupKey: 'FLABS',
+      hasData: true,
+      publicationAliases: ['visual communication', 'viscom', 'visual communicatino'],
+      patentAliases: ['visual communication', 'viscom'],
+      scholarAliases: ['department of viscom', 'visual communication']
+    },
+    {
+      id: 'lcs',
+      label: 'LCS',
+      type: 'dept',
+      groupKey: 'FLABS',
+      hasData: true,
+      publicationAliases: ['lcs', 'lcs (english)', 'lcs (tamil)'],
+      patentAliases: ['lcs', 'lcs - english'],
+      scholarAliases: ['lcs', 'tamil', 'department of tamil']
     }
   ];
 
   var ENT_DEPARTMENTS = [
     { id: 'dept_ent_cse', label: 'CSE', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['cse', 'cse core', 'cs'], scholarAliases: ['cse', 'cs'] },
-    { id: 'dept_ent_aiml', label: 'CSE-AIML', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['aiml', 'aiml,ai', 'ai & ml'], scholarAliases: ['aiml'] },
-    { id: 'dept_ent_bda_cc', label: 'CSE-BDA', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['bda&cc', 'bda', 'scse(bda&cc)', 'cse - bda', 'cse with big data analytics'], scholarAliases: ['bda&cc'] },
-    { id: 'dept_ent_iot_csbs', label: 'CSE-IoT & CSBS', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['iot & csbs', 'iot&csbs', 'iot', 'cs & gt', 'cs&gt', 'cse -cs& gt', 'cse-iot, csbs'], scholarAliases: ['iot & csbs'] },
+    { id: 'dept_ent_aiml', label: 'AIML & AI', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['aiml', 'aiml & ai', 'aiml,ai', 'ai & ml'], scholarAliases: ['aiml', 'aiml & ai'] },
+    { id: 'dept_ent_bda_cc', label: 'BDA&CC', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['bda&cc', 'bda', 'scse(bda&cc)', 'cse - bda', 'cse with big data analytics'], scholarAliases: ['bda&cc'] },
+    { id: 'dept_ent_iot_csbs', label: 'IOT&CSBS', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['iot & csbs', 'iot&csbs', 'iot', 'cs & gt', 'cs&gt', 'cse -cs& gt', 'cse-iot, csbs'], scholarAliases: ['iot & csbs', 'iot&csbs'] },
     { id: 'dept_ent_cse_cs', label: 'CSE-CS', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['cse-cs', 'cse cs'], scholarAliases: ['cse-cs', 'cse cs'] },
     { id: 'dept_ent_cse_gt', label: 'CSE-GT', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['cse-gt', 'cse gt'], scholarAliases: ['cse-gt', 'cse gt'] },
+    { id: 'dept_ent_mech', label: 'MECH', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['mechanical', 'mech'], scholarAliases: ['mechanical', 'mech'] },
     { id: 'dept_ent_it', label: 'IT', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['it'], scholarAliases: ['it'] },
     { id: 'dept_ent_ece', label: 'ECE', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['ece'], scholarAliases: ['ece'] },
     { id: 'dept_ent_eee', label: 'EEE', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['eee'], scholarAliases: ['eee'] },
-    { id: 'dept_ent_mech', label: 'MECH', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['mechanical', 'mech'], scholarAliases: ['mechanical', 'mech'] },
+    { id: 'dept_ent_phy', label: 'PHY', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['physics', 'phy'], scholarAliases: ['physics', 'phy'] },
     { id: 'dept_ent_civil', label: 'CIVIL', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['civil'], scholarAliases: ['civil'] },
-    { id: 'dept_ent_biotech', label: 'BIOTECH', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['biotechnology', 'biotech'], scholarAliases: ['biotechnology', 'biotech'] },
     { id: 'dept_ent_bme', label: 'BME', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['bme', 'biomedical'], scholarAliases: ['bme', 'biomedical'] },
-    { id: 'dept_ent_maths', label: 'MATHS', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['mathematics', 'maths'], scholarAliases: ['mathematics', 'maths'] }
+    { id: 'dept_ent_chem', label: 'CHEM', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['chemistry', 'chem'], scholarAliases: ['chemistry', 'chem'] },
+    { id: 'dept_ent_efl', label: 'EFL', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['efl', 'english'], scholarAliases: ['efl', 'english'] },
+    { id: 'dept_ent_maths', label: 'MATHS', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['mathematics', 'maths'], scholarAliases: ['mathematics', 'maths'] },
+    { id: 'dept_ent_biotech', label: 'BIOTECH', type: 'dept', groupKey: 'E&T', hasData: true, patentAliases: ['biotechnology', 'biotech'], scholarAliases: ['biotechnology', 'biotech'] }
   ];
 
   // ─── COMPLETE INSTITUTIONAL HIERARCHY TREE ──────────────────────────────────
@@ -396,7 +308,7 @@
 
   // ─── SCOPE & EXPAND STATE ──────────────────────────────────────────────────
   var _selectedNode = null; // active node object
-  var _expandedIds = new Set(['root_all_colleges', 'campus_ramapuram', 'college_srmist']);
+  var _expandedIds = new Set(['root_all_colleges', 'campus_ramapuram', 'college_srmist', 'group_flabs', 'group_ent', 'group_management']);
   var _listeners = [];
 
   function getTree() {
@@ -444,6 +356,11 @@
       return;
     }
     _selectedNode = node;
+    try {
+      if (node && node.id) {
+        sessionStorage.setItem('srm_rd_selected_node_id', node.id);
+      }
+    } catch (e) {}
     _notify();
   }
 

@@ -18,7 +18,7 @@
       If the user is not authenticated, they are immediately redirected to login.html.
       auth.js must be the FIRST script loaded.
     -->
-    <script src="auth.js"></script>
+    <script src="auth.js?v=20261019_fix1"></script>
     <script>
       (function () {
         try {
@@ -54,14 +54,9 @@
           <button class="nav-link" data-page="funded">Funded projects</button>
         </nav>
         <!-- Logged-in user info + logout -->
-        <div id="user-bar" style="display:none; align-items:center; gap:6px; margin-left:auto;">
-          <span id="user-bar-info"
-                style="font-size:12px; color:#d7e9f8; font-weight:600; white-space:nowrap;"></span>
-          <button id="logout-btn"
-                  style="border:1.5px solid rgba(215,233,248,0.45); background:rgba(255,255,255,0.1);
-                         color:#d7e9f8; border-radius:7px; padding:5px 9px; font:600 12px inherit;
-                         cursor:pointer; white-space:nowrap; transition:background .18s;"
-                  title="Sign out and return to login page">
+        <div id="user-bar">
+          <span id="user-bar-info">Chairman</span>
+          <button id="logout-btn" title="Sign out and return to login page">
             Sign Out
           </button>
         </div>
@@ -95,18 +90,16 @@
     </div><!-- /app-shell -->
 
     <!-- Load scripts in order: auth → scope data → sidebar renderer → research data → management data → E&T publications data → app -->
-    <script src="scope.js"></script>
-    <script src="sidebar.js"></script>
-    <script src="data.js"></script>
-    <script src="mgmt_data.js"></script>
-    <script src="et_publications.js"></script>
-    <script src="et_patents.js"></script>
-    <script src="et_funded_projects.js"></script>
-    <script src="et_consultancy_projects.js"></script>
-    <script src="et_supervisors_scholars.js"></script>
-    <script src="scholar_reports_data.js"></script>
-    <script src="app.js"></script>
-    <script src="scholar_module.js"></script>
+    <script src="scope.js?v=20261019_fix2"></script>
+    <script src="sidebar.js?v=20261019_fix2"></script>
+    <script src="scholar_reports_data.js?v=20261019_fix2"></script>
+
+    <!-- Supabase Core & Live Cloud Backend Client -->
+    <script src="supabase.js?v=20261019_fix2"></script>
+    <script src="supabase_client.js?v=20261019_fix2"></script>
+
+    <script src="app.js?v=20261019_fix2"></script>
+    <script src="scholar_module.js?v=20261019_fix2"></script>
     <script>
       (function () {
         'use strict';

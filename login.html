@@ -11,6 +11,9 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="login.css" />
   <script src="auth.js"></script>
+  <!-- Supabase Core -->
+  <script src="supabase.js"></script>
+  <script src="supabase_client.js"></script>
   <script>
     (function () {
       try {
@@ -340,6 +343,12 @@
             opt.dataset.userid = u.id || u.employeeId;
             profileSelect.appendChild(opt);
           });
+
+          if (users.length === 1) {
+            var singleId = users[0].id || users[0].employeeId;
+            profileSelect.value = singleId;
+            selectProfile(singleId);
+          }
         }
       }
 
@@ -458,7 +467,7 @@
       });
 
       // ── Form submit ────────────────────────────────────────────────────
-      loginForm.addEventListener('submit', function (e) {
+      loginForm.addEventListener('submit', async function (e) {
         e.preventDefault();
         hideError();
 
@@ -484,6 +493,26 @@
         // Successful login
         loginBtn.textContent = 'Signing in…';
         loginBtn.disabled = true;
+
+        if (user.group === 'Management') {
+          if (window.supabaseClient) {
+             try {
+                 const { error } = await window.supabaseClient.auth.signInWithPassword({
+                    email: user.employeeId + '@srm.edu',
+                    password: enteredPw
+                 });
+                 if (error) {
+                     console.error("Supabase auth error:", error);
+                 }
+             } catch(err) {
+                 console.error("Supabase connection failed:", err);
+                 showError("Failed to connect to Supabase. Proceeding with local dashboard...");
+                 // Wait a bit to show the error, but we'll still proceed to dashboard
+                 await new Promise(r => setTimeout(r, 1500));
+             }
+          }
+        }
+
         AUTH.setCurrentUser(user);
 
         // Brief delay for visual feedback, then navigate to dashboard

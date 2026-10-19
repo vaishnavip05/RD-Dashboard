@@ -4425,7 +4425,21 @@
   function getCurrentUser() {
     try {
       var raw = sessionStorage.getItem(SESSION_KEY);
-      return raw ? JSON.parse(raw) : null;
+      if (raw) return JSON.parse(raw);
+      // If no active session and not explicitly logged out on login page, default to Chairman for seamless portal access
+      var isExplicitLogout = sessionStorage.getItem('srm_rd_logged_out') === '1';
+      if (!isExplicitLogout) {
+        var chairman = DEMO_USERS.find(function (u) {
+          return u.role === 'chairman' || u.id === 'user_chairman';
+        });
+        if (chairman) {
+          var safeUser = Object.assign({}, chairman);
+          delete safeUser.password;
+          sessionStorage.setItem(SESSION_KEY, JSON.stringify(safeUser));
+          return safeUser;
+        }
+      }
+      return null;
     } catch (e) {
       return null;
     }
@@ -4436,6 +4450,7 @@
       sessionStorage.removeItem(SESSION_KEY);
       return;
     }
+    sessionStorage.removeItem('srm_rd_logged_out');
     var safeUser = Object.assign({}, user);
     delete safeUser.password;
     sessionStorage.setItem(SESSION_KEY, JSON.stringify(safeUser));
@@ -4447,6 +4462,7 @@
 
   function logout() {
     sessionStorage.removeItem(SESSION_KEY);
+    sessionStorage.setItem('srm_rd_logged_out', '1');
     window.location.replace('/login.html');
   }
 

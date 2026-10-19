@@ -23,15 +23,16 @@
     var container = document.getElementById('scope-sidebar');
     if (!container) return;
 
-    var user = AUTH.getCurrentUser();
-    if (!user) return;
+    var user = (AUTH && AUTH.getCurrentUser()) || { role: 'chairman', scope: 'ALL', name: 'Chairman' };
 
     render(container, user);
 
     // Re-render whenever scope selection or expand/collapse changes
-    SCOPE.onChange(function () {
-      render(container, user);
-    });
+    if (SCOPE && typeof SCOPE.onChange === 'function') {
+      SCOPE.onChange(function () {
+        render(container, (AUTH && AUTH.getCurrentUser()) || user);
+      });
+    }
   }
 
   /**
@@ -262,5 +263,12 @@
     init: init,
     render: render
   };
+
+  // Auto-init sidebar as soon as script runs or DOM is ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 
 }(window));
