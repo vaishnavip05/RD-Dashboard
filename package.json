@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "dev": "npx -y serve -l 8080",
+    "start": "npx -y serve -l 8080"
+  },
   "dependencies": {
     "@supabase/supabase-js": "^2.117.2",
     "jsdom": "^29.1.1",

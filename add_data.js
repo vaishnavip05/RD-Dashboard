@@ -352,14 +352,14 @@
     addDataContainer.id = 'rd-coordinator-add-data';
     addDataContainer.style.cssText = 'padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 16px;';
     addDataContainer.innerHTML =
-      '<div style="color:#8ab4f8;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">+ Add Data (' + activeGroup + ')</div>' +
-      makeBtn('publication', '+ Add Publication') +
-      makeBtn('patent',      '+ Add Patent') +
-      makeBtn('funded',      '+ Add Funded Project') +
-      (activeGroup === 'E&T' ? makeBtn('consultancy', '+ Add Consultancy Project') : '') +
-      makeBtn('supervisor',  '+ Add Research Supervisor') +
-      makeBtn('scholar',     '+ Add Research Scholar') +
-      (activeGroup === 'FLABS' ? makeBtn('award', '+ Add Research Award') : '');
+      '<div style="color:#8ab4f8;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;">UPLOAD NEW DATA</div>' +
+      makeBtn('publication', '+ Publication') +
+      makeBtn('patent',      '+ Patent') +
+      makeBtn('funded',      '+ Funded Project') +
+      (activeGroup === 'E&T' ? makeBtn('consultancy', '+ Consultancy Project') : '') +
+      makeBtn('supervisor',  '+ Research Supervisor') +
+      makeBtn('scholar',     '+ Research Scholar') +
+      (activeGroup === 'FLABS' ? makeBtn('award', '+ Research Award') : '');
 
     sidebarPanel.parentNode.appendChild(addDataContainer);
 

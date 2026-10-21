@@ -266,6 +266,102 @@
       var selectedRole = null;
       var selectedUser = null;
 
+      // ── Cache for Supabase-fetched supervisor/scholar users ────────────
+      // Key: role+'|'+group, Value: Array of user objects
+      var supabaseUserCache = {};
+
+      // ── Helper: fetch supervisors or scholars from Supabase ───────────
+      async function fetchSupabaseUsers(role, group) {
+        var cacheKey = role + '|' + group;
+        if (supabaseUserCache[cacheKey]) return supabaseUserCache[cacheKey];
+
+        if (!window.supabaseClient) return [];
+
+        // Map group name to business_unit value stored in Supabase
+        // Supabase uses 'E&T', 'FLABS', 'Management'
+        var businessUnit = group;
+
+        var tableName = (role === 'supervisor') ? 'research_supervisors' : 'research_scholars';
+        var results = [];
+        var from = 0;
+        var step = 1000;
+        while (true) {
+          var query = window.supabaseClient
+            .from(tableName)
+            .select('*')
+            .eq('business_unit', businessUnit);
+          // For scholars: only show Full-time scholars in the login dropdown
+          if (role === 'scholar') {
+            query = query.eq('category', 'Full-time');
+          }
+          var res = await query.range(from, from + step - 1);
+          if (res.error || !res.data || res.data.length === 0) break;
+          results = results.concat(res.data);
+          if (res.data.length < step) break;
+          from += step;
+        }
+
+        // De-duplicate by name + employee_id for supervisors, by name + register_number for scholars
+        var seen = {};
+        var unique = [];
+        results.forEach(function(r) {
+          var key;
+          if (role === 'supervisor') {
+            key = (r.supervisor_name || r.name || '') + '|' + (r.employee_id || '');
+          } else {
+            key = (r.scholar_name || r.name || '') + '|' + (r.register_number || r.application_number || '');
+          }
+          if (!seen[key]) {
+            seen[key] = true;
+            unique.push(r);
+          }
+        });
+
+        // Map to the user object format expected by the login UI
+        var mapped = unique.map(function(r, idx) {
+          if (role === 'supervisor') {
+            var empId = r.employee_id || ('SUP_' + group + '_' + idx);
+            return {
+              id: 'supabase_sup_' + idx,
+              name: r.supervisor_name || r.name || '—',
+              employeeId: empId,
+              password: '123456',
+              role: 'supervisor',
+              campus: 'SRM Ramapuram',
+              college: 'SRM Institute of Science & Technology',
+              group: group,
+              department: r.department || r.discipline || '',
+              scope: 'SUPERVISOR_ONLY',
+              _fromSupabase: true
+            };
+          } else {
+            var regNo = r.register_number || r.application_number || ('SCH_' + group + '_' + idx);
+            return {
+              id: 'supabase_sch_' + idx,
+              name: r.scholar_name || r.name || '—',
+              employeeId: regNo,
+              password: '123456',
+              role: 'scholar',
+              campus: 'SRM Ramapuram',
+              college: 'SRM Institute of Science & Technology',
+              group: group,
+              department: r.department || '',
+              supervisor: r.supervisor_name || '',
+              scope: 'SCHOLAR_ONLY',
+              _fromSupabase: true
+            };
+          }
+        });
+
+        // Sort alphabetically by name
+        mapped.sort(function(a, b) {
+          return (a.name || '').localeCompare(b.name || '');
+        });
+
+        supabaseUserCache[cacheKey] = mapped;
+        return mapped;
+      }
+
       // ── DOM refs ───────────────────────────────────────────────────────
       var roleBtns = document.querySelectorAll('.role-btn');
       var groupSection = document.getElementById('group-section');
@@ -352,8 +448,8 @@
         }
       }
 
-      // ── Group select change (For HOD role) ─────────────────────────────
-      groupSelect.addEventListener('change', function () {
+      // ── Group select change (For HOD / Supervisor / Scholar role) ──────
+      groupSelect.addEventListener('change', async function () {
         selectedUser = null;
         profileCard.classList.remove('visible');
         empIdInput.value = '';
@@ -368,23 +464,46 @@
           return;
         }
 
-        // Filter users for selected group
-        var filteredUsers = AUTH.getUsersByRole(selectedRole).filter(function (u) {
-          return u.group === selectedGroup;
-        });
-
         var roleName = (selectedRole === 'hod') ? 'HOD' : (selectedRole === 'supervisor' ? 'Supervisor' : 'Scholar');
+        profileSelect.innerHTML = '<option value="">— Loading ' + selectedGroup + ' ' + roleName + 's… —</option>';
+        profileSection.style.display = 'block';
+
+        var filteredUsers;
+
+        if (selectedRole === 'supervisor' || selectedRole === 'scholar') {
+          // Fetch dynamically from Supabase
+          profileSelect.innerHTML = '<option value="">— Loading from Supabase… —</option>';
+          filteredUsers = await fetchSupabaseUsers(selectedRole, selectedGroup);
+
+          // Fallback to static list if Supabase returned nothing
+          if (!filteredUsers || filteredUsers.length === 0) {
+            filteredUsers = AUTH.getUsersByRole(selectedRole).filter(function (u) {
+              return u.group === selectedGroup;
+            });
+          }
+        } else {
+          // HOD: use static list
+          filteredUsers = AUTH.getUsersByRole(selectedRole).filter(function (u) {
+            return u.group === selectedGroup;
+          });
+        }
+
         profileSelect.innerHTML = '<option value="">— Choose ' + selectedGroup + ' ' + roleName + ' —</option>';
         filteredUsers.forEach(function (u) {
           var opt = document.createElement('option');
           opt.value = u.id || u.employeeId;
-          var empLabel = u.employeeId ? ' (' + u.employeeId + ')' : '';
+          var empLabel = (selectedRole !== 'hod' && u.employeeId) ? ' (' + u.employeeId + ')' : '';
           var deptLabel = u.department ? u.department : (selectedRole === 'hod' ? 'HOD' : '');
           var separator = deptLabel ? ' — ' : '';
           opt.textContent = u.name + separator + deptLabel + empLabel;
           opt.dataset.userid = u.id || u.employeeId;
+          opt.dataset.userobject = JSON.stringify(u);
           profileSelect.appendChild(opt);
         });
+
+        if (filteredUsers.length === 0) {
+          profileSelect.innerHTML = '<option value="">— No ' + roleName + 's found for ' + selectedGroup + ' —</option>';
+        }
 
         profileSection.style.display = 'block';
       });
@@ -400,10 +519,19 @@
           return;
         }
 
-        // Find user in DEMO_USERS by id or employeeId
-        var user = AUTH.DEMO_USERS.find(function (u) {
-          return (u.id && u.id === userId) || (u.employeeId && u.employeeId === userId);
-        });
+        // First try to find in the selected option's stored object (for Supabase users)
+        var user = null;
+        var sel = profileSelect.options[profileSelect.selectedIndex];
+        if (sel && sel.dataset.userobject) {
+          try { user = JSON.parse(sel.dataset.userobject); } catch(e) {}
+        }
+
+        // Fall back to DEMO_USERS lookup for static users
+        if (!user) {
+          user = AUTH.DEMO_USERS.find(function (u) {
+            return (u.id && u.id === userId) || (u.employeeId && u.employeeId === userId);
+          });
+        }
         if (!user) return;
 
         selectedUser = user;
@@ -482,12 +610,26 @@
           return;
         }
 
-        var user = AUTH.authenticate(selectedUser.employeeId || selectedUser.id, enteredPw);
-        if (!user) {
-          showError('Incorrect password. Please try again. (Demo password: 123456)');
-          passwordInput.value = '';
-          passwordInput.focus();
-          return;
+        var user;
+        if (selectedUser._fromSupabase) {
+          // For Supabase-fetched supervisors/scholars: authenticate locally against password '123456'
+          if (enteredPw !== '123456') {
+            showError('Incorrect password. Please try again. (Default password: 123456)');
+            passwordInput.value = '';
+            passwordInput.focus();
+            return;
+          }
+          // Build a safe user object (without password)
+          user = Object.assign({}, selectedUser);
+          delete user.password;
+        } else {
+          user = AUTH.authenticate(selectedUser.employeeId || selectedUser.id, enteredPw);
+          if (!user) {
+            showError('Incorrect password. Please try again. (Demo password: 123456)');
+            passwordInput.value = '';
+            passwordInput.focus();
+            return;
+          }
         }
 
         // Successful login
