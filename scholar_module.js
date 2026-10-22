@@ -1863,23 +1863,61 @@
   // ════════════════════════════════════════════════════════════════
   function renderDeanLevelDashboard(user) {
     var isDean = user.role === 'dean';
+    var isCoord = user.role === 'rd_coordinator';
     var targetStatus = isDean ? 'DEPUTY_DEAN_APPROVED' : 'HOD_APPROVED';
-    var labelRole = isDean ? 'Dean' : 'Deputy Dean';
+    var labelRole = isDean ? 'Dean' : (isCoord ? 'R&D Coordinator' : 'Deputy Dean');
     var labelStatus = isDean ? 'Deputy Dean Approved' : 'HOD Approved';
 
     var DATA = global.SCHOLAR_REPORTS_DATA;
     var reports = DATA ? DATA.getReportsForDeputyDean(user.group) : [];
-    var scholars = DATA ? DATA.getAllScholars().filter(function(s) {
-      var g = s.group || s._group;
-      var y = s.year || s.Year_of_Enrollment || (s.registrationDate ? s.registrationDate.substring(0,4) : '2026');
-      return g === user.group && String(y) === '2026';
-    }) : [];
-    var supervisors = DATA ? DATA.getAllSupervisors().filter(function(s) {
-      var g = s.group || s._group;
-      // Default mock supervisors to 2026 if they don't have a year field, so they match the mock 2026 scholars
-      var y = s.year || s.Year || '2026';
-      return g === user.group && String(y) === '2026';
-    }) : [];
+
+    // Filter by group/business_unit across ALL years and categories
+    function matchUserGroup(itemGroup, userGroup) {
+      if (!userGroup || userGroup === 'ALL' || userGroup === 'PhD') return true;
+      if (!itemGroup) return false;
+      var ig = String(itemGroup).toUpperCase().trim();
+      var ug = String(userGroup).toUpperCase().trim();
+      if (ig === ug) return true;
+      // Handle compound user groups like "B.Arch & Management"
+      if (ug.indexOf('&') !== -1 && ug !== 'E&T') {
+        var parts = ug.split('&').map(function(p){ return p.trim(); });
+        for (var i = 0; i < parts.length; i++) {
+          if (parts[i] && (ig === parts[i] || ig.indexOf(parts[i]) !== -1)) return true;
+        }
+      }
+      return false;
+    }
+
+    var allScholarsRaw = DATA ? DATA.getAllScholars() : [];
+    var scholars = allScholarsRaw.filter(function(s) {
+      var g = s.group || s._group || s.businessUnit;
+      return matchUserGroup(g, user.group);
+    });
+
+    var allSupervisorsRaw = DATA ? DATA.getAllSupervisors() : [];
+    var supervisors = allSupervisorsRaw.filter(function(s) {
+      var g = s.group || s._group || s.businessUnit;
+      return matchUserGroup(g, user.group);
+    });
+
+    // Scholar Category counts
+    var countFT = 0;
+    var countPTI = 0;
+    var countPTE = 0;
+    var countOther = 0;
+
+    scholars.forEach(function(s) {
+      var cat = (s.category || '').toLowerCase();
+      if (cat.indexOf('full') !== -1 || s.isFullTime) {
+        countFT++;
+      } else if (cat.indexOf('internal') !== -1) {
+        countPTI++;
+      } else if (cat.indexOf('external') !== -1) {
+        countPTE++;
+      } else {
+        countOther++;
+      }
+    });
 
     var monthlyReports = reports.filter(function(r) { return r.reportType !== 'DAY8' && r.reportType !== 'DAILY'; });
     var day8Reports = reports.filter(function(r) { return r.reportType === 'DAY8' || r.reportType === 'DAILY'; });
@@ -1909,28 +1947,85 @@
     var tableRows = makeDDRows(monthlyReports, 'ddr-review', true);
     var day8Rows = makeDDRows(day8Reports, 'ddr-review-day8', false);
 
+    // Build Scholar Rows for Detailed List Tab
+    var scholarListRows = scholars.map(function(s, idx) {
+      var isFT = s.isFullTime || (s.category || '').toLowerCase().indexOf('full') !== -1;
+      var catColor = isFT ? 'background:#dcfce7;color:#166534;' : 'background:#fef9c3;color:#854d0e;';
+      return '<tr style="border-bottom:1px solid #e2e8f0;">' +
+        '<td style="padding:9px 12px;color:#64748b;">' + (idx + 1) + '</td>' +
+        '<td style="padding:9px 12px;font-weight:700;color:#0f172a;">' + E(s.name || s.scholarName) + '</td>' +
+        '<td style="padding:9px 12px;color:#475569;">' + E(s.department) + '</td>' +
+        '<td style="padding:9px 12px;">' +
+          '<span style="display:inline-block;padding:2px 8px;border-radius:12px;font-size:11.5px;font-weight:700;' + catColor + '">' +
+            E(s.category || (isFT ? 'Full-time' : 'Part-time')) +
+          '</span>' +
+        '</td>' +
+        '<td style="padding:9px 12px;color:#475569;">' + E(String(s.yearOfEnrollment || s.year || '—')) + '</td>' +
+        '<td style="padding:9px 12px;color:#64748b;font-family:monospace;font-size:12px;">' + E(s.registrationNo || '—') + '</td>' +
+        '<td style="padding:9px 12px;color:#475569;font-size:12.5px;">' + E(s.supervisorName || '—') + '</td>' +
+      '</tr>';
+    }).join('') || '<tr><td colspan="7" style="padding:20px;text-align:center;color:#94a3b8;">No active scholars found.</td></tr>';
+
+    // Build Supervisor Rows for Detailed List Tab
+    var supervisorListRows = supervisors.map(function(sup, idx) {
+      var supName = sup.name || sup.supervisorName || '—';
+      var sNorm = (supName).toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
+      var myScholars = scholars.filter(function(sch) {
+        if (sch.supervisorId && sch.supervisorId === sup.id) return true;
+        if (sup.assignedScholarIds && sup.assignedScholarIds.indexOf(sch.id) !== -1) return true;
+        var sn = (sch.supervisorName || '').toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
+        return sn && sn === sNorm;
+      });
+      return '<tr style="border-bottom:1px solid #e2e8f0;">' +
+        '<td style="padding:9px 12px;color:#64748b;">' + (idx + 1) + '</td>' +
+        '<td style="padding:9px 12px;font-weight:700;color:#0f172a;">' + E(supName) + '</td>' +
+        '<td style="padding:9px 12px;color:#475569;">' + E(sup.department || sup.discipline || '—') + '</td>' +
+        '<td style="padding:9px 12px;color:#64748b;font-family:monospace;font-size:12px;">' + E(sup.employeeId || '—') + '</td>' +
+        '<td style="padding:9px 12px;text-align:center;">' +
+          '<span style="display:inline-block;padding:2px 10px;border-radius:12px;background:#e0f2fe;color:#0369a1;font-weight:700;font-size:12px;">' +
+            myScholars.length +
+          '</span>' +
+        '</td>' +
+      '</tr>';
+    }).join('') || '<tr><td colspan="5" style="padding:20px;text-align:center;color:#94a3b8;">No registered supervisors found.</td></tr>';
+
+    var otherCardHtml = countOther > 0 ? kpiCard('Other Scholars', countOther, 'Other Categories') : '';
+
     return '<div style="padding-bottom:40px;font-family:sans-serif;">' +
       '<div style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:20px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">' +
         '<span style="display:inline-block;padding:3px 10px;border-radius:20px;background:#fae8ff;color:#86198f;font-size:11.5px;font-weight:700;margin-bottom:8px;">' + user.group + ' · ' + labelRole + '</span>' +
         '<h2 style="margin:4px 0;font-size:20px;color:#0f172a;font-weight:800;">Research Scholar Monthly Reports & Fellowship Claims Overview</h2>' +
-        '<p style="margin:4px 0;font-size:13px;color:#475569;">Institutional monitoring of Full-Time PhD scholars — ' + (isDean ? 'final approval stage' : 'preliminary group approval') + ' for fellowship disbursement.</p>' +
+        '<p style="margin:4px 0;font-size:13px;color:#475569;">Active scholars and supervisors across all admission years & categories — ' + (isDean ? 'final approval stage' : (isCoord ? 'coordinator oversight' : 'preliminary group approval')) + ' for fellowship disbursement.</p>' +
       '</div>' +
 
+      // ── KPI CARDS ROW: Total Scholars & Category Breakdown Across All Years ──
+      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:14px;">' +
+        kpiCard('Total Scholars', scholars.length, 'All Years & Categories', { bg: '#f0fdf4', color: '#166534' }) +
+        kpiCard('Full-Time Scholars', countFT, 'Monthly Claim Eligible', { bg: '#eff6ff', color: '#1d4ed8' }) +
+        kpiCard('Part-Time Internal', countPTI, 'Active Scholars', { bg: '#fefce8', color: '#854d0e' }) +
+        kpiCard('Part-Time External', countPTE, 'Active Scholars', { bg: '#fff7ed', color: '#9a3412' }) +
+        otherCardHtml +
+        kpiCard('Active Supervisors', supervisors.length, 'All Years Registered', { bg: '#faf5ff', color: '#6b21a8' }) +
+      '</div>' +
+
+      // ── KPI CARDS ROW: Monthly Report Workflow Status ──
       '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px;">' +
-        kpiCard('Total Scholars', scholars.length, 'Full-Time PhD') +
-        kpiCard('Active Supervisors', supervisors.length, 'Registered') +
         kpiCard('Pending Monthly', pendingM.length, labelStatus, pendingM.length > 0 ? STATUS_COLORS[targetStatus] : null) +
         kpiCard('Pending Daily Reports', pendingD.length, labelStatus, pendingD.length > 0 ? STATUS_COLORS[targetStatus] : null) +
+        kpiCard('Total Claims/Reports', reports.length, 'In ' + E(user.group || 'Faculty')) +
       '</div>' +
 
       '<div style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">' +
         
-        // Tabs
-        '<div style="display:flex;gap:12px;border-bottom:2px solid #e2e8f0;padding-bottom:12px;margin-bottom:16px;">' +
-          '<button id="tab-monthly" style="background:#0284c7;color:#fff;border:none;border-radius:6px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 2px 6px rgba(2,132,199,0.2);">Monthly Claims</button>' +
-          '<button id="tab-daily" style="background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;border-radius:6px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;">Daily Reports</button>' +
+        // Navigation Tabs
+        '<div style="display:flex;gap:12px;border-bottom:2px solid #e2e8f0;padding-bottom:12px;margin-bottom:16px;flex-wrap:wrap;">' +
+          '<button id="tab-monthly" class="portal-nav-tab" style="background:#0284c7;color:#fff;border:none;border-radius:6px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 2px 6px rgba(2,132,199,0.2);">Monthly Claims (' + monthlyReports.length + ')</button>' +
+          '<button id="tab-daily" class="portal-nav-tab" style="background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;border-radius:6px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;">Daily Reports (' + day8Reports.length + ')</button>' +
+          '<button id="tab-scholars" class="portal-nav-tab" style="background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;border-radius:6px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;">All Scholars (' + scholars.length + ')</button>' +
+          '<button id="tab-supervisors" class="portal-nav-tab" style="background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;border-radius:6px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;">All Supervisors (' + supervisors.length + ')</button>' +
         '</div>' +
 
+        // Tab 1: Monthly Claims
         '<div id="section-monthly">' +
           '<h3 style="margin:0 0 14px 0;font-size:16px;color:#0f172a;font-weight:700;">Master Fellowship Claim Audit Register</h3>' +
           '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">' +
@@ -1947,6 +2042,7 @@
           '</table></div>' +
         '</div>' +
 
+        // Tab 2: Daily Reports
         '<div id="section-daily" style="display:none;">' +
           '<h3 style="margin:0 0 14px 0;font-size:16px;color:#0f172a;font-weight:700;">Daily Reports Audit Register</h3>' +
           '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">' +
@@ -1959,6 +2055,44 @@
               '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Action</th>' +
             '</tr></thead>' +
             '<tbody>' + day8Rows + '</tbody>' +
+          '</table></div>' +
+        '</div>' +
+
+        // Tab 3: All Scholars (Across All Years & Categories)
+        '<div id="section-scholars" style="display:none;">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">' +
+            '<h3 style="margin:0;font-size:16px;color:#0f172a;font-weight:700;">All Active Research Scholars (' + scholars.length + ')</h3>' +
+            '<div style="font-size:12.5px;color:#64748b;">Showing all admission years (Full-time, Part-time Internal, Part-time External)</div>' +
+          '</div>' +
+          '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">' +
+            '<thead><tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">' +
+              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">S.No</th>' +
+              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Scholar Name</th>' +
+              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Department</th>' +
+              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Category</th>' +
+              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Enroll Year</th>' +
+              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Reg. No</th>' +
+              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Assigned Supervisor</th>' +
+            '</tr></thead>' +
+            '<tbody>' + scholarListRows + '</tbody>' +
+          '</table></div>' +
+        '</div>' +
+
+        // Tab 4: All Supervisors (Across All Years)
+        '<div id="section-supervisors" style="display:none;">' +
+          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">' +
+            '<h3 style="margin:0;font-size:16px;color:#0f172a;font-weight:700;">All Registered Supervisors (' + supervisors.length + ')</h3>' +
+            '<div style="font-size:12.5px;color:#64748b;">Active research supervisors across all departments</div>' +
+          '</div>' +
+          '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">' +
+            '<thead><tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">' +
+              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">S.No</th>' +
+              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Supervisor Name</th>' +
+              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Department / Discipline</th>' +
+              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Employee ID</th>' +
+              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;">Assigned Scholars</th>' +
+            '</tr></thead>' +
+            '<tbody>' + supervisorListRows + '</tbody>' +
           '</table></div>' +
         '</div>' +
 
@@ -2048,8 +2182,9 @@
         setTitle('HOD Portal · Research Scholar Monthly Reports — ' + (user.department || ''));
         appEl.innerHTML = renderHODScholarDashboard(user);
         bindHODDashboard();
-      } else if (role === 'deputy_dean' || role === 'dean') {
-        setTitle((role === 'dean' ? 'Dean' : 'Deputy Dean') + ' Portal · Research Scholar Monthly Reports (' + user.group + ')');
+      } else if (role === 'deputy_dean' || role === 'dean' || role === 'rd_coordinator') {
+        var roleTitle = role === 'dean' ? 'Dean' : (role === 'rd_coordinator' ? 'R&D Coordinator' : 'Deputy Dean');
+        setTitle(roleTitle + ' Portal · Research Scholar Monthly Reports (' + user.group + ')');
         appEl.innerHTML = renderDeanLevelDashboard(user);
         bindDeanLevelDashboard();
       }
@@ -2594,7 +2729,35 @@
 
     // ── Dean & Deputy Dean Dashboard bindings
     function bindDeanLevelDashboard() {
-      bindDashboardTabs();
+      // Custom multi-tab switching for Dean / Deputy Dean / Coordinator portal
+      var tabs = [
+        { btn: document.getElementById('tab-monthly'), sec: document.getElementById('section-monthly') },
+        { btn: document.getElementById('tab-daily'), sec: document.getElementById('section-daily') },
+        { btn: document.getElementById('tab-scholars'), sec: document.getElementById('section-scholars') },
+        { btn: document.getElementById('tab-supervisors'), sec: document.getElementById('section-supervisors') }
+      ];
+
+      tabs.forEach(function(item) {
+        if (!item.btn) return;
+        item.btn.addEventListener('click', function() {
+          tabs.forEach(function(t) {
+            if (!t.btn || !t.sec) return;
+            if (t.btn === item.btn) {
+              t.btn.style.background = '#0284c7';
+              t.btn.style.color = '#fff';
+              t.btn.style.border = 'none';
+              t.btn.style.boxShadow = '0 2px 6px rgba(2,132,199,0.2)';
+              t.sec.style.display = 'block';
+            } else {
+              t.btn.style.background = '#f1f5f9';
+              t.btn.style.color = '#475569';
+              t.btn.style.border = '1px solid #cbd5e1';
+              t.btn.style.boxShadow = 'none';
+              t.sec.style.display = 'none';
+            }
+          });
+        });
+      });
 
       appEl.querySelectorAll('[data-action="ddr-review"]').forEach(function(btn) {
         btn.addEventListener('click', function() {

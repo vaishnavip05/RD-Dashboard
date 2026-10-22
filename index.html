@@ -108,7 +108,7 @@
         if (!user || !window.SCHOLAR_MODULE) return;
 
         var navEl = document.querySelector('.site-header nav');
-        if (navEl && (user.role === 'hod' || user.role === 'dean' || user.role === 'deputy_dean')) {
+        if (navEl && (user.role === 'hod' || user.role === 'dean' || user.role === 'deputy_dean' || user.role === 'rd_coordinator')) {
           var btn = document.createElement('button');
           btn.className = 'nav-link';
           btn.dataset.page = 'scholar-reports';
@@ -149,7 +149,7 @@
           window.addEventListener('scholar-bridge-ready', function() {
             window.SCHOLAR_MODULE.mount(user);
           });
-        } else if ((user.role === 'hod' || user.role === 'dean' || user.role === 'deputy_dean') && window.location.hash === '#scholar-reports') {
+        } else if ((user.role === 'hod' || user.role === 'dean' || user.role === 'deputy_dean' || user.role === 'rd_coordinator') && window.location.hash === '#scholar-reports') {
           window.SCHOLAR_MODULE.mount(user);
         }
       }());

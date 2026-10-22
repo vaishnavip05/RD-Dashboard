@@ -519,7 +519,7 @@
 
     // H. getAllScholars & getAllSupervisors
     DATA.getAllScholars = function () {
-      return liveFullTimeScholars.length > 0 ? liveFullTimeScholars : DATA.SCHOLARS;
+      return liveScholars.length > 0 ? liveScholars : (liveFullTimeScholars.length > 0 ? liveFullTimeScholars : DATA.SCHOLARS);
     };
     DATA.getAllSupervisors = function () {
       return liveSupervisors.length > 0 ? liveSupervisors : DATA.SUPERVISORS;
@@ -784,6 +784,7 @@
     init: init,
     isReady: function () { return isSupabaseReady; },
     isTableReady: function () { return tableExists; },
+    getLiveScholars: function () { return liveScholars; },
     getLiveFullTimeScholars: function () { return liveFullTimeScholars; },
     getLiveSupervisors: function () { return liveSupervisors; },
     persistReport: persistReportToSupabase,
