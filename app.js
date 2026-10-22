@@ -1426,15 +1426,13 @@
     return;
   }
 
-  // ── 1. Determine initial scope from user profile or saved session ─────────
+  // ── 1. Determine initial scope strictly from the authenticated user's profile ─
+  // NOTE: We intentionally do NOT read srm_rd_selected_node_id from sessionStorage
+  // here so that stale selections from a previous user's session never bleed into
+  // the freshly-logged-in user's view.
   var tree = SCOPE.getTree();
-  var savedNodeId = null;
-  try { savedNodeId = sessionStorage.getItem('srm_rd_selected_node_id'); } catch(e){}
-  var savedNode = savedNodeId ? SCOPE.findNodeById(tree, savedNodeId) : null;
 
-  if (savedNode) {
-    SCOPE.setSelectedNode(savedNode);
-  } else if (user.scope === 'DEPARTMENT_ONLY' && user.department) {
+  if (user.scope === 'DEPARTMENT_ONLY' && user.department) {
     // HOD: auto-select their own department
     var hodDept = SCOPE.findNodeByLabel(tree, user.department, user.group);
     if (hodDept) {
@@ -1450,7 +1448,7 @@
       });
     }
   } else if (user.group && user.role !== 'chairman') {
-    // Dean / RD Coordinator: start with their group
+    // Dean / Deputy Dean / RD Coordinator: start with their group
     var grp = SCOPE.findNodeByKey(tree, user.group);
     if (grp) {
       SCOPE.setSelectedNode(grp);

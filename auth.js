@@ -4427,19 +4427,7 @@
     try {
       var raw = sessionStorage.getItem(SESSION_KEY);
       if (raw) return JSON.parse(raw);
-      // If no active session and not explicitly logged out on login page, default to Chairman for seamless portal access
-      var isExplicitLogout = sessionStorage.getItem('srm_rd_logged_out') === '1';
-      if (!isExplicitLogout) {
-        var chairman = DEMO_USERS.find(function (u) {
-          return u.role === 'chairman' || u.id === 'user_chairman';
-        });
-        if (chairman) {
-          var safeUser = Object.assign({}, chairman);
-          delete safeUser.password;
-          sessionStorage.setItem(SESSION_KEY, JSON.stringify(safeUser));
-          return safeUser;
-        }
-      }
+      // No active session — always return null so unauthenticated visitors are redirected to login.html
       return null;
     } catch (e) {
       return null;
@@ -4451,6 +4439,8 @@
       sessionStorage.removeItem(SESSION_KEY);
       return;
     }
+    // Clear any stale scope selection so the new user always starts with their own scope
+    sessionStorage.removeItem('srm_rd_selected_node_id');
     sessionStorage.removeItem('srm_rd_logged_out');
     var safeUser = Object.assign({}, user);
     delete safeUser.password;
@@ -4463,6 +4453,7 @@
 
   function logout() {
     sessionStorage.removeItem(SESSION_KEY);
+    sessionStorage.removeItem('srm_rd_selected_node_id');
     sessionStorage.setItem('srm_rd_logged_out', '1');
     window.location.replace('/login.html');
   }
