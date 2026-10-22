@@ -5,12 +5,13 @@
  * 
  * Seamlessly connects the Research Scholar Monthly Report Cum Fellowship
  * Claim workflow to live Supabase Cloud tables:
- * 1. research_scholars: 104 live Full-time PhD scholars
+ * 1. research_scholars: 493 live PhD scholars (Full-time, Part-time Internal, Part-time External)
  * 2. research_supervisors: live approved PhD research supervisors
  * 3. monthly_reports: persistent storage for scholar monthly submissions & approval chain
  *
- * Enforces role isolation, full-time eligibility, supervisor mapping, and
- * approval workflow: Scholar -> Supervisor -> HOD -> Deputy Dean -> Dean
+ * Supervisor visibility: ALL assigned scholars regardless of category or admission year.
+ * Monthly-report submission: restricted to Full-time scholars ONLY (isFullTime flag).
+ * Approval workflow: Scholar -> Supervisor -> HOD -> Deputy Dean -> Dean
  */
 
 (function (global) {
@@ -146,7 +147,9 @@
         var regNo = sc.register_number ? String(sc.register_number).replace(/\.0$/, '') : sc.id;
         var deptName = (sc.department && sc.department.name) ? sc.department.name : (sc.department || '');
         var buName = (sc.department && sc.department.business_unit && sc.department.business_unit.name) ? sc.department.business_unit.name : (sc.business_unit || 'E&T');
-        
+        // Preserve actual category string from DB (Full-time, Part-time Internal, Part-time External, etc.)
+        var categoryLabel = catStr || (isFullTime ? 'Full-time' : 'Part-time');
+
         var schObj = {
           id: sc.id,
           dbId: sc.id,
@@ -156,7 +159,7 @@
           registrationNo: regNo,
           registerNumber: regNo,
           employeeId: regNo,
-          category: isFullTime ? 'Full-time' : 'Part-time',
+          category: categoryLabel,
           isFullTime: isFullTime,
           status: sc.status || 'Ongoing',
           department: deptName,
@@ -173,15 +176,15 @@
           _fromSupabase: true
         };
 
-        // Link with supervisor
+        // Link with supervisor: ALL scholars (Full-Time, Part-time Internal, Part-time External)
+        // are added to assignedScholarIds so supervisors can see all their scholars.
+        // isFullTime is preserved separately to gate monthly-report submission.
         var sNorm = normName(schObj.supervisorName);
         if (sNorm && supMapNorm[sNorm]) {
           var matchedSup = supMapNorm[sNorm];
           schObj.supervisorId = matchedSup.id;
-          if (isFullTime) {
-            matchedSup.assignedScholarIds.push(schObj.id);
-            if (schObj.registrationNo) matchedSup.assignedScholarIds.push(schObj.registrationNo);
-          }
+          matchedSup.assignedScholarIds.push(schObj.id);
+          if (schObj.registrationNo) matchedSup.assignedScholarIds.push(schObj.registrationNo);
         }
 
         return schObj;
@@ -415,15 +418,17 @@
       return null;
     };
 
-    // C. getScholarsForSupervisor: Live assigned FULL-TIME scholars ONLY
+    // C. getScholarsForSupervisor: ALL assigned scholars (Full-Time, Part-time Internal,
+    //    Part-time External) across every admission year. isFullTime flag is preserved
+    //    on each scholar object for the monthly-report submission gate.
     DATA.getScholarsForSupervisor = function (supervisorId) {
       var sup = DATA.getSupervisorById(supervisorId);
       if (!sup) return [];
 
       var sNorm = normName(sup.name);
 
-      // Filter live scholars: ONLY Full-time scholars assigned to this supervisor
-      var matched = liveFullTimeScholars.filter(function (sch) {
+      // Match against ALL live scholars regardless of category
+      var matched = liveScholars.filter(function (sch) {
         if (sch.supervisorId && sch.supervisorId === sup.id) return true;
         if (normName(sch.supervisorName) === sNorm) return true;
         if (sup.assignedScholarIds && sup.assignedScholarIds.indexOf(sch.id) !== -1) return true;

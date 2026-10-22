@@ -1626,17 +1626,27 @@
                     '<th style="padding:10px 12px;font-weight:700;">S.No</th>' +
                     '<th style="padding:10px 12px;font-weight:700;">Scholar Name</th>' +
                     '<th style="padding:10px 12px;font-weight:700;">Department</th>' +
-                    '<th style="padding:10px 12px;font-weight:700;">Registration Date</th>' +
+                    '<th style="padding:10px 12px;font-weight:700;">Category</th>' +
+                    '<th style="padding:10px 12px;font-weight:700;">Enroll Year</th>' +
+                    '<th style="padding:10px 12px;font-weight:700;">Reg. No</th>' +
                   '</tr>' +
                 '</thead>' +
                 '<tbody>';
           
           scholars.forEach(function(s, index) {
+            var isFT = s.isFullTime;
+            var catColor = isFT ? 'background:#dcfce7;color:#166534;' : 'background:#fef9c3;color:#854d0e;';
             html += '<tr style="border-bottom:1px solid #e2e8f0;">' +
               '<td style="padding:10px 12px;color:#64748b;">' + (index + 1) + '</td>' +
               '<td style="padding:10px 12px;font-weight:700;color:#0f172a;">' + E(s.name) + '</td>' +
               '<td style="padding:10px 12px;color:#475569;">' + E(s.department) + '</td>' +
-              '<td style="padding:10px 12px;color:#475569;">' + E(s.registrationDate) + '</td>' +
+              '<td style="padding:10px 12px;">' +
+                '<span style="display:inline-block;padding:2px 9px;border-radius:12px;font-size:11.5px;font-weight:700;' + catColor + '">' +
+                  E(s.category || (isFT ? 'Full-time' : 'Part-time')) +
+                '</span>' +
+              '</td>' +
+              '<td style="padding:10px 12px;color:#475569;">' + E(String(s.yearOfEnrollment || s.year || '—')) + '</td>' +
+              '<td style="padding:10px 12px;color:#64748b;font-family:monospace;font-size:12px;">' + E(s.registrationNo || '—') + '</td>' +
             '</tr>';
           });
 
