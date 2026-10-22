@@ -275,6 +275,11 @@ window.SupabaseDataService = {
 
   // ─── Insert Record (Used by + Add Data Form) ──────────────────────────────
   async insertRecord(type, raw, group) {
+    var user = (window.SRM_AUTH && window.SRM_AUTH.getCurrentUser) ? window.SRM_AUTH.getCurrentUser() : null;
+    if (!user || user.role !== 'rd_coordinator') {
+      console.error('[SupabaseDataService] Unauthorized insert attempt blocked. User role:', user ? user.role : 'none');
+      return { success: false, error: 'Unauthorized: Only R&D Coordinator is authorized to insert research records.' };
+    }
     if (!group) group = 'FLABS';
     var year = parseInt(raw.year || raw.year_of_enrollment || new Date().getFullYear(), 10);
     var dept = (raw.department || '').trim();

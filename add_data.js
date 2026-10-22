@@ -322,8 +322,14 @@
 
     var user = AUTH.getCurrentUser();
     if (!user) return;
-    var allowedRoles = ['rd_coordinator', 'chairman', 'director', 'admin'];
-    if (!allowedRoles.includes(user.role)) return;
+    
+    // STRICT ROLE RESTRICTION: Only R&D Coordinator is authorized to upload new data
+    // Prohibited for Chairman, Dean, Deputy Dean, HOD, Scholars, Supervisors
+    if (user.role !== 'rd_coordinator') {
+      var existing = document.getElementById('rd-coordinator-add-data');
+      if (existing) existing.remove();
+      return;
+    }
 
     // Load any previously saved records into live data arrays
     loadAndMergePersistedRecords();
@@ -386,6 +392,14 @@
 
   // ─── OPEN FORM MODAL ──────────────────────────────────────────────────────────
   function openFormModal(type, group) {
+    var AUTH = window.SRM_AUTH;
+    var user = AUTH ? AUTH.getCurrentUser() : null;
+    if (!user || user.role !== 'rd_coordinator') {
+      console.warn('[Add Data] Unauthorized attempt to open data upload form by role:', user ? user.role : 'anonymous');
+      alert('Unauthorized: Only R&D Coordinator is authorized to upload new research data.');
+      return;
+    }
+
     var modal = document.getElementById('rd-data-modal');
     if (!modal) {
       modal = document.createElement('div');
@@ -529,6 +543,14 @@
 
   // ─── SAVE RECORD ─────────────────────────────────────────────────────────────
   async function saveRecord(type, group, formData) {
+    var AUTH = window.SRM_AUTH;
+    var user = AUTH ? AUTH.getCurrentUser() : null;
+    if (!user || user.role !== 'rd_coordinator') {
+      console.error('[Add Data] Unauthorized save attempt rejected for role:', user ? user.role : 'anonymous');
+      alert('Unauthorized: Only R&D Coordinator has permission to save new research data.');
+      return;
+    }
+
     var raw = {};
     formData.forEach(function (value, key) { raw[key] = value; });
 

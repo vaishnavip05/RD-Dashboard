@@ -7675,6 +7675,10 @@
   }
 
   function getReportById(id) {
+    if (global.SCHOLAR_REPORTS_DATA && Array.isArray(global.SCHOLAR_REPORTS_DATA.MONTHLY_REPORTS)) {
+      var foundInGlobal = global.SCHOLAR_REPORTS_DATA.MONTHLY_REPORTS.find(function (r) { return r.id === id; });
+      if (foundInGlobal) return foundInGlobal;
+    }
     return MONTHLY_REPORTS.find(function (r) { return r.id === id; }) || null;
   }
 
@@ -7931,15 +7935,15 @@
     return MONTHLY_REPORTS.filter(function (r) {
       var rDeptLower = (r.department || '').toLowerCase().trim();
       var isDeptMatch = rDeptLower === deptLower || rDeptLower.indexOf(deptLower) !== -1 || deptLower.indexOf(rDeptLower) !== -1;
-      // HOD sees reports that are SUPERVISOR_APPROVED, HOD_APPROVED, VERIFIED
-      var validStatuses = ['SUPERVISOR_APPROVED', 'HOD_APPROVED', 'VERIFIED'];
+      // HOD sees reports that are SUPERVISOR_APPROVED, HOD_APPROVED, DEPUTY_DEAN_APPROVED, VERIFIED, RETURNED_TO_SCHOLAR
+      var validStatuses = ['SUPERVISOR_APPROVED', 'HOD_APPROVED', 'DEPUTY_DEAN_APPROVED', 'VERIFIED', 'RETURNED_TO_SCHOLAR'];
       return isDeptMatch && validStatuses.indexOf(r.status) !== -1;
     });
   }
 
   function getReportsForDeputyDean(groupName) {
     return MONTHLY_REPORTS.filter(function (r) {
-      var validStatuses = ['HOD_APPROVED', 'DEPUTY_DEAN_APPROVED', 'VERIFIED'];
+      var validStatuses = ['HOD_APPROVED', 'DEPUTY_DEAN_APPROVED', 'VERIFIED', 'RETURNED_TO_SCHOLAR'];
       if (validStatuses.indexOf(r.status) === -1) return false;
       
       if (!groupName || groupName === 'ALL') return true;

@@ -277,39 +277,60 @@
 
         if (!window.supabaseClient) return [];
 
-        // Map group name to business_unit value stored in Supabase
-        // Supabase uses 'E&T', 'FLABS', 'Management'
-        var businessUnit = group;
-
-        var tableName = (role === 'supervisor') ? 'research_supervisors' : 'research_scholars';
         var results = [];
         var from = 0;
         var step = 1000;
-        while (true) {
-          var query = window.supabaseClient
-            .from(tableName)
-            .select('*')
-            .eq('business_unit', businessUnit);
-          // For scholars: only show Full-time scholars in the login dropdown
-          if (role === 'scholar') {
-            query = query.eq('category', 'Full-time');
+
+        try {
+          if (role === 'supervisor') {
+            while (true) {
+              var res = await window.supabaseClient
+                .from('research_supervisors')
+                .select('*')
+                .range(from, from + step - 1);
+              if (res.error || !res.data || res.data.length === 0) break;
+              results = results.concat(res.data);
+              if (res.data.length < step) break;
+              from += step;
+            }
+          } else {
+            while (true) {
+              var sRes = await window.supabaseClient
+                .from('research_scholars')
+                .select('*')
+                .range(from, from + step - 1);
+              if (sRes.error || !sRes.data || sRes.data.length === 0) break;
+              results = results.concat(sRes.data);
+              if (sRes.data.length < step) break;
+              from += step;
+            }
           }
-          var res = await query.range(from, from + step - 1);
-          if (res.error || !res.data || res.data.length === 0) break;
-          results = results.concat(res.data);
-          if (res.data.length < step) break;
-          from += step;
+        } catch (e) {
+          console.error('[Login] Error fetching Supabase users:', e);
         }
+
+        // Filter by group (business_unit) and category (for scholars: only Full-time)
+        var filtered = results.filter(function(r) {
+          var buName = (r.department && r.department.business_unit && r.department.business_unit.name) ? r.department.business_unit.name : (r.business_unit || 'E&T');
+          if (group && buName && buName !== group) return false;
+
+          if (role === 'scholar') {
+            var cat = String(r.category_mode || r.category || '');
+            var isFT = cat.toLowerCase().indexOf('full') !== -1 || /^FT\b/i.test(cat) || /^FT\s*-/i.test(cat);
+            if (!isFT) return false;
+          }
+          return true;
+        });
 
         // De-duplicate by name + employee_id for supervisors, by name + register_number for scholars
         var seen = {};
         var unique = [];
-        results.forEach(function(r) {
+        filtered.forEach(function(r) {
           var key;
           if (role === 'supervisor') {
-            key = (r.supervisor_name || r.name || '') + '|' + (r.employee_id || '');
+            key = (r.supervisor_name || r.name || '') + '|' + (r.supervisor_id || r.employee_id || '');
           } else {
-            key = (r.scholar_name || r.name || '') + '|' + (r.register_number || r.application_number || '');
+            key = (r.scholar_name || r.name || '') + '|' + (r.register_number || r.id || '');
           }
           if (!seen[key]) {
             seen[key] = true;
@@ -317,12 +338,14 @@
           }
         });
 
-        // Map to the user object format expected by the login UI
-        var mapped = unique.map(function(r, idx) {
+        // Map to the user object format expected by the login UI using verified Supabase fields
+        var mapped = unique.map(function(r) {
+          var deptName = (r.department && r.department.name) ? r.department.name : (r.department || r.discipline || '');
           if (role === 'supervisor') {
-            var empId = r.employee_id || ('SUP_' + group + '_' + idx);
+            var empId = r.supervisor_id || r.employee_id || r.id;
             return {
-              id: 'supabase_sup_' + idx,
+              id: r.id,
+              dbId: r.id,
               name: r.supervisor_name || r.name || '—',
               employeeId: empId,
               password: '123456',
@@ -330,23 +353,28 @@
               campus: 'SRM Ramapuram',
               college: 'SRM Institute of Science & Technology',
               group: group,
-              department: r.department || r.discipline || '',
+              department: deptName,
+              discipline: r.discipline || '',
               scope: 'SUPERVISOR_ONLY',
               _fromSupabase: true
             };
           } else {
-            var regNo = r.register_number || r.application_number || ('SCH_' + group + '_' + idx);
+            var regNo = r.register_number || r.id;
             return {
-              id: 'supabase_sch_' + idx,
+              id: r.id,
+              dbId: r.id,
               name: r.scholar_name || r.name || '—',
               employeeId: regNo,
+              registerNumber: regNo,
+              category: 'Full-time',
               password: '123456',
               role: 'scholar',
               campus: 'SRM Ramapuram',
               college: 'SRM Institute of Science & Technology',
               group: group,
-              department: r.department || '',
+              department: deptName,
               supervisor: r.supervisor_name || '',
+              supervisorName: r.supervisor_name || '',
               scope: 'SCHOLAR_ONLY',
               _fromSupabase: true
             };
@@ -607,6 +635,11 @@
         var enteredPw = passwordInput.value;
         if (!enteredPw) {
           showError('Please enter your password.');
+          return;
+        }
+
+        if (selectedUser.role === 'scholar' && selectedUser.category && selectedUser.category !== 'Full-time') {
+          showError('Access restricted: Only Full-time research scholars can log in and submit monthly reports. Part-time scholars are not eligible.');
           return;
         }
 

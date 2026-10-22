@@ -97,6 +97,7 @@
     <!-- Supabase Core & Live Cloud Backend Client -->
     <script src="supabase.js?v=20261019_fix2"></script>
     <script src="supabase_client.js?v=20261019_fix2"></script>
+    <script src="scholar_supabase_bridge.js?v=20261022_v1"></script>
 
     <script src="app.js?v=20261019_fix2"></script>
     <script src="scholar_module.js?v=20261019_fix2"></script>
@@ -144,6 +145,10 @@
           if (navEl) navEl.style.display = 'none';
 
           window.SCHOLAR_MODULE.mount(user);
+
+          window.addEventListener('scholar-bridge-ready', function() {
+            window.SCHOLAR_MODULE.mount(user);
+          });
         } else if ((user.role === 'hod' || user.role === 'dean' || user.role === 'deputy_dean') && window.location.hash === '#scholar-reports') {
           window.SCHOLAR_MODULE.mount(user);
         }

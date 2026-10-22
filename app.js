@@ -1192,6 +1192,19 @@
       return;
     }
 
+    // Scholar and Supervisor roles must only see their respective report portal
+    const currentUser = window.SRM_AUTH ? window.SRM_AUTH.getCurrentUser() : null;
+    if (currentUser && (currentUser.role === 'scholar' || currentUser.role === 'supervisor')) {
+      const headerNav = document.querySelector('.site-header nav');
+      if (headerNav) headerNav.style.display = 'none';
+      const scopePanel = document.getElementById('scope-panel');
+      if (scopePanel) scopePanel.style.display = 'none';
+      if (window.SCHOLAR_MODULE) {
+        window.SCHOLAR_MODULE.mount(currentUser);
+      }
+      return;
+    }
+
     if (p === 'scholar-reports') {
       const user = window.SRM_AUTH ? window.SRM_AUTH.getCurrentUser() : null;
       if (user && window.SCHOLAR_MODULE) {
@@ -1404,6 +1417,14 @@
   if (!SCOPE) return;
 
   var user = (AUTH && AUTH.getCurrentUser()) || { role: 'chairman', name: 'Chairman', scope: 'ALL' };
+
+  if (user && (user.role === 'scholar' || user.role === 'supervisor')) {
+    var sidebarEl = document.getElementById('scope-panel');
+    if (sidebarEl) sidebarEl.style.display = 'none';
+    var navEl = document.querySelector('.site-header nav');
+    if (navEl) navEl.style.display = 'none';
+    return;
+  }
 
   // ── 1. Determine initial scope from user profile or saved session ─────────
   var tree = SCOPE.getTree();

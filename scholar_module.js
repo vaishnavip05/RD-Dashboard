@@ -793,7 +793,7 @@
 
       '</div>' +
       // Action bar at the bottom
-      '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px 20px;display:flex;justify-content:flex-end;margin-top:20px;">' +
+      '<div id="form-action-bar" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px 20px;display:flex;justify-content:flex-end;margin-top:20px;">' +
         '<div style="display:flex;align-items:center;gap:10px;">' +
           '<button type="button" id="btn-save-draft" style="background:#f8fafc;color:#0369a1;border:1.5px solid #0284c7;border-radius:6px;padding:8.5px 18px;font-size:13px;font-weight:700;cursor:pointer;">💾 Save Draft</button>' +
           '<button type="button" id="btn-submit-supervisor" style="background:#0284c7;color:#fff;border:none;border-radius:6px;padding:8.5px 20px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 2px 5px rgba(2,132,199,0.3);">🚀 Submit to Supervisor</button>' +
@@ -976,6 +976,10 @@
 
     if (!scholar) {
       return '<div style="padding:40px;text-align:center;color:#64748b;">Scholar record not found for <strong>' + E(user.name) + '</strong>.</div>';
+    }
+
+    if (scholar.category && scholar.category.toLowerCase().indexOf('full') === -1) {
+      return '<div style="padding:40px;text-align:center;color:#b91c1c;background:#fff1f2;border:1px solid #fecdd3;border-radius:10px;margin:24px auto;max-width:700px;"><div style="font-size:36px;margin-bottom:12px;">🚫</div><h3 style="margin:0 0 8px 0;font-size:18px;font-weight:800;color:#991b1b;">Access Restricted</h3><p style="margin:0;font-size:13.5px;color:#4c0519;line-height:1.6;">Only <strong>Full-time research scholars</strong> have access to the Monthly Report and Fellowship Claim portal. Part-time scholars are not eligible to submit monthly reports.</p></div>';
     }
 
     // ── Notifications
@@ -1355,7 +1359,7 @@
 
       '</div>' +
       // Action bar at the bottom
-      '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px 20px;display:flex;justify-content:flex-end;margin-top:20px;">' +
+      '<div id="form-action-bar" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:10px;padding:16px 20px;display:flex;justify-content:flex-end;margin-top:20px;">' +
         '<div style="display:flex;align-items:center;gap:10px;">' +
           '<button type="button" id="btn-save-draft" style="background:#f8fafc;color:#0369a1;border:1.5px solid #0284c7;border-radius:6px;padding:8px 18px;font-size:13px;font-weight:700;cursor:pointer;">💾 Save Draft</button>' +
           '<button type="button" id="btn-submit-supervisor" style="background:#0284c7;color:#fff;border:none;border-radius:6px;padding:8.5px 20px;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 2px 5px rgba(2,132,199,0.3);">🚀 Submit to Supervisor</button>' +
@@ -1992,6 +1996,10 @@
   // ════════════════════════════════════════════════════════════════
   // MAIN MOUNT FUNCTION
   // ════════════════════════════════════════════════════════════════
+  var currentActiveUser = null;
+  var currentActiveView = 'dashboard';
+  var currentActiveReportId = null;
+
   function mount(user) {
     var appEl = document.getElementById('app');
     var titleEl = document.getElementById('page-title');
@@ -2000,6 +2008,14 @@
     var DATA = global.SCHOLAR_REPORTS_DATA;
     var role = user.role;
 
+    // If already mounted for this user and currently viewing a form or reviewing a report,
+    // do not disrupt the user's active subview with an automatic re-render.
+    if (currentActiveUser && currentActiveUser.id === user.id && currentActiveView !== 'dashboard') {
+      return;
+    }
+    currentActiveUser = user;
+    currentActiveView = 'dashboard';
+
     var currentView = 'dashboard';
     var currentReportId = null;
 
@@ -2007,7 +2023,9 @@
 
     function showDashboard() {
       currentView = 'dashboard';
+      currentActiveView = 'dashboard';
       currentReportId = null;
+      currentActiveReportId = null;
       if (role === 'scholar') {
         setTitle('Research Scholar Portal · Monthly Report & Fellowship Claim');
         appEl.innerHTML = renderScholarDashboard(user);
@@ -2080,6 +2098,10 @@
         createBtn.addEventListener('click', function() {
           var scholar = DATA.getScholarById(user.id || user.employeeId);
           if (!scholar) { toast('Scholar record not found.', '#be123c'); return; }
+          if (scholar.category && scholar.category.toLowerCase().indexOf('full') === -1) {
+            toast('Access restricted: Only Full-time scholars can submit reports.', '#be123c');
+            return;
+          }
           var report = DATA.createBlankReport(scholar.id);
           currentReportId = report.id;
           DATA.saveReport(report);
@@ -2092,6 +2114,10 @@
         createDailyBtn.addEventListener('click', function() {
           var scholar = DATA.getScholarById(user.id || user.employeeId);
           if (!scholar) { toast('Scholar record not found.', '#be123c'); return; }
+          if (scholar.category && scholar.category.toLowerCase().indexOf('full') === -1) {
+            toast('Access restricted: Only Full-time scholars can submit reports.', '#be123c');
+            return;
+          }
           var report = DATA.createBlankDailyReport(scholar.id);
           currentReportId = report.id;
           DATA.saveReport(report);
@@ -2349,6 +2375,7 @@
           if (!report) return;
           currentReportId = rId;
           currentView = 'review';
+          currentActiveView = 'review';
           setTitle('Supervisor Review — ' + report.scholarName + ' · ' + report.monthYear);
           appEl.innerHTML = renderSupervisorReviewPanel(report, user);
           bindSupervisorReview(report);
@@ -2363,6 +2390,7 @@
           if (!report) return;
           currentReportId = rId;
           currentView = 'review-day8';
+          currentActiveView = 'review-day8';
           setTitle('Supervisor Review (Daily Report) — ' + report.scholarName + ' · ' + report.monthYear);
           appEl.innerHTML = renderDay8SupervisorReviewPanel(report, user);
           bindDay8SupervisorReview(report);
@@ -2456,6 +2484,7 @@
           if (!report) return;
           currentReportId = rId;
           currentView = 'review';
+          currentActiveView = 'review';
           setTitle('HOD Review — ' + report.scholarName + ' · ' + report.monthYear);
           appEl.innerHTML = renderHODReviewPanel(report, user);
           bindHODReview(report);
@@ -2470,6 +2499,7 @@
           if (!report) return;
           currentReportId = rId;
           currentView = 'review-day8';
+          currentActiveView = 'review-day8';
           setTitle('HOD Review (Daily Report) — ' + report.scholarName + ' · ' + report.monthYear);
           appEl.innerHTML = renderDay8HODReviewPanel(report, user);
           bindDay8HODReview(report);
@@ -2563,6 +2593,7 @@
           if (!report) return;
           currentReportId = rId;
           currentView = 'review';
+          currentActiveView = 'review';
           var isDean = user.role === 'dean';
           setTitle((isDean ? 'Dean' : 'Deputy Dean') + ' Review — ' + report.scholarName + ' · ' + report.monthYear);
           appEl.innerHTML = renderDeanLevelReviewPanel(report, user);
@@ -2578,6 +2609,7 @@
           if (!report) return;
           currentReportId = rId;
           currentView = 'review-day8';
+          currentActiveView = 'review-day8';
           var isDean = user.role === 'dean';
           setTitle((isDean ? 'Dean' : 'Deputy Dean') + ' Review (Daily Report) — ' + report.scholarName + ' · ' + report.monthYear);
           appEl.innerHTML = renderDay8DeanLevelReviewPanel(report, user);
