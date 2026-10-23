@@ -140,6 +140,8 @@ window.SupabaseDataService = {
     var etSups = (data.research_supervisors || []).filter(function (r) { return r.business_unit === 'E&T'; });
     
     window.ET_SUPERVISORS_SCHOLARS = {
+      allScholars: etSchs.map(this.mapScholar),
+      allSupervisors: etSups.map(this.mapSupervisor),
       yearlyData: {
         2024: { records: etSchs.filter(function (r) { return r.year === 2024; }).map(this.mapScholar), scholarCount: etSchs.filter(function (r) { return r.year === 2024; }).length, supervisorCount: etSups.filter(function (r) { return r.year === 2024; }).length },
         2025: { records: etSchs.filter(function (r) { return r.year === 2025; }).map(this.mapScholar), scholarCount: etSchs.filter(function (r) { return r.year === 2025; }).length, supervisorCount: etSups.filter(function (r) { return r.year === 2025; }).length },
@@ -152,6 +154,7 @@ window.SupabaseDataService = {
     var flabsPats = (data.patents || []).filter(function (r) { return r.business_unit === 'FLABS'; }).map(this.mapPatent);
     var flabsFund = (data.funded_projects || []).filter(function (r) { return r.business_unit === 'FLABS'; }).map(this.mapFunded);
     var flabsSchs = (data.research_scholars || []).filter(function (r) { return r.business_unit === 'FLABS'; }).map(this.mapScholar);
+    var flabsSups = (data.research_supervisors || []).filter(function (r) { return r.business_unit === 'FLABS'; }).map(this.mapSupervisor);
     var flabsAwds = (data.research_awards || []).filter(function (r) { return r.business_unit === 'FLABS'; }).map(this.mapAward);
 
     if (!window.RESEARCH_DATA) {
@@ -160,6 +163,7 @@ window.SupabaseDataService = {
         patents: flabsPats,
         funded: flabsFund,
         scholars: flabsSchs,
+        supervisors: flabsSups,
         awards: flabsAwds
       };
     } else {
@@ -167,6 +171,7 @@ window.SupabaseDataService = {
       window.RESEARCH_DATA.patents = flabsPats;
       window.RESEARCH_DATA.funded = flabsFund;
       window.RESEARCH_DATA.scholars = flabsSchs;
+      window.RESEARCH_DATA.supervisors = flabsSups;
       window.RESEARCH_DATA.awards = flabsAwds;
     }
 
@@ -464,7 +469,7 @@ window.SupabaseDataService = {
       departmentGroup: r.department || '',
       supervisor: r.supervisor_name || r.supervisor || '—',
       program: r.programme || 'Ph.D',
-      category: r.category || 'Full-time',
+      category: r.category || r.category_mode || 'Full-time',
       status: r.status || 'Ongoing',
       researchArea: r.research_area || '',
       raw: r

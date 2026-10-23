@@ -513,7 +513,21 @@
         var rGroup = r.group || r.businessUnit;
         if (rGroup && rGroup === groupName) return true;
         // Fallback: match by department in scope tree
-        return true;
+        var dLower = (r.department || '').toLowerCase().trim();
+        var foundGrp = null;
+        if (window.SRM_SCOPE && window.SRM_SCOPE.TREE) {
+          var coll = window.SRM_SCOPE.TREE.children[0].children[0];
+          if (coll && coll.children) {
+            coll.children.forEach(function(grp) {
+              if (grp.children) {
+                grp.children.forEach(function(d) {
+                  if (d.label && d.label.toLowerCase() === dLower) foundGrp = grp.key;
+                });
+              }
+            });
+          }
+        }
+        return foundGrp === groupName;
       });
     };
 

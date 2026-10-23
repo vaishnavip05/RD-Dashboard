@@ -264,16 +264,21 @@
   }
 
   function getETPeopleRecords(year, ignoreScope = false) {
-    const supData = window.ET_SUPERVISORS_SCHOLARS && window.ET_SUPERVISORS_SCHOLARS.yearlyData;
-    if (!supData) return [];
+    const etData = window.ET_SUPERVISORS_SCHOLARS;
+    const supData = etData && etData.yearlyData;
+    if (!supData && (!etData || !etData.allScholars)) return [];
 
     let recs = [];
-    if (year && supData[year]) {
+    if (year && supData && supData[year]) {
       recs = supData[year].records || [];
     } else if (!year) {
-      Object.keys(supData).forEach(y => {
-        recs = recs.concat(supData[y].records || []);
-      });
+      if (etData && etData.allScholars && etData.allScholars.length > 0) {
+        recs = etData.allScholars;
+      } else if (supData) {
+        Object.keys(supData).forEach(y => {
+          recs = recs.concat(supData[y].records || []);
+        });
+      }
     }
 
     const clean = recs.filter(r => {
@@ -433,6 +438,159 @@
  // ── Current page tracker ───────────────────────────────────────────────────
  let _currentPage = 'home';
 
+  // ══════════════════════════════════════════════════════════════════════════
+  // CUMULATIVE RESEARCH COMMUNITY HELPERS
+  // For a given selectedYear, return scholars/supervisors from ALL years ≤ selectedYear.
+  // Deduplication is by registration number (or scholar name as fallback) to avoid
+  // counting the same person twice when they appear across multiple year rows.
+  // ══════════════════════════════════════════════════════════════════════════
+
+  function _deduplicateScholars(records) {
+    // Deduplicate by (registration || name) — prefer unique registration numbers
+    const seen = new Set();
+    return records.filter(r => {
+      const key = (r.registration && r.registration !== '—') ? r.registration
+                : (r.applicationNo && r.applicationNo !== '—') ? r.applicationNo
+                : (r.registerNumber && r.registerNumber !== '—') ? r.registerNumber
+                : (r.name && r.name !== '—') ? r.name
+                : (r.scholar && r.scholar !== '—') ? r.scholar
+                : null;
+      if (!key) return true; // can't deduplicate, keep
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  function _deduplicateSupervisors(records) {
+    const seen = new Set();
+    return records.filter(r => {
+      const key = (r.employeeCode && r.employeeCode !== '—') ? r.employeeCode
+                : (r.supervisor && r.supervisor !== '—') ? r.supervisor
+                : (r.name && r.name !== '—') ? r.name
+                : null;
+      if (!key) return true;
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+  }
+
+  // --- FLABS cumulative ---
+  function getFLABSCumulativeScholars(upToYear, ignoreScope) {
+    const SCOPE = window.SRM_SCOPE;
+    const dept = SCOPE && SCOPE.getSelectedDept();
+    const all = window.RESEARCH_DATA ? (window.RESEARCH_DATA.scholars || []) : [];
+    const filteredByYear = all.filter(r => (parseInt(r.year, 10) || 2024) <= upToYear);
+    const recs = (ignoreScope || !dept || !SCOPE) ? filteredByYear
+               : SCOPE.filterResearchCommunityByDepartment(filteredByYear, dept);
+    return _deduplicateScholars(recs);
+  }
+
+  function getFLABSCumulativeSupervisors(upToYear, ignoreScope) {
+    const SCOPE = window.SRM_SCOPE;
+    const dept = SCOPE && SCOPE.getSelectedDept();
+    const all = window.RESEARCH_DATA ? (window.RESEARCH_DATA.supervisors || []) : [];
+    const filteredByYear = all.filter(r => (parseInt(r.year, 10) || 2024) <= upToYear);
+    if (ignoreScope || !dept || !SCOPE) {
+      return _deduplicateSupervisors(filteredByYear);
+    }
+    const filtered = SCOPE.filterResearchCommunityByDepartment(filteredByYear, dept);
+    return _deduplicateSupervisors(filtered);
+  }
+
+  // --- Management cumulative ---
+  function getMgmtCumulativeScholars(upToYear, ignoreScope) {
+    const M = window.MANAGEMENT_RESEARCH_DATA;
+    const all = M ? (M.scholars || []) : [];
+    const mgmtScope = getManagementScope();
+    const deptFilter = (!ignoreScope && mgmtScope && mgmtScope.dept) ? mgmtScope.dept.toLowerCase() : null;
+
+    let filtered = all.filter(r => (parseInt(r.year, 10) || 2024) <= upToYear);
+    if (deptFilter) {
+      filtered = filtered.filter(r => {
+        const d = (r.department || r.departmentGroup || '').trim().toLowerCase();
+        return d === deptFilter || d.includes(deptFilter);
+      });
+    }
+    return _deduplicateScholars(filtered);
+  }
+
+  function getMgmtCumulativeSupervisors(upToYear, ignoreScope) {
+    const M = window.MANAGEMENT_RESEARCH_DATA;
+    const all = M ? (M.supervisors || []) : [];
+    const mgmtScope = getManagementScope();
+    const deptFilter = (!ignoreScope && mgmtScope && mgmtScope.dept) ? mgmtScope.dept.toLowerCase() : null;
+
+    let filtered = all.filter(r => (parseInt(r.year, 10) || 2024) <= upToYear);
+    if (deptFilter) {
+      filtered = filtered.filter(r => {
+        const d = (r.department || r.departmentGroup || '').trim().toLowerCase();
+        return d === deptFilter || d.includes(deptFilter);
+      });
+    }
+    return _deduplicateSupervisors(filtered);
+  }
+
+  // --- E&T cumulative ---
+  function getETCumulativeScholars(upToYear, ignoreScope) {
+    const etData = window.ET_SUPERVISORS_SCHOLARS;
+    let all = (etData && etData.allScholars) ? etData.allScholars : [];
+    if (all.length === 0 && etData && etData.yearlyData) {
+      Object.keys(etData.yearlyData).forEach(y => {
+        all = all.concat(etData.yearlyData[y].records || []);
+      });
+    }
+    const clean = all.filter(r => {
+      if (!r || !r.scholar) return false;
+      const s = r.scholar.trim();
+      if (['FT', 'PT', 'PT (Internal )', 'PT (Internal)', 'PT(External)', 'PT (External)', 'Total'].includes(s)) return false;
+      return true;
+    });
+
+    let filtered = clean.filter(r => (parseInt(r.year, 10) || 2024) <= upToYear);
+    const etScope = getETScope();
+    if (!ignoreScope && etScope && etScope.dept) {
+      filtered = filtered.filter(r => normalizeETDepartment(r) === etScope.dept);
+    }
+    return _deduplicateScholars(filtered);
+  }
+
+  function getETCumulativeSupervisors(upToYear, ignoreScope) {
+    const etData = window.ET_SUPERVISORS_SCHOLARS;
+    let all = (etData && etData.allSupervisors) ? etData.allSupervisors : [];
+    let filtered = all.filter(r => (parseInt(r.year, 10) || 2024) <= upToYear);
+    const etScope = getETScope();
+    if (!ignoreScope && etScope && etScope.dept) {
+      filtered = filtered.filter(r => matchETDept(r.department, etScope.dept));
+    }
+    return _deduplicateSupervisors(filtered);
+  }
+
+  // Shared helpers: classify scholar category from the category/mode string.
+  // Handles both modern DB format ("Full-time", "Part-time Internal", "Part-time External")
+  // and legacy format ("FT", "PT (Internal)", "PT(External)", "PT (Internal )").
+  function _isFT(cat) {
+    const c = (cat || '').toLowerCase().trim();
+    // Modern: "Full-time" | Legacy: "FT", "FT-..."
+    return c.includes('full') || /^ft(\b|\s|-|$)/i.test(cat || '');
+  }
+  function _isPTInternal(cat) {
+    const c = (cat || '').toLowerCase().trim();
+    // Modern: "Part-time Internal" | Legacy: "PT (Internal)", "PT(Internal)", "PT (Internal )"
+    if (c.includes('full')) return false; // guard against "Full-time Internal" edge case
+    return (c.includes('part') && c.includes('internal')) ||
+           (/^pt[\s(]*(internal)/i.test(cat || ''));
+  }
+  function _isPTExternal(cat) {
+    const c = (cat || '').toLowerCase().trim();
+    // Modern: "Part-time External" | Legacy: "PT(External)", "PT (External)"
+    if (c.includes('full')) return false;
+    return (c.includes('part') && c.includes('external')) ||
+           (/^pt[\s(]*(external)/i.test(cat || ''));
+  }
+
+
    // ══════════════════════════════════════════════════════════════════════════
   // MANAGEMENT HOME PAGE
   // ══════════════════════════════════════════════════════════════════════════
@@ -531,12 +689,19 @@
       row: r => `<tr><td class="title-cell">${E(r.name)}</td><td>${E(r.registration) || '—'}</td><td>${E(r.department || r.departmentGroup) || '—'}</td><td>${E(r.supervisor) || '—'}</td><td><span class="badge ${(r.category||r.mode||'').toLowerCase().includes('full') ? 'granted' : 'published'}">${E(r.category || r.mode || 'Full-time')}</span></td></tr>`,
       key: 'supervisor',
       caption: 'Scholars by supervisor',
-      metrics: (y, a) => [
-        ['Research Supervisors', Object.keys(a.reduce((s,r)=>{ if(r.supervisor && r.supervisor !== '—')s[r.supervisor]=1; return s; },{})).length, 'Active research guides for ' + y],
-        ['Registered Scholars',  a.length, 'Enrolled scholars for ' + y],
-        ['Full-Time scholars',   a.filter(x => (x.category||x.mode||'').toLowerCase().includes('full')).length, 'Full-time mode'],
-        ['Part-Time scholars',   a.filter(x => (x.category||x.mode||'').toLowerCase().includes('part')).length, 'Part-time mode']
-      ]
+      // cumData is the cumulative dataset (all years ≤ y)
+      metrics: (y, a, cumData, cumSupCount) => {
+        const cum = cumData || a;
+        const sups = (typeof cumSupCount === 'number') ? cumSupCount : getMgmtCumulativeSupervisors(y, false).length;
+        const yLabel = y === 2024 ? '2024' : y === 2025 ? '2024–2025' : '2024–2026';
+        return [
+          ['Total Scholars',              cum.length,                                                           'Cumulative (' + yLabel + ')'],
+          ['Full-Time Scholars',          cum.filter(x=>_isFT(x.category||x.mode||'')).length,                 'Full-time mode · ' + yLabel],
+          ['Part-Time Internal Scholars', cum.filter(x=>_isPTInternal(x.category||x.mode||'')).length,         'PT Internal · ' + yLabel],
+          ['Part-Time External Scholars', cum.filter(x=>_isPTExternal(x.category||x.mode||'')).length,         'PT External · ' + yLabel],
+          ['Research Supervisors',        sups,                                                                 'Active guides · ' + yLabel]
+        ];
+      }
     }
   };
 
@@ -562,25 +727,46 @@
       const mgmtScope = getManagementScope();
       const deptLabel = mgmtScope && mgmtScope.dept ? mgmtScope.dept : 'Management';
 
-      document.querySelector('#' + type + '-kpis').innerHTML = c.metrics(y, base).map(x => card(x[0], x[1], x[2], c.go)).join('');
+      // For 'people': cumulative KPI cards
+      const cumData = (type === 'people') ? getMgmtCumulativeScholars(y, false) : null;
+      const cumSupCount = (type === 'people') ? getMgmtCumulativeSupervisors(y, false).length : null;
+      document.querySelector('#' + type + '-kpis').innerHTML = c.metrics(y, base, cumData, cumSupCount).map(x => card(x[0], x[1], x[2], c.go)).join('');
 
-      // 3-Year Trend Data
-      const base24 = type === 'people' ? getMgmtPeopleRecords(2024) : getMgmtRecords(type === 'funded' ? 'funded' : type, 2024);
-      const base25 = type === 'people' ? getMgmtPeopleRecords(2025) : getMgmtRecords(type === 'funded' ? 'funded' : type, 2025);
-      const base26 = type === 'people' ? getMgmtPeopleRecords(2026) : getMgmtRecords(type === 'funded' ? 'funded' : type, 2026);
-      
-      document.querySelector('#' + type + '-chart').innerHTML = threeYearChart([base24.length, base25.length, base26.length], c.label, '#0ea5e9', false);
+      // 3-Year Trend: 2024 bar = all active cohorts enrolled up to 2024 (year ≤ 2024)
+      // so that base24 + base25 + base26 == cumulative 2026 total.
+      // For 'people', use the cumulative helper for baseline; year-exact for 2025 & 2026.
+      let trend24, trend25, trend26;
+      if (type === 'people') {
+        trend24 = getMgmtCumulativeScholars(2024, false).length;
+        trend25 = getMgmtPeopleRecords(2025).length;
+        trend26 = getMgmtPeopleRecords(2026).length;
+      } else {
+        const t24 = getMgmtRecords(type === 'funded' ? 'funded' : type, 2024);
+        const t25 = getMgmtRecords(type === 'funded' ? 'funded' : type, 2025);
+        const t26 = getMgmtRecords(type === 'funded' ? 'funded' : type, 2026);
+        trend24 = t24.length; trend25 = t25.length; trend26 = t26.length;
+      }
+      document.querySelector('#' + type + '-chart').innerHTML = threeYearChart([trend24, trend25, trend26], c.label, '#0ea5e9', false);
 
-      // Department Comparison (Selected Year)
-      const unfilteredBase = type === 'people' ? getMgmtPeopleRecords(y, true) : getMgmtRecords(type === 'funded' ? 'funded' : type, y, true);
-      const deptKey = type === 'patents' ? 'departmentGroup' : 'department';
-      const deptData = rank(by(unfilteredBase, deptKey)).filter(x => x[0] && x[0] !== '—');
+      // Department Comparison: cumulative for 'people', selected-year for others
+      let deptData;
+      if (type === 'people') {
+        const cumAllDepts = getMgmtCumulativeScholars(y, true);
+        const deptKey = 'department';
+        deptData = rank(by(cumAllDepts, deptKey)).filter(x => x[0] && x[0] !== '—');
+      } else {
+        const unfilteredBase = getMgmtRecords(type === 'funded' ? 'funded' : type, y, true);
+        const deptKey = type === 'patents' ? 'departmentGroup' : 'department';
+        deptData = rank(by(unfilteredBase, deptKey)).filter(x => x[0] && x[0] !== '—');
+      }
       document.querySelector('#' + type + '-list').innerHTML = departmentComparisonChart(deptData, 'Departments', '#10b981');
 
+      // Table: always year-only
       const emptyMsg = `No matching ${c.label.toLowerCase()} found for ${y} in ${deptLabel}.`;
       document.querySelector('#' + type + '-table').innerHTML = rows.map(c.row).join('') || `<tr><td colspan="${c.cols.length}" class="empty">${emptyMsg}</td></tr>`;
 
-      document.querySelector('#' + type + '-count').textContent = `Showing ${rows.length} of ${base.length} records for ${y} · ${deptLabel}`;
+      const countSuffix = type === 'people' ? ' (table shows selected year only)' : '';
+      document.querySelector('#' + type + '-count').textContent = `Showing ${rows.length} of ${base.length} records for ${y} · ${deptLabel}${countSuffix}`;
       document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
     };
     if (search) search.oninput = r;
@@ -663,22 +849,17 @@
       key: 'supervisor',
       caption: 'Supervisors list',
       getRecords: (y, ignoreScope) => getETPeopleRecords(y, ignoreScope),
-      metrics: (y, a) => {
-        const yData = (window.ET_SUPERVISORS_SCHOLARS && window.ET_SUPERVISORS_SCHOLARS.yearlyData && window.ET_SUPERVISORS_SCHOLARS.yearlyData[y]) || {};
-        const etScope = getETScope();
-        let scholarCount = a.length;
-        let supervisorCount = Object.keys(by(a, 'supervisor')).length;
-        
-        if (!etScope || !etScope.dept) {
-           scholarCount = yData.scholarCount || scholarCount;
-           supervisorCount = yData.supervisorCount || supervisorCount;
-        }
-
+      // cumData is the cumulative dataset (all years ≤ y)
+      metrics: (y, a, cumData, cumSupCount) => {
+        const cum = cumData || a;
+        const sups = (typeof cumSupCount === 'number') ? cumSupCount : getETCumulativeSupervisors(y, false).length;
+        const yLabel = y === 2024 ? '2024' : y === 2025 ? '2024–2025' : '2024–2026';
         return [
-          ['Research Scholars', scholarCount, 'Enrolled PhD scholars for ' + y],
-          ['Research Supervisors', supervisorCount, 'Active supervisors for ' + y],
-          ['Detailed records', a.length, 'Available scholar records'],
-          ['Selected year', y, 'Current filter']
+          ['Total Scholars',              cum.length,                                                    'Cumulative (' + yLabel + ')'],
+          ['Full-Time Scholars',          cum.filter(x=>_isFT(x.category||'')).length,                  'Full-time mode · ' + yLabel],
+          ['Part-Time Internal Scholars', cum.filter(x=>_isPTInternal(x.category||'')).length,          'PT Internal · ' + yLabel],
+          ['Part-Time External Scholars', cum.filter(x=>_isPTExternal(x.category||'')).length,          'PT External · ' + yLabel],
+          ['Research Supervisors',        sups,                                                          'Active guides · ' + yLabel]
         ];
       }
     }
@@ -746,29 +927,49 @@
       const etScope = getETScope();
       const deptLabel = etScope && etScope.dept ? etScope.dept : 'E&T';
 
-      document.querySelector('#' + type + '-kpis').innerHTML = c.metrics(y, base).map(x => card(x[0], x[1], x[2], c.go)).join('');
+      // For 'people': cumulative KPI cards
+      const cumData = (type === 'people') ? getETCumulativeScholars(y, false) : null;
+      const cumSupCount = (type === 'people') ? getETCumulativeSupervisors(y, false).length : null;
+      document.querySelector('#' + type + '-kpis').innerHTML = c.metrics(y, base, cumData, cumSupCount).map(x => card(x[0], x[1], x[2], c.go)).join('');
 
-      const base24 = c.getRecords(2024);
-      const base25 = c.getRecords(2025);
-      const base26 = c.getRecords(2026);
-      document.querySelector('#' + type + '-chart').innerHTML = threeYearChart([base24.length, base25.length, base26.length], c.label, '#0ea5e9', false);
+      // 3-Year Trend: 2024 bar = all active cohorts enrolled up to 2024 (year ≤ 2024)
+      // so that base24 + base25 + base26 == cumulative 2026 total.
+      // For 'people', use the cumulative helper for baseline; year-exact for 2025 & 2026.
+      let trend24, trend25, trend26;
+      if (type === 'people') {
+        trend24 = getETCumulativeScholars(2024, false).length;
+        trend25 = getETPeopleRecords(2025).length;
+        trend26 = getETPeopleRecords(2026).length;
+      } else {
+        trend24 = c.getRecords(2024).length;
+        trend25 = c.getRecords(2025).length;
+        trend26 = c.getRecords(2026).length;
+      }
+      document.querySelector('#' + type + '-chart').innerHTML = threeYearChart([trend24, trend25, trend26], c.label, '#0ea5e9', false);
 
-      const unfilteredBase = c.getRecords(y, true);
-      const fallbackDeptKey = (r) => {
-        // For Research Community: normalise raw program string → canonical E&T dept label
-        if (type === 'people') {
-          return normalizeETDepartment(r) || (r.departmentGroup || r.department || r.dept || '');
-        }
-        let d = r.departmentGroup || r.department || r.dept || r['Department'] || '';
-        return getOldETLabel(d);
-      };
-      const deptData = rank(by(unfilteredBase, fallbackDeptKey)).filter(x => x[0] && x[0] !== '—');
+      // Dept comparison: cumulative for 'people', selected-year for others
+      let deptData;
+      if (type === 'people') {
+        // Cumulative across all years ≤ y, per department
+        const cumAllDepts = getETCumulativeScholars(y, true);
+        const etFallbackKey = (r) => normalizeETDepartment(r) || (r.departmentGroup || r.department || r.dept || '');
+        deptData = rank(by(cumAllDepts, etFallbackKey)).filter(x => x[0] && x[0] !== '—');
+      } else {
+        const unfilteredBase = c.getRecords(y, true);
+        const fallbackDeptKey = (r) => {
+          let d = r.departmentGroup || r.department || r.dept || r['Department'] || '';
+          return getOldETLabel(d);
+        };
+        deptData = rank(by(unfilteredBase, fallbackDeptKey)).filter(x => x[0] && x[0] !== '—');
+      }
       document.querySelector('#' + type + '-list').innerHTML = departmentComparisonChart(deptData, 'Departments', '#10b981');
 
+      // Table: always year-only
       const emptyMsg = `No matching ${c.label.toLowerCase()} found for ${y} in ${deptLabel}.`;
       document.querySelector('#' + type + '-table').innerHTML = rows.map(c.row).join('') || `<tr><td colspan="${c.cols.length}" class="empty">${emptyMsg}</td></tr>`;
 
-      document.querySelector('#' + type + '-count').textContent = `Showing ${rows.length} of ${base.length} records for ${y} · ${deptLabel}`;
+      const countSuffix = type === 'people' ? ' (table shows selected year only)' : '';
+      document.querySelector('#' + type + '-count').textContent = `Showing ${rows.length} of ${base.length} records for ${y} · ${deptLabel}${countSuffix}`;
       document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
     };
     if (search) search.oninput = r;
@@ -906,7 +1107,19 @@
      row:r=>`<tr><td class="title-cell">${E(r.name)}</td><td>${E(r.registration)||'—'}</td><td>${E(r.departmentGroup)}</td><td>${E(r.supervisor)||'—'}</td><td>${E(r.category)}</td></tr>`,
      key:'departmentGroup',
      caption:'Scholars by department',
-     metrics:(y,a)=>[['Supervisors in scope',Object.keys(by(a,'supervisor')).filter(Boolean).length,'Active research guides'],['Registered scholars',a.length,'Scholars in scope'],['Full-Time scholars',a.filter(x=>(x.category||'').toLowerCase().includes('full')).length,'Full-time mode'],['Part-Time scholars',a.filter(x=>(x.category||'').toLowerCase().includes('part')).length,'Part-time mode']]
+     // cumData is the cumulative dataset (all years ≤ y); a is still the year-only data used for the table
+     metrics:(y, a, cumData, cumSupCount) => {
+       const cum = cumData || a;
+       const sups = (typeof cumSupCount === 'number') ? cumSupCount : getFLABSCumulativeSupervisors(y, false).length;
+       const yLabel = y === 2024 ? '2024' : y === 2025 ? '2024–2025' : '2024–2026';
+       return [
+         ['Total Scholars',              cum.length,                                                   'Cumulative (' + yLabel + ')'],
+         ['Full-Time Scholars',          cum.filter(x=>_isFT(x.category)).length,                     'Full-time mode · ' + yLabel],
+         ['Part-Time Internal Scholars', cum.filter(x=>_isPTInternal(x.category||x.mode||'')).length, 'PT Internal · ' + yLabel],
+         ['Part-Time External Scholars', cum.filter(x=>_isPTExternal(x.category||x.mode||'')).length, 'PT External · ' + yLabel],
+         ['Research Supervisors',        sups,                                                         'Active guides · ' + yLabel]
+       ];
+     }
    },
    funded:{
      label:'Funded projects',
@@ -948,35 +1161,60 @@
       });
 
       const dept = window.SRM_SCOPE && window.SRM_SCOPE.getSelectedDept();
-     document.querySelector('#'+type+'-kpis').innerHTML=c.metrics(y,base).map(x=>card(x[0],x[1],x[2],c.go)).join('');
+
+      // For 'people': compute cumulative data (all years ≤ y) for KPI cards and dept chart
+      const cumData = (type === 'people') ? getFLABSCumulativeScholars(y, false) : null;
+      const cumSupCount = (type === 'people') ? getFLABSCumulativeSupervisors(y, false).length : null;
+
+     document.querySelector('#'+type+'-kpis').innerHTML=c.metrics(y, base, cumData, cumSupCount).map(x=>card(x[0],x[1],x[2],c.go)).join('');
      
-     const base24 = getScopedRecords(type, all, 2024);
-     const base25 = getScopedRecords(type, all, 2025);
-     const base26 = getScopedRecords(type, all, 2026);
-      document.querySelector('#'+type+'-chart').innerHTML=threeYearChart([base24.length, base25.length, base26.length], c.label, '#0ea5e9', false);
+     // 3-Year Trend: 2024 bar = all active cohorts enrolled up to 2024 (year ≤ 2024)
+     // so that base24 + base25 + base26 == cumulative 2026 total.
+     // For 'people', use the cumulative helper for baseline; year-exact for 2025 & 2026.
+     let trend24, trend25, trend26;
+     if (type === 'people') {
+       trend24 = getFLABSCumulativeScholars(2024, false).length;
+       trend25 = getScopedRecords(type, all, 2025).length;
+       trend26 = getScopedRecords(type, all, 2026).length;
+     } else {
+       trend24 = getScopedRecords(type, all, 2024).length;
+       trend25 = getScopedRecords(type, all, 2025).length;
+       trend26 = getScopedRecords(type, all, 2026).length;
+     }
+     document.querySelector('#'+type+'-chart').innerHTML=threeYearChart([trend24, trend25, trend26], c.label, '#0ea5e9', false);
      
-           const allForYear = all.filter(r => r.year === y);
+      // Dept comparison: cumulative for 'people', selected-year for others
       let deptData = [];
-      if (window.SRM_SCOPE && type !== 'awards' && type !== 'funded') {
+      if (type === 'people' && window.SRM_SCOPE) {
+        // Cumulative across all years ≤ y, per department
+        const cumAllDepts = getFLABSCumulativeScholars(y, true);
+        deptData = window.SRM_SCOPE.FLABS_DEPARTMENTS.map(d => {
+          const deptScholars = window.SRM_SCOPE.filterResearchCommunityByDepartment(cumAllDepts, d);
+          return [d.label, _deduplicateScholars(deptScholars).length];
+        }).filter(x => x[1] > 0).sort((a,b) => b[1] - a[1]);
+      } else if (window.SRM_SCOPE && type !== 'awards' && type !== 'funded') {
+        const allForYear = all.filter(r => r.year === y);
         deptData = window.SRM_SCOPE.FLABS_DEPARTMENTS.map(d => {
           let count = 0;
           if (type === 'publications') count = window.SRM_SCOPE.filterPublicationsByDepartment(allForYear, d).length;
           else if (type === 'patents') count = window.SRM_SCOPE.filterPatentsByDepartment(allForYear, d).length;
-          else if (type === 'people') count = window.SRM_SCOPE.filterResearchCommunityByDepartment(allForYear, d).length;
           return [d.label, count];
         }).filter(x => x[1] > 0).sort((a,b) => b[1] - a[1]);
       } else {
+        const allForYear = all.filter(r => r.year === y);
         const flabsDeptKey = (r) => r.departmentGroup || r.department || r['Department'] || r['Dept.'] || r['Department of Authors'] || '';
         deptData = rank(by(allForYear, flabsDeptKey)).filter(x => x[0] && x[0] !== '—' && x[0] !== 'Institution-wide' && x[0] !== 'NA');
       }
      document.querySelector('#'+type+'-list').innerHTML=departmentComparisonChart(deptData, 'Departments', '#10b981');
+
+     // Table: always year-only (base is already filtered to selected year)
      const emptyMsg = dept
        ? `No matching ${c.label.toLowerCase()} found for ${y} in ${E(dept.label)}.`
        : `No matching records for ${y}.`;
        
      document.querySelector('#'+type+'-table').innerHTML=rows.map(c.row).join('')||`<tr><td colspan="${c.cols.length}" class="empty">${emptyMsg}</td></tr>`;
 
-     let countMsg = `Showing ${rows.length} of ${base.length} detailed records for ${y}.`;
+     let countMsg = `Showing ${rows.length} of ${base.length} detailed records for ${y} (table shows selected year only).`;
      if (c.isInstWide) {
        countMsg += ' · (Institution-wide dataset)';
      } else if (dept) {
