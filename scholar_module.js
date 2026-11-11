@@ -1111,6 +1111,10 @@
             '<h2 style="margin:4px 0;font-size:20px;color:#0f172a;font-weight:800;">' + E(scholar.name) + ' <span style="font-size:15px;font-weight:400;color:#64748b;">' + (scholar.expansionOfInitial ? '(' + E(scholar.expansionOfInitial) + ')' : '') + '</span></h2>' +
             '<p style="margin:4px 0;font-size:13px;color:#475569;"><strong>Reg No:</strong> <code style="background:#f1f5f9;padding:2px 6px;border-radius:4px;">' + E(scholar.registrationNo) + '</code> &nbsp;|&nbsp; <strong>Dept:</strong> ' + E(scholar.department) + ' &nbsp;|&nbsp; <strong>Supervisor:</strong> ' + E(scholar.supervisorName) + '</p>' +
             '<p style="margin:6px 0 0 0;font-size:13px;color:#1e293b;background:#f8fafc;padding:8px 12px;border-left:4px solid #0284c7;border-radius:4px;"><strong>PhD Topic:</strong> &ldquo;' + E(scholar.phdTopic) + '&rdquo;</p>' +
+            '<div style="margin-top:8px;padding:8px 12px;background:#f0fdf4;border:1px solid #bbf7d0;border-left:4px solid #16a34a;border-radius:4px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;">' +
+              '<span style="font-size:12px;font-weight:700;color:#166534;text-transform:uppercase;letter-spacing:0.5px;">Current Status:</span>' +
+              '<span style="font-size:13px;color:#14532d;font-weight:600;">' + (scholar.currentStatus ? E(scholar.currentStatus) : '<span style="color:#94a3b8;font-weight:400;">—</span>') + '</span>' +
+            '</div>' +
           '</div>' +
           '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px 18px;min-width:250px;">' +
             '<div style="font-size:11px;color:#64748b;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;margin-bottom:6px;">Registration & Funding</div>' +
@@ -1629,6 +1633,7 @@
                     '<th style="padding:10px 12px;font-weight:700;">Category</th>' +
                     '<th style="padding:10px 12px;font-weight:700;">Enroll Year</th>' +
                     '<th style="padding:10px 12px;font-weight:700;">Reg. No</th>' +
+                    '<th style="padding:10px 12px;font-weight:700;min-width:280px;">Current Status</th>' +
                   '</tr>' +
                 '</thead>' +
                 '<tbody>';
@@ -1647,6 +1652,23 @@
               '</td>' +
               '<td style="padding:10px 12px;color:#475569;">' + E(String(s.yearOfEnrollment || s.year || '—')) + '</td>' +
               '<td style="padding:10px 12px;color:#64748b;font-family:monospace;font-size:12px;">' + E(s.registrationNo || '—') + '</td>' +
+              '<td style="padding:8px 12px;">' +
+                '<div style="display:flex;align-items:center;gap:6px;">' +
+                  '<input type="text" class="scholar-current-status-input" ' +
+                    'data-scholar-id="' + E(s.id) + '" ' +
+                    'data-scholar-reg="' + E(s.registrationNo || '') + '" ' +
+                    'value="' + E(s.currentStatus || '') + '" ' +
+                    'placeholder="Enter current status..." ' +
+                    'style="flex:1;min-width:180px;padding:6px 10px;font-size:12.5px;color:#0f172a;background:#fff;border:1px solid #cbd5e1;border-radius:6px;outline:none;box-sizing:border-box;" />' +
+                  '<button type="button" class="btn-save-scholar-status" ' +
+                    'data-scholar-id="' + E(s.id) + '" ' +
+                    'data-scholar-reg="' + E(s.registrationNo || '') + '" ' +
+                    'style="background:#0284c7;color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:12px;font-weight:700;cursor:pointer;white-space:nowrap;">' +
+                    'Save' +
+                  '</button>' +
+                  '<span class="status-save-feedback" data-scholar-id="' + E(s.id) + '" style="font-size:11px;font-weight:700;display:none;white-space:nowrap;"></span>' +
+                '</div>' +
+              '</td>' +
             '</tr>';
           });
 
@@ -2512,6 +2534,72 @@
     // ── Supervisor Dashboard bindings
     function bindSupervisorDashboard() {
       bindDashboardTabs();
+
+      // Bind inline scholar status editing
+      appEl.querySelectorAll('.btn-save-scholar-status').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var schId = btn.dataset.scholarId;
+          var schReg = btn.dataset.scholarReg;
+          var row = btn.closest('tr');
+          if (!row) return;
+          var input = row.querySelector('.scholar-current-status-input');
+          var feedback = row.querySelector('.status-save-feedback');
+          if (!input) return;
+
+          var newStatus = input.value.trim();
+          btn.disabled = true;
+          btn.textContent = 'Saving...';
+          if (feedback) {
+            feedback.style.display = 'inline';
+            feedback.style.color = '#0284c7';
+            feedback.textContent = 'Saving...';
+          }
+
+          var service = global.SCHOLAR_STATUS_SERVICE;
+          if (service && service.updateStatus) {
+            service.updateStatus(schId || schReg, newStatus, user).then(function(res) {
+              btn.disabled = false;
+              btn.textContent = 'Save';
+              if (res && res.success) {
+                if (feedback) {
+                  feedback.style.color = '#15803d';
+                  feedback.textContent = '✓ Saved';
+                  setTimeout(function() { feedback.style.display = 'none'; }, 2500);
+                }
+                toast('Current status saved.', '#15803d');
+              } else {
+                if (feedback) {
+                  feedback.style.color = '#b91c1c';
+                  feedback.textContent = 'Failed';
+                }
+                toast('Error saving status: ' + ((res && res.error) || 'Unknown error'), '#b91c1c');
+              }
+            }).catch(function(err) {
+              btn.disabled = false;
+              btn.textContent = 'Save';
+              if (feedback) {
+                feedback.style.color = '#b91c1c';
+                feedback.textContent = 'Failed';
+              }
+              toast('Error saving status.', '#b91c1c');
+            });
+          }
+        });
+      });
+
+      // Allow pressing Enter key inside status input to save
+      appEl.querySelectorAll('.scholar-current-status-input').forEach(function(input) {
+        input.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            var row = input.closest('tr');
+            if (row) {
+              var btn = row.querySelector('.btn-save-scholar-status');
+              if (btn) btn.click();
+            }
+          }
+        });
+      });
 
       appEl.querySelectorAll('[data-action="sup-review"]').forEach(function(btn) {
         btn.addEventListener('click', function() {

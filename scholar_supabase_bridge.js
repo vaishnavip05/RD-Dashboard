@@ -62,8 +62,8 @@
 
   // ── Helper: Reports Client (For monthly_reports persistence) ──────────────
   function getReportsClient() {
-    if (reportsClient) return reportsClient;
     if (window.supabaseClient) return window.supabaseClient;
+    if (reportsClient) return reportsClient;
     return getClient();
   }
 
@@ -140,6 +140,45 @@
         return supObj;
       });
 
+      // 3. Fetch scholar_current_status from Supabase Cloud
+      var statusRecords = [];
+      try {
+        var stRes = await client.from('scholar_current_status').select('*');
+        if (!stRes.error && stRes.data && stRes.data.length > 0) {
+          statusRecords = stRes.data;
+          console.log('[Scholar Bridge] Loaded ' + statusRecords.length + ' status records from Supabase Cloud');
+        }
+      } catch (stErr) {
+        console.warn('[Scholar Bridge] Note on scholar_current_status query:', stErr);
+      }
+
+      // If Supabase table is not yet populated or accessible, seed from bootstrap data
+      if (statusRecords.length === 0 && window.SCHOLAR_STATUS_BOOTSTRAP && window.SCHOLAR_STATUS_BOOTSTRAP.length > 0) {
+        statusRecords = window.SCHOLAR_STATUS_BOOTSTRAP.slice();
+      }
+
+      // Read local edits (for instant persistence across reloads)
+      var localEdits = {};
+      try {
+        var storedEdits = localStorage.getItem('srm_scholar_status_edits');
+        if (storedEdits) localEdits = JSON.parse(storedEdits);
+      } catch (e) {}
+
+      var statusByScholarId = {};
+      var statusByReg = {};
+      var statusByName = {};
+
+      statusRecords.forEach(function (rec) {
+        if (rec.scholar_id) statusByScholarId[rec.scholar_id] = rec;
+        var rNo = rec.registration_number ? String(rec.registration_number).trim().replace(/\.0$/, '') : '';
+        if (rNo) statusByReg[rNo] = rec;
+        var nm = normName(rec.scholar_name);
+        if (nm) {
+          if (!statusByName[nm]) statusByName[nm] = [];
+          statusByName[nm].push(rec);
+        }
+      });
+
       // Map Scholars
       liveScholars = scholarsData.map(function (sc) {
         var catStr = String(sc.category_mode || sc.category || '');
@@ -149,6 +188,30 @@
         var buName = (sc.department && sc.department.business_unit && sc.department.business_unit.name) ? sc.department.business_unit.name : (sc.business_unit || 'E&T');
         // Preserve actual category string from DB (Full-time, Part-time Internal, Part-time External, etc.)
         var categoryLabel = catStr || (isFullTime ? 'Full-time' : 'Part-time');
+
+        // Match current research status
+        var matchedStatus = null;
+        if (sc.id && statusByScholarId[sc.id]) {
+          matchedStatus = statusByScholarId[sc.id];
+        } else if (regNo && statusByReg[regNo]) {
+          matchedStatus = statusByReg[regNo];
+        } else {
+          var sNmNorm = normName(sc.scholar_name || sc.name);
+          var cand = statusByName[sNmNorm] || [];
+          if (cand.length === 1) {
+            matchedStatus = cand[0];
+          } else if (cand.length > 1) {
+            var supNorm = normName(sc.supervisor_name || '');
+            matchedStatus = cand.find(function (c) { return normName(c.supervisor_name) === supNorm; }) || cand[0];
+          }
+        }
+
+        var currentStatusVal = matchedStatus ? (matchedStatus.current_status || '') : '';
+        if (localEdits[sc.id] !== undefined) {
+          currentStatusVal = localEdits[sc.id];
+        } else if (regNo && localEdits[regNo] !== undefined) {
+          currentStatusVal = localEdits[regNo];
+        }
 
         var schObj = {
           id: sc.id,
@@ -162,6 +225,8 @@
           category: categoryLabel,
           isFullTime: isFullTime,
           status: sc.status || 'Ongoing',
+          currentStatus: currentStatusVal,
+          statusRecordId: matchedStatus ? (matchedStatus.id || null) : null,
           department: deptName,
           group: buName,
           businessUnit: buName,
@@ -314,11 +379,10 @@
     banner.id = 'scholar-migration-notice';
     banner.style.cssText = 'background:#fffbeb;border:1px solid #fde68a;border-left:4px solid #f59e0b;padding:12px 18px;margin:16px auto;max-width:1100px;border-radius:8px;font-size:13px;color:#92400e;display:flex;align-items:center;justify-content:space-between;gap:12px;box-shadow:0 2px 8px rgba(245,158,11,0.08);';
     banner.innerHTML = '<div>' +
-      '<strong>⚠️ Supabase monthly_reports table migration pending:</strong> ' +
-      'The <code>monthly_reports</code> table has not been created yet in Supabase project <code>nutpsipnmiwjequjowhj</code>. ' +
-      'Please execute <code>supabase/migrations/20261022000000_monthly_reports.sql</code> in the ' +
-      '<a href="https://supabase.com/dashboard/project/nutpsipnmiwjequjowhj/sql/new" target="_blank" style="color:#b45309;font-weight:700;text-decoration:underline;">Supabase SQL Editor</a>. ' +
-      'Reports in this browser session are safely active.' +
+      '<strong>⚠️ Supabase tables pending in SQL Editor:</strong> ' +
+      'Please run the migration scripts in your <a href="https://supabase.com/dashboard/project/pndvjkcoroadxonvpphb/sql/new" target="_blank" style="color:#b45309;font-weight:700;text-decoration:underline;">Supabase SQL Editor (pndvjkcoroadxonvpphb)</a>: ' +
+      '<code>20261111000000_scholar_current_status.sql</code> and <code>20261022000000_monthly_reports.sql</code>. ' +
+      'Data in this session is safely active.' +
       '</div>' +
       '<button onclick="this.parentNode.remove()" style="background:transparent;border:none;font-weight:700;font-size:16px;cursor:pointer;color:#92400e;">✕</button>';
 
@@ -330,6 +394,95 @@
       mainContent.insertBefore(banner, mainContent.firstChild);
     }
   }
+
+  // ── 5B. Scholar Status Service (Supervisor Edit & Save, Scholar Read-Only) ──
+  global.SCHOLAR_STATUS_SERVICE = {
+    getStatus: function (scholarIdOrReg) {
+      var sch = global.SCHOLAR_REPORTS_DATA ? global.SCHOLAR_REPORTS_DATA.getScholarById(scholarIdOrReg) : null;
+      return sch ? (sch.currentStatus || '') : '';
+    },
+    updateStatus: async function (scholarIdOrReg, newStatus, supervisorUser) {
+      if (!supervisorUser || supervisorUser.role !== 'supervisor') {
+        return { success: false, error: 'Only research supervisors can edit scholar status.' };
+      }
+      var DATA = global.SCHOLAR_REPORTS_DATA;
+      var sch = DATA ? DATA.getScholarById(scholarIdOrReg) : null;
+      if (!sch && liveScholars && liveScholars.length > 0) {
+        var q = String(scholarIdOrReg).trim();
+        var qClean = q.replace(/\.0$/, '');
+        sch = liveScholars.find(function (s) {
+          return s.id === q ||
+                 s.dbId === q ||
+                 s.registrationNo === q ||
+                 s.registrationNo === qClean ||
+                 s.registerNumber === q ||
+                 s.registerNumber === qClean;
+        });
+      }
+      if (!sch) return { success: false, error: 'Scholar not found' };
+
+      // Verify supervisor assignment
+      var sNorm = normName(supervisorUser.name);
+      var isAssigned = (sch.supervisorId && sch.supervisorId === supervisorUser.id) ||
+                       (normName(sch.supervisorName) === sNorm) ||
+                       (supervisorUser.assignedScholarIds && (
+                         supervisorUser.assignedScholarIds.indexOf(sch.id) !== -1 ||
+                         (sch.registrationNo && supervisorUser.assignedScholarIds.indexOf(sch.registrationNo) !== -1)
+                       ));
+
+      if (!isAssigned) {
+        return { success: false, error: 'Unauthorized: You can only update the status of your assigned scholars.' };
+      }
+
+      // Update in-memory scholar object
+      sch.currentStatus = newStatus;
+
+      // Persist to localStorage for immediate resilience across refreshes
+      try {
+        var stored = localStorage.getItem('srm_scholar_status_edits');
+        var edits = stored ? JSON.parse(stored) : {};
+        if (sch.id) edits[sch.id] = newStatus;
+        if (sch.registrationNo) edits[sch.registrationNo] = newStatus;
+        localStorage.setItem('srm_scholar_status_edits', JSON.stringify(edits));
+      } catch (e) {}
+
+      // Save to Supabase Cloud table scholar_current_status
+      var client = getClient();
+      if (client) {
+        try {
+          var payload = {
+            scholar_id: sch.dbId || sch.id,
+            business_unit: sch.group || sch.businessUnit || 'E&T',
+            registration_number: sch.registrationNo || '',
+            scholar_name: sch.name,
+            department: sch.department || '',
+            supervisor_name: supervisorUser.name,
+            enrollment_year: parseInt(sch.yearOfEnrollment || sch.year, 10) || null,
+            category: sch.category || '',
+            current_status: newStatus,
+            updated_at: new Date().toISOString(),
+            updated_by: supervisorUser.name
+          };
+
+          if (sch.statusRecordId) {
+            await client.from('scholar_current_status').update({
+              current_status: newStatus,
+              updated_at: new Date().toISOString(),
+              updated_by: supervisorUser.name
+            }).eq('id', sch.statusRecordId);
+          } else if (sch.registrationNo && sch.registrationNo !== '—') {
+            await client.from('scholar_current_status').upsert(payload, { onConflict: 'registration_number' });
+          } else {
+            await client.from('scholar_current_status').upsert(payload);
+          }
+        } catch (err) {
+          console.warn('[Scholar Bridge] Supabase status persistence note:', err);
+        }
+      }
+
+      return { success: true, currentStatus: newStatus };
+    }
+  };
 
   // ── 5. Patch SCHOLAR_REPORTS_DATA ─────────────────────────────────────────
   function patchScholarDataService() {
