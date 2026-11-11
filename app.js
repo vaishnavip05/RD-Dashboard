@@ -15,6 +15,21 @@
  const donut=(items,label)=>{if(!items.length)return `<div class="empty">No records are available for the selected year.</div>`;let total=items.reduce((s,x)=>s+x[1],0)||1,colors=['#0d5ea6','#2c9d98','#d29b37','#7b62b3','#cf5b58'],run=0,parts=items.map((x,i)=>{let a=run/total*360;run+=x[1];return `${colors[i]} ${a}deg ${run/total*360}deg`}).join(',');return `<div class="focus-chart"><div class="donut" style="background:conic-gradient(${parts})"><span>${total}<small>${label}</small></span></div><div class="legend">${items.map((x,i)=>`<div><i style="background:${colors[i]}"></i><span>${E(x[0])}</span><strong>${x[1]}</strong></div>`).join('')}</div></div>`};
  const focus=(type,rows,y)=>{if(type==='home'){let s=getScopedSummary(y);return donut([['Publications',s.publications],['Patents',s.patents],['Awards',s.awards],['Projects',s.fundedProjects]],'activities')}if(type==='publications')return donut([['With link',rows.filter(x=>x.link).length],['Without link',rows.filter(x=>!x.link).length]],'records');if(type==='patents')return donut([['Granted',rows.filter(x=>x.status==='Granted').length],['Published',rows.filter(x=>x.status==='Published').length],['Other',rows.filter(x=>!['Granted','Published'].includes(x.status)).length]],'patents');if(type==='people')return donut(rank(by(rows,'category')).slice(0,4),'scholars');if(type==='awards')return donut([['Single award',rank(by(rows,'faculty')).filter(x=>x[1]===1).length],['Repeat awardee',rank(by(rows,'faculty')).filter(x=>x[1]>1).length]],'awardees');return donut(rank(by(rows,'agency')).slice(0,4),'projects')};
  const link=v=>v?`<a class="link" target="_blank" rel="noopener" href="${/^http/.test(v)?E(v):'https://doi.org/'+E(v)}">Open ↗</a>`:'—';
+ const formatFundedStatus = (status) => {
+   const raw = (status || '').trim();
+   if (!raw || raw === '—') return '—';
+   const s = raw.toLowerCase();
+   if (s === 'sanctioned') {
+     return '<span class="badge sanctioned">Sanctioned</span>';
+   }
+   if (s === 'pac level' || s === 'pac') {
+     return '<span class="badge pac-level">PAC Level</span>';
+   }
+   if (s === 'submitted') {
+     return '<span class="badge submitted">Submitted</span>';
+   }
+   return `<span class="badge ${s}">${E(raw)}</span>`;
+ };
  const threeYearChart=(data,title,c='#0ea5e9',isCard=true)=>{let w=460,h=180,max=Math.max(...data,1)*1.15,years=[2024,2025,2026];let wrapStyle=isCard?`background:#fff;border-radius:12px;padding:12px 16px;border:1px solid #e1e7f0;box-shadow:0 4px 12px rgba(0,0,0,0.03)`:`width:100%;`;let titleHtml=isCard?`<h3 style="margin-top:0;margin-bottom:12px;font-size:14.5px;color:#34415a;font-weight:600">${title} (3-Year Trend)</h3>`:``;return `<div class="${isCard?'chart-wrapper':'chart-container'}" style="${wrapStyle}">${titleHtml}<svg class="chart" viewBox="0 0 ${w} ${h}" style="width:100%;height:auto;display:block;"><line x1="20" y1="140" x2="440" y2="140" stroke="#dfe5ef"/>${data.map((v,i)=>{let x=65+i*125,y=140-(max?v/max*110:0);return `<rect x="${x}" y="${y}" width="80" height="${140-y}" rx="4" fill="${c}" style="transition:all 0.3s"/><text x="${x+40}" y="${y-8}" text-anchor="middle" fill="#34415a" font-size="14" font-weight="600">${v}</text><text x="${x+40}" y="165" text-anchor="middle" fill="#64708a" font-size="13">${years[i]}</text>`}).join('')}</svg></div>`};
  const departmentComparisonChart=(data,title,c='#10b981',isCard=false)=>{if(!data.length)return `<div class="empty">No records available.</div>`;let rowH=34,h=Math.max(100,data.length*rowH+20),w=740,max=Math.max(...data.map(x=>x[1]),1)*1.15;let wrapStyle=isCard?`background:#fff;border-radius:12px;padding:12px 16px;border:1px solid #e1e7f0;box-shadow:0 4px 12px rgba(0,0,0,0.03);overflow-y:auto;max-height:600px`:`width:100%;overflow-y:auto;max-height:600px;padding-right:8px;`;let titleHtml=isCard?`<h3 style="margin-top:0;margin-bottom:12px;font-size:14.5px;color:#34415a;font-weight:600">${title}</h3>`:``;return `<div class="${isCard?'chart-wrapper':'chart-container'}" style="${wrapStyle}">${titleHtml}<svg class="chart" viewBox="0 0 ${w} ${h}" style="width:100%;min-height:${h}px;display:block;"><line x1="250" y1="10" x2="250" y2="${h-10}" stroke="#dfe5ef"/>${data.map(([n,v],i)=>{let y=10+i*rowH,barW=max?(v/max)*(w-310):0;return `<text x="240" y="${y+16}" text-anchor="end" fill="#64708a" font-size="14" dominant-baseline="middle">${E(n)}</text><rect x="250" y="${y+6}" width="${barW}" height="20" rx="4" fill="${c}" style="transition:all 0.3s"/><text x="${250+barW+10}" y="${y+16}" text-anchor="start" fill="#34415a" font-size="14" font-weight="600" dominant-baseline="middle">${v}</text>`}).join('')}</svg></div>`};
  // ── Management Scope Detection ─────────────────────────────────────────────
@@ -213,6 +228,7 @@
   }
 
   function normFund(r) {
+    const dept = r.department || r.departmentGroup || r.Dept || r.dept || r.Department || '';
     return {
       year: r.year || parseInt(r.Year) || 2024,
       title: r.project || r.title || r.Title || r['Project Title'] || '—',
@@ -221,8 +237,9 @@
       agency: r.fundingAgency || r.agency || r['Funding Agency'] || r.scheme || '—',
       amount: r.amount || r.fundRequested || r['Fund Requested'] || '—',
       duration: r.duration || r.date || '—',
-      status: r.status || 'Submitted',
-      department: r.department || r.Dept || ''
+      status: r.status || (r.raw && r.raw.status) || 'Submitted',
+      department: dept,
+      departmentGroup: dept
     };
   }
 
@@ -670,8 +687,8 @@
       label: 'Funded projects (Management)',
       desc: 'Research funding awarded to Faculty of Management, filtered by selected department.',
       go: 'funded',
-      cols: ['Year', 'Project', 'Principal investigator', 'Department', 'Funding agency', 'Amount'],
-      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator || r.investigator_name) || '—'}</td><td>${E(r.department || r.departmentGroup) || '—'}</td><td>${E(r.agency || r.funding_agency)}</td><td>${E(r.amount)}</td></tr>`,
+      cols: ['Year', 'Project', 'Principal investigator', 'Department', 'Funding agency', 'Amount', 'Status'],
+      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator || r.investigator_name) || '—'}</td><td>${E(r.department || r.departmentGroup) || '—'}</td><td>${E(r.agency || r.funding_agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
       key: 'agency',
       caption: 'Funding agencies',
       metrics: (y, a) => [
@@ -812,8 +829,8 @@
       label: 'Funded projects (E&T)',
       desc: 'Research funding awarded to Faculty of Engineering & Technology (E&T).',
       go: 'funded',
-      cols: ['Year', 'Project', 'Principal investigator', 'Department', 'Funding agency', 'Amount'],
-      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator)}</td><td>${E(r.departmentGroup)||'—'}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td></tr>`,
+      cols: ['Year', 'Project', 'Principal investigator', 'Department', 'Funding agency', 'Amount', 'Status'],
+      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator)}</td><td>${E(r.departmentGroup || r.department)||'—'}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
       key: 'agency',
       caption: 'Funding agencies',
       getRecords: (y, ignoreScope) => getETFunded(y, ignoreScope),
@@ -1126,8 +1143,8 @@
      desc:'Awarded research projects and funding agencies (Institution-wide dataset).',
      go:'funded',
      isInstWide: true,
-     cols:['Year','Project','Principal investigator','Department','Funding agency','Amount'],
-     row:r=>`<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator)||'—'}</td><td>${E(r.departmentGroup)||'—'}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td></tr>`,
+     cols:['Year','Project','Principal investigator','Department','Funding agency','Amount','Status'],
+     row:r=>`<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator)||'—'}</td><td>${E(r.departmentGroup || r.department)||'—'}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
      key:'agency',
      caption:'Funding agencies',
      metrics:(y,a)=>[['Funded projects',a.length,'Institution-wide total'],['Detailed projects',a.length,'Available records'],['Funding agencies',Object.keys(by(a,'agency')).length,'Supporting agencies'],['Selected year',y,'Current filter']]

@@ -904,6 +904,9 @@ tbody tr:hover td {
 
 .badge.granted  { background: #e5f7f2; color: #16736a; border-color: rgba(22,115,106,0.2); }
 .badge.published { background: #fff5e4; color: #9a6010; border-color: rgba(154,96,16,0.2); }
+.badge.sanctioned { background: #e5f7f2; color: #16736a; border-color: rgba(22,115,106,0.2); }
+.badge.submitted  { background: #eef2ff; color: #1e5aa8; border-color: rgba(30,90,168,0.2); }
+.badge.pac-level  { background: #fff5e4; color: #9a6010; border-color: rgba(154,96,16,0.2); }
 
 /* ═══════════════════════════════════════════════════════════
    MISC UI
