@@ -2173,37 +2173,22 @@
       return a.localeCompare(b, undefined, { sensitivity: 'base' });
     });
 
-    // Determine initial selected department (persisting previously selected dept across views/back navigation)
+    // Determine initial selected department from Left Sidebar Scope (persisting previously selected dept across views/back navigation)
     var savedDept = '';
     try { savedDept = sessionStorage.getItem('srm_supervisor_selected_dept') || ''; } catch(e){}
     var activeScopeNode = (window.SRM_SCOPE && typeof window.SRM_SCOPE.getSelectedNode === 'function') ? window.SRM_SCOPE.getSelectedNode() : null;
     var initialSelectedDept = '';
-    if (savedDept && deptList.some(function(d){ return d.toLowerCase() === savedDept.toLowerCase(); })) {
+    if (activeScopeNode && activeScopeNode.type === 'dept' && activeScopeNode.label) {
+      initialSelectedDept = activeScopeNode.label;
+    } else if (savedDept) {
       initialSelectedDept = savedDept;
-    } else if (currentSupervisorSelectedDept && deptList.some(function(d){ return d.toLowerCase() === currentSupervisorSelectedDept.toLowerCase(); })) {
+    } else if (currentSupervisorSelectedDept) {
       initialSelectedDept = currentSupervisorSelectedDept;
-    } else if (activeScopeNode && activeScopeNode.type === 'dept' && activeScopeNode.label) {
-      var foundDept = deptList.find(function(d) {
-        return d.toLowerCase() === activeScopeNode.label.toLowerCase() ||
-               d.toLowerCase().replace(/[^a-z0-9]/g, '') === activeScopeNode.label.toLowerCase().replace(/[^a-z0-9]/g, '');
-      });
-      if (foundDept) initialSelectedDept = foundDept;
-    }
-    if (!initialSelectedDept && deptList.length > 0) {
+    } else if (deptList.length > 0) {
       initialSelectedDept = deptList[0];
     }
     currentSupervisorSelectedDept = initialSelectedDept;
     try { sessionStorage.setItem('srm_supervisor_selected_dept', initialSelectedDept); } catch(e){}
-
-    var deptOptionsHtml = deptList.map(function(d) {
-      var sel = (d.toLowerCase() === (initialSelectedDept || '').toLowerCase()) ? ' selected' : '';
-      var count = supervisors.filter(function(s) { return isSupervisorInDept(s, d); }).length;
-      return '<option value="' + E(d) + '"' + sel + '>' + E(d) + ' (' + count + ')</option>';
-    }).join('');
-
-    if (deptList.length === 0) {
-      deptOptionsHtml = '<option value="">No departments available</option>';
-    }
 
     var initialDeptTableHtml = renderDeptSupervisorsTable(initialSelectedDept, supervisors);
 
@@ -2323,17 +2308,9 @@
 
       // ── NEW SECTION: Research Supervisors – Department-wise Details ──
       '<div id="section-dept-supervisors" style="margin-top:24px;background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">' +
-          '<div>' +
-            '<h3 style="margin:0;font-size:16px;color:#0f172a;font-weight:700;">Research Supervisors &#x2013; Department-wise Details</h3>' +
-            '<div style="font-size:12.5px;color:#64748b;margin-top:2px;">Select a department to view registered research supervisors, designation, and scholar capacities.</div>' +
-          '</div>' +
-          '<div style="display:flex;align-items:center;gap:10px;">' +
-            '<label for="select-supervisor-dept" style="font-size:13px;font-weight:700;color:#334155;">Department:</label>' +
-            '<select id="select-supervisor-dept" style="padding:7px 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;font-weight:600;color:#0f172a;background:#fff;outline:none;cursor:pointer;min-width:220px;">' +
-              deptOptionsHtml +
-            '</select>' +
-          '</div>' +
+        '<div style="margin-bottom:16px;">' +
+          '<h3 style="margin:0;font-size:16px;color:#0f172a;font-weight:700;">Research Supervisors &#x2013; Department-wise Details</h3>' +
+          '<div style="font-size:12.5px;color:#64748b;margin-top:2px;">Select a department from the left sidebar to view registered research supervisors, designation, and scholar capacities.</div>' +
         '</div>' +
         '<div id="dept-supervisors-table-container">' +
           initialDeptTableHtml +
@@ -3309,16 +3286,20 @@
         });
       });
 
-      // Bind Department-wise Supervisor dropdown
-      var deptSelect = document.getElementById('select-supervisor-dept');
+      // Automatically update Department-wise Supervisor table when Left Sidebar selection changes
       var deptTableContainer = document.getElementById('dept-supervisors-table-container');
-      if (deptSelect && deptTableContainer) {
-        deptSelect.addEventListener('change', function() {
-          var selectedDept = deptSelect.value;
-          currentSupervisorSelectedDept = selectedDept;
-          try { sessionStorage.setItem('srm_supervisor_selected_dept', selectedDept); } catch(e){}
-          deptTableContainer.innerHTML = renderDeptSupervisorsTable(selectedDept, currentScopedSupervisors);
-          bindSupervisorClickLinks();
+      if (window.SRM_SCOPE && typeof window.SRM_SCOPE.onChange === 'function') {
+        window.SRM_SCOPE.onChange(function(node) {
+          var deptNode = (node && node.type === 'dept') ? node : (window.SRM_SCOPE.getSelectedDept ? window.SRM_SCOPE.getSelectedDept() : null);
+          if (!deptNode || !deptNode.label) return;
+          var targetDept = deptNode.label;
+          currentSupervisorSelectedDept = targetDept;
+          try { sessionStorage.setItem('srm_supervisor_selected_dept', targetDept); } catch(e){}
+          var container = document.getElementById('dept-supervisors-table-container');
+          if (container) {
+            container.innerHTML = renderDeptSupervisorsTable(targetDept, currentScopedSupervisors);
+            bindSupervisorClickLinks();
+          }
         });
       }
 
