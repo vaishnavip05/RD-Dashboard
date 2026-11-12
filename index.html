@@ -1,9 +1,9 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="SRM R&D Portal â€” Institutional Research Performance Dashboard" />
+    <meta name="description" content="SRM R&D Portal — Institutional Research Performance Dashboard" />
     <title>SRM R&D Dashboard</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,7 +14,7 @@
   <body>
 
     <!--
-      AUTH GATE SCRIPT â€” runs before anything renders.
+      AUTH GATE SCRIPT — runs before anything renders.
       If the user is not authenticated, they are immediately redirected to login.html.
       auth.js must be the FIRST script loaded.
     -->
@@ -36,7 +36,7 @@
     </script>
 
     <div class="app-shell">
-      <!-- â”€â”€ Site header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+      <!-- ── Site header ──────────────────────────────────────────────────── -->
       <header class="site-header">
         <div class="institution">
           <span class="logo-box">
@@ -44,7 +44,7 @@
           </span>
           <span class="institution-title">SRM Group of Institutions</span>
         </div>
-        <button id="menu-toggle" aria-label="Open navigation">â˜°</button>
+        <button id="menu-toggle" aria-label="Open navigation">☰</button>
         <nav aria-label="Dashboard sections">
           <button class="nav-link active" data-page="home">Overview</button>
           <button class="nav-link" data-page="publications">Publications</button>
@@ -62,18 +62,18 @@
         </div>
       </header>
 
-      <!-- â”€â”€ Body: sidebar + main â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+      <!-- ── Body: sidebar + main ──────────────────────────────────────────── -->
       <div class="body-layout">
 
-        <!-- â”€â”€ Institutional scope sidebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+        <!-- ── Institutional scope sidebar ─────────────────────────────── -->
         <aside class="scope-panel" id="scope-panel" aria-label="Institutional scope">
           <div id="scope-sidebar">
             <!-- Rendered by sidebar.js -->
-            <div class="scope-loading">Loading scopeâ€¦</div>
+            <div class="scope-loading">Loading scope…</div>
           </div>
         </aside>
 
-        <!-- â”€â”€ Main dashboard content â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ -->
+        <!-- ── Main dashboard content ───────────────────────────────────── -->
         <main class="main-content">
           <header class="topbar">
             <div>
@@ -81,7 +81,7 @@
               <h1 id="page-title">Research Index Dashboard</h1>
             </div>
             <div style="display:flex; align-items:center; gap:12px;">
-              <span class="period">2024â€“2026</span>
+              <span class="period">2024–2026</span>
             </div>
           </header>
           <div id="app"></div>
@@ -89,7 +89,7 @@
       </div><!-- /body-layout -->
     </div><!-- /app-shell -->
 
-    <!-- Load scripts in order: auth â†’ scope data â†’ sidebar renderer â†’ research data â†’ management data â†’ E&T publications data â†’ app -->
+    <!-- Load scripts in order: auth → scope data → sidebar renderer → research data → management data → E&T publications data → app -->
     <script src="scope.js?v=20261019_fix2"></script>
     <script src="sidebar.js?v=20261019_fix2"></script>
     <script src="scholar_reports_data.js?v=20261019_fix2"></script>
@@ -113,7 +113,7 @@
           var btn = document.createElement('button');
           btn.className = 'nav-link';
           btn.dataset.page = 'scholar-reports';
-          btn.textContent = 'Scholar Reports ðŸ“„';
+          btn.textContent = 'Scholar Reports 📄';
           btn.style.marginLeft = '2px';
           btn.style.color = '#38bdf8';
           btn.style.fontWeight = '700';

@@ -1,4 +1,4 @@
-﻿(() => {
+(() => {
  const D = new Proxy({}, {
    get(target, prop) {
      return (window.RESEARCH_DATA && window.RESEARCH_DATA[prop]) || [];
@@ -7,17 +7,17 @@
  let _activeYear = 2026;
  const E=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const by=(a,k)=>a.reduce((o,x)=>{let v=typeof k==='function'?k(x):x[k];if(v)o[v]=(o[v]||0)+1;return o},{}),rank=o=>Object.entries(o).sort((a,b)=>b[1]-a[1]);
- const card=(n,v,s,p)=>`<button class="metric metric-button" data-go="${p}"><span class="metric-label">${n}</span><span class="metric-value">${v}</span><span class="metric-note">${s} Â· View details â†’</span></button>`;
+ const card=(n,v,s,p)=>`<button class="metric metric-button" data-go="${p}"><span class="metric-label">${n}</span><span class="metric-value">${v}</span><span class="metric-note">${s} · View details →</span></button>`;
  const filter=(id,customY=null)=>{ const selY = customY || _activeYear; return `<div class="year-filter"><label for="${id}">Filter by year</label><select id="${id}">${Y.map(y=>`<option value="${y}" ${y===selY?'selected':''}>${y}</option>`).join('')}</select></div>`; };
- const intro=t=>`<section class="page-intro"><div><p class="kicker">Research performance Â· 2024â€“2026</p><p>${t}</p></div></section>`;
+ const intro=t=>`<section class="page-intro"><div><p class="kicker">Research performance · 2024–2026</p><p>${t}</p></div></section>`;
  const list=(rows,k,colour='')=>{let x=(Array.isArray(rows[0])?rows:rank(by(rows,k))).slice(0,8),m=Math.max(...x.map(z=>z[1]),1);return `<div class="progress-list">${x.map(([n,v],i)=>`<div class="bar-row"><span class="rank">${i+1}</span><span class="bar-name">${E(n)}</span><span class="bar-track"><span class="bar-fill ${colour}" style="width:${v/m*100}%"></span></span><strong>${v}</strong></div>`).join('')}</div>`};
  const chart=(data,c='#526dda')=>{let w=560,h=230,max=Math.max(...data.map(x=>x[1]),1)*1.15;return `<svg class="chart" viewBox="0 0 ${w} ${h}"><line x1="40" y1="192" x2="540" y2="192" stroke="#dfe5ef"/>${data.map(([n,v],i)=>{let x=75+i*165,y=192-v/max*155;return `<rect x="${x}" y="${y}" width="86" height="${192-y}" rx="5" fill="${c}"/><text x="${x+43}" y="${y-7}" text-anchor="middle" fill="#34415a" font-size="13">${v}</text><text x="${x+43}" y="215" text-anchor="middle" fill="#64708a" font-size="12">${n}</text>`}).join('')}</svg>`};
  const donut=(items,label)=>{if(!items.length)return `<div class="empty">No records are available for the selected year.</div>`;let total=items.reduce((s,x)=>s+x[1],0)||1,colors=['#0d5ea6','#2c9d98','#d29b37','#7b62b3','#cf5b58'],run=0,parts=items.map((x,i)=>{let a=run/total*360;run+=x[1];return `${colors[i]} ${a}deg ${run/total*360}deg`}).join(',');return `<div class="focus-chart"><div class="donut" style="background:conic-gradient(${parts})"><span>${total}<small>${label}</small></span></div><div class="legend">${items.map((x,i)=>`<div><i style="background:${colors[i]}"></i><span>${E(x[0])}</span><strong>${x[1]}</strong></div>`).join('')}</div></div>`};
  const focus=(type,rows,y)=>{if(type==='home'){let s=getScopedSummary(y);return donut([['Publications',s.publications],['Patents',s.patents],['Awards',s.awards],['Projects',s.fundedProjects]],'activities')}if(type==='publications')return donut([['With link',rows.filter(x=>x.link).length],['Without link',rows.filter(x=>!x.link).length]],'records');if(type==='patents')return donut([['Granted',rows.filter(x=>x.status==='Granted').length],['Published',rows.filter(x=>x.status==='Published').length],['Other',rows.filter(x=>!['Granted','Published'].includes(x.status)).length]],'patents');if(type==='people')return donut(rank(by(rows,'category')).slice(0,4),'scholars');if(type==='awards')return donut([['Single award',rank(by(rows,'faculty')).filter(x=>x[1]===1).length],['Repeat awardee',rank(by(rows,'faculty')).filter(x=>x[1]>1).length]],'awardees');return donut(rank(by(rows,'agency')).slice(0,4),'projects')};
- const link=v=>v?`<a class="link" target="_blank" rel="noopener" href="${/^http/.test(v)?E(v):'https://doi.org/'+E(v)}">Open â†—</a>`:'â€”';
+ const link=v=>v?`<a class="link" target="_blank" rel="noopener" href="${/^http/.test(v)?E(v):'https://doi.org/'+E(v)}">Open ↗</a>`:'—';
  const formatFundedStatus = (status) => {
    const raw = (status || '').trim();
-   if (!raw || raw === 'â€”') return 'â€”';
+   if (!raw || raw === '—') return '—';
    const s = raw.toLowerCase();
    if (s === 'sanctioned') {
      return '<span class="badge sanctioned">Sanctioned</span>';
@@ -32,7 +32,7 @@
  };
  const threeYearChart=(data,title,c='#0ea5e9',isCard=true)=>{let w=460,h=180,max=Math.max(...data,1)*1.15,years=[2024,2025,2026];let wrapStyle=isCard?`background:#fff;border-radius:12px;padding:12px 16px;border:1px solid #e1e7f0;box-shadow:0 4px 12px rgba(0,0,0,0.03)`:`width:100%;`;let titleHtml=isCard?`<h3 style="margin-top:0;margin-bottom:12px;font-size:14.5px;color:#34415a;font-weight:600">${title} (3-Year Trend)</h3>`:``;return `<div class="${isCard?'chart-wrapper':'chart-container'}" style="${wrapStyle}">${titleHtml}<svg class="chart" viewBox="0 0 ${w} ${h}" style="width:100%;height:auto;display:block;"><line x1="20" y1="140" x2="440" y2="140" stroke="#dfe5ef"/>${data.map((v,i)=>{let x=65+i*125,y=140-(max?v/max*110:0);return `<rect x="${x}" y="${y}" width="80" height="${140-y}" rx="4" fill="${c}" style="transition:all 0.3s"/><text x="${x+40}" y="${y-8}" text-anchor="middle" fill="#34415a" font-size="14" font-weight="600">${v}</text><text x="${x+40}" y="165" text-anchor="middle" fill="#64708a" font-size="13">${years[i]}</text>`}).join('')}</svg></div>`};
  const departmentComparisonChart=(data,title,c='#10b981',isCard=false)=>{if(!data.length)return `<div class="empty">No records available.</div>`;let rowH=34,h=Math.max(100,data.length*rowH+20),w=740,max=Math.max(...data.map(x=>x[1]),1)*1.15;let wrapStyle=isCard?`background:#fff;border-radius:12px;padding:12px 16px;border:1px solid #e1e7f0;box-shadow:0 4px 12px rgba(0,0,0,0.03);overflow-y:auto;max-height:600px`:`width:100%;overflow-y:auto;max-height:600px;padding-right:8px;`;let titleHtml=isCard?`<h3 style="margin-top:0;margin-bottom:12px;font-size:14.5px;color:#34415a;font-weight:600">${title}</h3>`:``;return `<div class="${isCard?'chart-wrapper':'chart-container'}" style="${wrapStyle}">${titleHtml}<svg class="chart" viewBox="0 0 ${w} ${h}" style="width:100%;min-height:${h}px;display:block;"><line x1="250" y1="10" x2="250" y2="${h-10}" stroke="#dfe5ef"/>${data.map(([n,v],i)=>{let y=10+i*rowH,barW=max?(v/max)*(w-310):0;return `<text x="240" y="${y+16}" text-anchor="end" fill="#64708a" font-size="14" dominant-baseline="middle">${E(n)}</text><rect x="250" y="${y+6}" width="${barW}" height="20" rx="4" fill="${c}" style="transition:all 0.3s"/><text x="${250+barW+10}" y="${y+16}" text-anchor="start" fill="#34415a" font-size="14" font-weight="600" dominant-baseline="middle">${v}</text>`}).join('')}</svg></div>`};
- // â”€â”€ Management Scope Detection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+ // ── Management Scope Detection ─────────────────────────────────────────────
  function getManagementScope() {
    const SCOPE = window.SRM_SCOPE;
    if (!SCOPE) return null;
@@ -49,7 +49,7 @@
    return getManagementScope() !== null;
  }
 
-  // â”€â”€ E&T Scope Detection â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── E&T Scope Detection ───────────────────────────────────────────────────
   function getETScope() {
     const SCOPE = window.SRM_SCOPE;
     if (!SCOPE) return null;
@@ -175,12 +175,12 @@
     return null;
   }
 
-  // â”€â”€ E&T Data Filtering & Normalization â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── E&T Data Filtering & Normalization ────────────────────────────────────
   function normET(r, fallbackYear) {
     const y = r._year || r.year || parseInt(r.Year) || fallbackYear;
-    const title = r.title || r['Title of the paper'] || r.Title || r['Title of the Paper'] || 'â€”';
-    const authors = r.authors || r['Authors (ALL)'] || r.Authors || r['Name of Claiming Author'] || 'â€”';
-    const journal = r.journal || r['Journal Name'] || r['Source title/Journal Name'] || r['Name of the Journal'] || 'â€”';
+    const title = r.title || r['Title of the paper'] || r.Title || r['Title of the Paper'] || '—';
+    const authors = r.authors || r['Authors (ALL)'] || r.Authors || r['Name of Claiming Author'] || '—';
+    const journal = r.journal || r['Journal Name'] || r['Source title/Journal Name'] || r['Name of the Journal'] || '—';
     const link = r.link || r['Paper Link'] || r['SCOPUS Article Link'] || r['DOI/LINK'] || r.DOI || r['First Page of the Paper LINK'] || '';
     const dept = r.department || r.dept || r._source_department || r['Dept.'] || r['Department of Authors'] || r['Claiming Author Department'] || '';
     return { year: y, title, authors, journal, link, dept };
@@ -205,12 +205,12 @@
   function normPat(r) {
     return {
       year: r.year || parseInt(r.Year) || 2024,
-      title: r.title || r.Title || r['Patent title'] || r.patentTitle || 'â€”',
+      title: r.title || r.Title || r['Patent title'] || r.patentTitle || '—',
       departmentGroup: r.department || r.Dept || r.Department || 'E&T',
-      inventors: r.inventors || r.Inventor || r['Inventor(s)'] || r.inventor || 'â€”',
+      inventors: r.inventors || r.Inventor || r['Inventor(s)'] || r.inventor || '—',
       status: r.status || r.patent_status || r.category || 'Published',
-      applicationNo: r.applicationNo || r['Application No'] || 'â€”',
-      filingDate: r.filingDate || r['Filing Date'] || 'â€”',
+      applicationNo: r.applicationNo || r['Application No'] || '—',
+      filingDate: r.filingDate || r['Filing Date'] || '—',
       proofLink: r.proofLink || ''
     };
   }
@@ -231,12 +231,12 @@
     const dept = r.department || r.departmentGroup || r.Dept || r.dept || r.Department || '';
     return {
       year: r.year || parseInt(r.Year) || 2024,
-      title: r.project || r.title || r.Title || r['Project Title'] || 'â€”',
-      principalInvestigator: r.principalInvestigator || r.pi || r.PI || r['Principal Investigator'] || 'â€”',
+      title: r.project || r.title || r.Title || r['Project Title'] || '—',
+      principalInvestigator: r.principalInvestigator || r.pi || r.PI || r['Principal Investigator'] || '—',
       coPi: r.coPI || r.coPi || r.CO_PI || '',
-      agency: r.fundingAgency || r.agency || r['Funding Agency'] || r.scheme || 'â€”',
-      amount: r.amount || r.fundRequested || r['Fund Requested'] || 'â€”',
-      duration: r.duration || r.date || 'â€”',
+      agency: r.fundingAgency || r.agency || r['Funding Agency'] || r.scheme || '—',
+      amount: r.amount || r.fundRequested || r['Fund Requested'] || '—',
+      duration: r.duration || r.date || '—',
       status: r.status || (r.raw && r.raw.status) || 'Submitted',
       department: dept,
       departmentGroup: dept
@@ -258,12 +258,12 @@
   function normConsult(r) {
     return {
       year: r.year || 2025,
-      title: r.title || r.Title || 'â€”',
-      faculty: r.faculty || r.Faculty || 'â€”',
-      agency: r.fundingAgency || r.agency || r['Funding Agency'] || 'â€”',
-      amount: r.amount || r.Amount || 'â€”',
-      duration: r.duration || 'â€”',
-      status: r.status || 'â€”',
+      title: r.title || r.Title || '—',
+      faculty: r.faculty || r.Faculty || '—',
+      agency: r.fundingAgency || r.agency || r['Funding Agency'] || '—',
+      amount: r.amount || r.Amount || '—',
+      duration: r.duration || '—',
+      status: r.status || '—',
       department: r.department || r.Department || ''
     };
   }
@@ -332,7 +332,7 @@
       const peeps = getETPeopleRecords(y);
       scholarCount = peeps.length;
       const uniqueSups = new Set();
-      peeps.forEach(p => { if (p.supervisor && p.supervisor !== 'â€”') uniqueSups.add(p.supervisor); });
+      peeps.forEach(p => { if (p.supervisor && p.supervisor !== '—') uniqueSups.add(p.supervisor); });
       supervisorCount = uniqueSups.size;
     }
 
@@ -350,7 +350,7 @@
     };
   }
 
-  // â”€â”€ Management Data Filtering â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── Management Data Filtering ──────────────────────────────────────────────
   function getMgmtRecords(dataType, year, ignoreScope = false) {
     const M = window.MANAGEMENT_RESEARCH_DATA;
     if (!M) return [];
@@ -397,7 +397,7 @@
 
     return { faculty, publications: pubs.length, patents: pats.length, granted, published, fundedProjects: fund.length, supervisors: sups.length, scholars: schs.length, deptLabel };
   }
- // â”€â”€ Dataset-Specific Scoped Filtering (FLABS / Module 3) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+ // ── Dataset-Specific Scoped Filtering (FLABS / Module 3) ──────────────────
  function getScopedRecords(type, dataset, year) {
    const SCOPE = window.SRM_SCOPE;
    if (!SCOPE) return dataset.filter(r => r.year === year);
@@ -452,25 +452,25 @@
    };
  }
 
- // â”€â”€ Current page tracker â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+ // ── Current page tracker ───────────────────────────────────────────────────
  let _currentPage = 'home';
 
-  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // ══════════════════════════════════════════════════════════════════════════
   // CUMULATIVE RESEARCH COMMUNITY HELPERS
-  // For a given selectedYear, return scholars/supervisors from ALL years â‰¤ selectedYear.
+  // For a given selectedYear, return scholars/supervisors from ALL years ≤ selectedYear.
   // Deduplication is by registration number (or scholar name as fallback) to avoid
   // counting the same person twice when they appear across multiple year rows.
-  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // ══════════════════════════════════════════════════════════════════════════
 
   function _deduplicateScholars(records) {
-    // Deduplicate by (registration || name) â€” prefer unique registration numbers
+    // Deduplicate by (registration || name) — prefer unique registration numbers
     const seen = new Set();
     return records.filter(r => {
-      const key = (r.registration && r.registration !== 'â€”') ? r.registration
-                : (r.applicationNo && r.applicationNo !== 'â€”') ? r.applicationNo
-                : (r.registerNumber && r.registerNumber !== 'â€”') ? r.registerNumber
-                : (r.name && r.name !== 'â€”') ? r.name
-                : (r.scholar && r.scholar !== 'â€”') ? r.scholar
+      const key = (r.registration && r.registration !== '—') ? r.registration
+                : (r.applicationNo && r.applicationNo !== '—') ? r.applicationNo
+                : (r.registerNumber && r.registerNumber !== '—') ? r.registerNumber
+                : (r.name && r.name !== '—') ? r.name
+                : (r.scholar && r.scholar !== '—') ? r.scholar
                 : null;
       if (!key) return true; // can't deduplicate, keep
       if (seen.has(key)) return false;
@@ -482,9 +482,9 @@
   function _deduplicateSupervisors(records) {
     const seen = new Set();
     return records.filter(r => {
-      const key = (r.employeeCode && r.employeeCode !== 'â€”') ? r.employeeCode
-                : (r.supervisor && r.supervisor !== 'â€”') ? r.supervisor
-                : (r.name && r.name !== 'â€”') ? r.name
+      const key = (r.employeeCode && r.employeeCode !== '—') ? r.employeeCode
+                : (r.supervisor && r.supervisor !== '—') ? r.supervisor
+                : (r.name && r.name !== '—') ? r.name
                 : null;
       if (!key) return true;
       if (seen.has(key)) return false;
@@ -608,14 +608,14 @@
   }
 
 
-   // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+   // ══════════════════════════════════════════════════════════════════════════
   // MANAGEMENT HOME PAGE
-  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // ══════════════════════════════════════════════════════════════════════════
   function mgmtHome() {
     const mgmtScope = getManagementScope();
     const scopeLabel = mgmtScope.dept ? `<strong>${E(mgmtScope.dept)}</strong>` : '<strong>Management</strong>';
     const introText = `Viewing research performance for ${scopeLabel} (Faculty of Management). Publications, Patents, and Funded Projects are filtered by the selected scope.`;
-    return `${intro(introText)}<div class="filterbar home-filter">${filter('home-year')}</div><div class="metric-grid home-kpis" id="home-kpis"></div><div class="panel-grid" style="grid-template-columns: 1fr"><section class="panel focus-panel"><h2>3-Year Research Trends</h2><p class="sub">Performance comparison across 2024â€“2026</p><div id="home-trend-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:20px"></div></section></div>`;
+    return `${intro(introText)}<div class="filterbar home-filter">${filter('home-year')}</div><div class="metric-grid home-kpis" id="home-kpis"></div><div class="panel-grid" style="grid-template-columns: 1fr"><section class="panel focus-panel"><h2>3-Year Research Trends</h2><p class="sub">Performance comparison across 2024–2026</p><div id="home-trend-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:20px"></div></section></div>`;
   }
 
   function bindMgmtHome() {
@@ -624,14 +624,14 @@
       const y = +q.value;
       const s = getMgmtSummary(y);
       document.querySelector('#home-kpis').innerHTML = [
-        card('Total Faculty',        s.faculty,        s.deptLabel + ' Â· Faculty members',       'people'),
-        card('Publications',         s.publications,   s.deptLabel + ' Â· Publications',          'publications'),
-        card('Patent records',       s.patents,        s.deptLabel + ' Â· Patents recorded',      'patents'),
-        card('Granted patents',      s.granted,        s.deptLabel + ' Â· Granted status',        'patents'),
-        card('Published patents',    s.published,      s.deptLabel + ' Â· Published status',      'patents'),
-        card('Funded projects',      s.fundedProjects, s.deptLabel + ' Â· Projects awarded',      'funded'),
-        card('Research Supervisors', s.supervisors,    s.deptLabel + ' Â· Research supervisors',  'people'),
-        card('Research Scholars',    s.scholars,       s.deptLabel + ' Â· Enrolled PhD scholars', 'people')
+        card('Total Faculty',        s.faculty,        s.deptLabel + ' · Faculty members',       'people'),
+        card('Publications',         s.publications,   s.deptLabel + ' · Publications',          'publications'),
+        card('Patent records',       s.patents,        s.deptLabel + ' · Patents recorded',      'patents'),
+        card('Granted patents',      s.granted,        s.deptLabel + ' · Granted status',        'patents'),
+        card('Published patents',    s.published,      s.deptLabel + ' · Published status',      'patents'),
+        card('Funded projects',      s.fundedProjects, s.deptLabel + ' · Projects awarded',      'funded'),
+        card('Research Supervisors', s.supervisors,    s.deptLabel + ' · Research supervisors',  'people'),
+        card('Research Scholars',    s.scholars,       s.deptLabel + ' · Enrolled PhD scholars', 'people')
       ].join('');
       
       const s24 = getMgmtSummary(2024);
@@ -651,9 +651,9 @@
     r();
   }
 
-  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // ══════════════════════════════════════════════════════════════════════════
   // MANAGEMENT DETAIL PAGES
-  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // ══════════════════════════════════════════════════════════════════════════
   const mgmtConfig = {
     publications: {
       label: 'Publications (Management)',
@@ -688,7 +688,7 @@
       desc: 'Research funding awarded to Faculty of Management, filtered by selected department.',
       go: 'funded',
       cols: ['Year', 'Project', 'Principal investigator', 'Department', 'Funding agency', 'Amount', 'Status'],
-      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator || r.investigator_name) || 'â€”'}</td><td>${E(r.department || r.departmentGroup) || 'â€”'}</td><td>${E(r.agency || r.funding_agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
+      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator || r.investigator_name) || '—'}</td><td>${E(r.department || r.departmentGroup) || '—'}</td><td>${E(r.agency || r.funding_agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
       key: 'agency',
       caption: 'Funding agencies',
       metrics: (y, a) => [
@@ -703,20 +703,20 @@
       desc: 'Research supervisors and enrolled PhD scholars for Faculty of Management.',
       go: 'people',
       cols: ['Scholar', 'Registration No', 'Department', 'Supervisor', 'Mode'],
-      row: r => `<tr><td class="title-cell">${E(r.name)}</td><td>${E(r.registration) || 'â€”'}</td><td>${E(r.department || r.departmentGroup) || 'â€”'}</td><td>${E(r.supervisor) || 'â€”'}</td><td><span class="badge ${(r.category||r.mode||'').toLowerCase().includes('full') ? 'granted' : 'published'}">${E(r.category || r.mode || 'Full-time')}</span></td></tr>`,
+      row: r => `<tr><td class="title-cell">${E(r.name)}</td><td>${E(r.registration) || '—'}</td><td>${E(r.department || r.departmentGroup) || '—'}</td><td>${E(r.supervisor) || '—'}</td><td><span class="badge ${(r.category||r.mode||'').toLowerCase().includes('full') ? 'granted' : 'published'}">${E(r.category || r.mode || 'Full-time')}</span></td></tr>`,
       key: 'supervisor',
       caption: 'Scholars by supervisor',
-      // cumData is the cumulative dataset (all years â‰¤ y)
+      // cumData is the cumulative dataset (all years ≤ y)
       metrics: (y, a, cumData, cumSupCount) => {
         const cum = cumData || a;
         const sups = (typeof cumSupCount === 'number') ? cumSupCount : getMgmtCumulativeSupervisors(y, false).length;
-        const yLabel = y === 2024 ? '2024' : y === 2025 ? '2024â€“2025' : '2024â€“2026';
+        const yLabel = y === 2024 ? '2024' : y === 2025 ? '2024–2025' : '2024–2026';
         return [
           ['Total Scholars',              cum.length,                                                           'Cumulative (' + yLabel + ')'],
-          ['Full-Time Scholars',          cum.filter(x=>_isFT(x.category||x.mode||'')).length,                 'Full-time mode Â· ' + yLabel],
-          ['Part-Time Internal Scholars', cum.filter(x=>_isPTInternal(x.category||x.mode||'')).length,         'PT Internal Â· ' + yLabel],
-          ['Part-Time External Scholars', cum.filter(x=>_isPTExternal(x.category||x.mode||'')).length,         'PT External Â· ' + yLabel],
-          ['Research Supervisors',        sups,                                                                 'Active guides Â· ' + yLabel]
+          ['Full-Time Scholars',          cum.filter(x=>_isFT(x.category||x.mode||'')).length,                 'Full-time mode · ' + yLabel],
+          ['Part-Time Internal Scholars', cum.filter(x=>_isPTInternal(x.category||x.mode||'')).length,         'PT Internal · ' + yLabel],
+          ['Part-Time External Scholars', cum.filter(x=>_isPTExternal(x.category||x.mode||'')).length,         'PT External · ' + yLabel],
+          ['Research Supervisors',        sups,                                                                 'Active guides · ' + yLabel]
         ];
       }
     }
@@ -726,7 +726,7 @@
     const c = mgmtConfig[type];
     if (!c) return `<div class="empty">Unknown section.</div>`;
     const mgmtBadge = `<span class="badge" style="background:#eef4ff;color:#1E5AA8;border:1px solid #c8d8ed;margin-left:8px;font-size:11.5px;padding:3px 8px;vertical-align:middle;">Management</span>`;
-    return `${intro(c.desc + mgmtBadge)}<div class="filterbar table-filters">${filter(type + '-year')}<input id="${type}-search" placeholder="Search ${type === 'funded' ? 'project or investigator' : type}"></div><div class="metric-grid" id="${type}-kpis"></div><div class="panel-grid" style="grid-template-columns: minmax(250px, 0.7fr) 1.3fr; align-items: start;"><section class="panel focus-panel" style="padding:16px;"><h2>3-Year Trend</h2><p class="sub">Performance across 2024â€“2026</p><div id="${type}-chart"></div></section><section class="panel" style="padding:16px;"><h2>Department Comparison</h2><p class="sub">Ranked performance for selected year</p><div id="${type}-list"></div></section></div><section style="margin-top:18px"><div class="table-wrap"><table><thead><tr>${c.cols.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody id="${type}-table"></tbody></table></div><p class="footer-note" id="${type}-count"></p></section>`;
+    return `${intro(c.desc + mgmtBadge)}<div class="filterbar table-filters">${filter(type + '-year')}<input id="${type}-search" placeholder="Search ${type === 'funded' ? 'project or investigator' : type}"></div><div class="metric-grid" id="${type}-kpis"></div><div class="panel-grid" style="grid-template-columns: minmax(250px, 0.7fr) 1.3fr; align-items: start;"><section class="panel focus-panel" style="padding:16px;"><h2>3-Year Trend</h2><p class="sub">Performance across 2024–2026</p><div id="${type}-chart"></div></section><section class="panel" style="padding:16px;"><h2>Department Comparison</h2><p class="sub">Ranked performance for selected year</p><div id="${type}-list"></div></section></div><section style="margin-top:18px"><div class="table-wrap"><table><thead><tr>${c.cols.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody id="${type}-table"></tbody></table></div><p class="footer-note" id="${type}-count"></p></section>`;
   }
 
   function bindMgmtDetail(type) {
@@ -749,7 +749,7 @@
       const cumSupCount = (type === 'people') ? getMgmtCumulativeSupervisors(y, false).length : null;
       document.querySelector('#' + type + '-kpis').innerHTML = c.metrics(y, base, cumData, cumSupCount).map(x => card(x[0], x[1], x[2], c.go)).join('');
 
-      // 3-Year Trend: 2024 bar = all active cohorts enrolled up to 2024 (year â‰¤ 2024)
+      // 3-Year Trend: 2024 bar = all active cohorts enrolled up to 2024 (year ≤ 2024)
       // so that base24 + base25 + base26 == cumulative 2026 total.
       // For 'people', use the cumulative helper for baseline; year-exact for 2025 & 2026.
       let trend24, trend25, trend26;
@@ -770,11 +770,11 @@
       if (type === 'people') {
         const cumAllDepts = getMgmtCumulativeScholars(y, true);
         const deptKey = 'department';
-        deptData = rank(by(cumAllDepts, deptKey)).filter(x => x[0] && x[0] !== 'â€”');
+        deptData = rank(by(cumAllDepts, deptKey)).filter(x => x[0] && x[0] !== '—');
       } else {
         const unfilteredBase = getMgmtRecords(type === 'funded' ? 'funded' : type, y, true);
         const deptKey = type === 'patents' ? 'departmentGroup' : 'department';
-        deptData = rank(by(unfilteredBase, deptKey)).filter(x => x[0] && x[0] !== 'â€”');
+        deptData = rank(by(unfilteredBase, deptKey)).filter(x => x[0] && x[0] !== '—');
       }
       document.querySelector('#' + type + '-list').innerHTML = departmentComparisonChart(deptData, 'Departments', '#10b981');
 
@@ -783,7 +783,7 @@
       document.querySelector('#' + type + '-table').innerHTML = rows.map(c.row).join('') || `<tr><td colspan="${c.cols.length}" class="empty">${emptyMsg}</td></tr>`;
 
       const countSuffix = type === 'people' ? ' (table shows selected year only)' : '';
-      document.querySelector('#' + type + '-count').textContent = `Showing ${rows.length} of ${base.length} records for ${y} Â· ${deptLabel}${countSuffix}`;
+      document.querySelector('#' + type + '-count').textContent = `Showing ${rows.length} of ${base.length} records for ${y} · ${deptLabel}${countSuffix}`;
       document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
     };
     if (search) search.oninput = r;
@@ -791,9 +791,9 @@
     r();
   }
 
-// â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+// ══════════════════════════════════════════════════════════════════════════
   // E&T HOME & DETAIL PAGES
-  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // ══════════════════════════════════════════════════════════════════════════
   const etConfig = {
     publications: {
       label: 'Publications (E&T)',
@@ -830,7 +830,7 @@
       desc: 'Research funding awarded to Faculty of Engineering & Technology (E&T).',
       go: 'funded',
       cols: ['Year', 'Project', 'Principal investigator', 'Department', 'Funding agency', 'Amount', 'Status'],
-      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator)}</td><td>${E(r.departmentGroup || r.department)||'â€”'}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
+      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator)}</td><td>${E(r.departmentGroup || r.department)||'—'}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
       key: 'agency',
       caption: 'Funding agencies',
       getRecords: (y, ignoreScope) => getETFunded(y, ignoreScope),
@@ -862,21 +862,21 @@
       desc: 'Research supervisors and enrolled PhD scholars for Faculty of Engineering & Technology (E&T).',
       go: 'people',
       cols: ['Scholar name', 'Application No', 'Program / Department', 'Research supervisor', 'Category'],
-      row: r => `<tr><td class="title-cell">${E(r.scholar)}</td><td>${E(r.applicationNo || 'â€”')}</td><td>${E(r.program || r.department || 'Ph.D. E&T')}</td><td>${E(r.supervisor || 'â€”')}</td><td><span class="badge ${r.category ? 'published' : 'granted'}">${E(r.category || 'Ph.D.')}</span></td></tr>`,
+      row: r => `<tr><td class="title-cell">${E(r.scholar)}</td><td>${E(r.applicationNo || '—')}</td><td>${E(r.program || r.department || 'Ph.D. E&T')}</td><td>${E(r.supervisor || '—')}</td><td><span class="badge ${r.category ? 'published' : 'granted'}">${E(r.category || 'Ph.D.')}</span></td></tr>`,
       key: 'supervisor',
       caption: 'Supervisors list',
       getRecords: (y, ignoreScope) => getETPeopleRecords(y, ignoreScope),
-      // cumData is the cumulative dataset (all years â‰¤ y)
+      // cumData is the cumulative dataset (all years ≤ y)
       metrics: (y, a, cumData, cumSupCount) => {
         const cum = cumData || a;
         const sups = (typeof cumSupCount === 'number') ? cumSupCount : getETCumulativeSupervisors(y, false).length;
-        const yLabel = y === 2024 ? '2024' : y === 2025 ? '2024â€“2025' : '2024â€“2026';
+        const yLabel = y === 2024 ? '2024' : y === 2025 ? '2024–2025' : '2024–2026';
         return [
           ['Total Scholars',              cum.length,                                                    'Cumulative (' + yLabel + ')'],
-          ['Full-Time Scholars',          cum.filter(x=>_isFT(x.category||'')).length,                  'Full-time mode Â· ' + yLabel],
-          ['Part-Time Internal Scholars', cum.filter(x=>_isPTInternal(x.category||'')).length,          'PT Internal Â· ' + yLabel],
-          ['Part-Time External Scholars', cum.filter(x=>_isPTExternal(x.category||'')).length,          'PT External Â· ' + yLabel],
-          ['Research Supervisors',        sups,                                                          'Active guides Â· ' + yLabel]
+          ['Full-Time Scholars',          cum.filter(x=>_isFT(x.category||'')).length,                  'Full-time mode · ' + yLabel],
+          ['Part-Time Internal Scholars', cum.filter(x=>_isPTInternal(x.category||'')).length,          'PT Internal · ' + yLabel],
+          ['Part-Time External Scholars', cum.filter(x=>_isPTExternal(x.category||'')).length,          'PT External · ' + yLabel],
+          ['Research Supervisors',        sups,                                                          'Active guides · ' + yLabel]
         ];
       }
     }
@@ -886,7 +886,7 @@
     const etScope = getETScope();
     const scopeLabel = etScope.dept ? `<strong>${E(etScope.dept)}</strong>` : '<strong>E&T</strong>';
     const introText = `Viewing research performance for ${scopeLabel} (Faculty of Engineering & Technology). Publications, Patents, Funded Projects, Consultancy, and Research Community dataset.`;
-    return `${intro(introText)}<div class="filterbar home-filter">${filter('home-year')}</div><div class="metric-grid home-kpis" id="home-kpis"></div><div class="panel-grid" style="grid-template-columns: 1fr"><section class="panel focus-panel"><h2>3-Year Research Trends</h2><p class="sub">Performance comparison across 2024â€“2026</p><div id="home-trend-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:20px"></div></section></div>`;
+    return `${intro(introText)}<div class="filterbar home-filter">${filter('home-year')}</div><div class="metric-grid home-kpis" id="home-kpis"></div><div class="panel-grid" style="grid-template-columns: 1fr"><section class="panel focus-panel"><h2>3-Year Research Trends</h2><p class="sub">Performance comparison across 2024–2026</p><div id="home-trend-charts" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;margin-top:20px"></div></section></div>`;
   }
 
   function bindETHome() {
@@ -896,15 +896,15 @@
       const s = getETSummary(y);
 
       document.querySelector('#home-kpis').innerHTML = [
-        card('Total Faculty',        s.faculty,       s.deptLabel + ' Â· Faculty members',        'people'),
-        card('Publications',         s.publications,  s.deptLabel + ' Â· Scopus Publications',    'publications'),
-        card('Patent records',       s.patents,       s.deptLabel + ' Â· Patents recorded',       'patents'),
-        card('Granted patents',      s.granted,       s.deptLabel + ' Â· Granted status',         'patents'),
-        card('Published patents',    s.published,     s.deptLabel + ' Â· Published status',       'patents'),
-        card('Funded projects',      s.fundedProjects,s.deptLabel + ' Â· Projects awarded',       'funded'),
-        card('Consultancy projects', s.consultancy,   s.deptLabel + ' Â· Industry consultancy',   'consultancy'),
-        card('Research Supervisors', s.supervisors,   s.deptLabel + ' Â· Active supervisors',     'people'),
-        card('Research Scholars',    s.scholars,      s.deptLabel + ' Â· Enrolled PhD scholars',  'people')
+        card('Total Faculty',        s.faculty,       s.deptLabel + ' · Faculty members',        'people'),
+        card('Publications',         s.publications,  s.deptLabel + ' · Scopus Publications',    'publications'),
+        card('Patent records',       s.patents,       s.deptLabel + ' · Patents recorded',       'patents'),
+        card('Granted patents',      s.granted,       s.deptLabel + ' · Granted status',         'patents'),
+        card('Published patents',    s.published,     s.deptLabel + ' · Published status',       'patents'),
+        card('Funded projects',      s.fundedProjects,s.deptLabel + ' · Projects awarded',       'funded'),
+        card('Consultancy projects', s.consultancy,   s.deptLabel + ' · Industry consultancy',   'consultancy'),
+        card('Research Supervisors', s.supervisors,   s.deptLabel + ' · Active supervisors',     'people'),
+        card('Research Scholars',    s.scholars,      s.deptLabel + ' · Enrolled PhD scholars',  'people')
       ].join('');
 
       let s24 = getETSummary(2024), s25 = getETSummary(2025), s26 = getETSummary(2026);
@@ -926,7 +926,7 @@
     const c = etConfig[type];
     if (!c) return `<div class="empty">Section not available for E&T.</div>`;
     const etBadge = `<span class="badge" style="background:#eef4ff;color:#1E5AA8;border:1px solid #c8d8ed;margin-left:8px;font-size:11.5px;padding:3px 8px;vertical-align:middle;">E&T</span>`;
-    return `${intro(c.desc + etBadge)}<div class="filterbar table-filters">${filter(type + '-year')}<input id="${type}-search" placeholder="Search ${type === 'funded' ? 'project or investigator' : type}"></div><div class="metric-grid" id="${type}-kpis"></div><div class="panel-grid" style="grid-template-columns: minmax(250px, 0.7fr) 1.3fr; align-items: start;"><section class="panel focus-panel" style="padding:16px;"><h2>3-Year Trend</h2><p class="sub">Performance across 2024â€“2026</p><div id="${type}-chart"></div></section><section class="panel" style="padding:16px;"><h2>Department Comparison</h2><p class="sub">Ranked performance for selected year</p><div id="${type}-list"></div></section></div><section style="margin-top:18px"><div class="table-wrap"><table><thead><tr>${c.cols.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody id="${type}-table"></tbody></table></div><p class="footer-note" id="${type}-count"></p></section>`;
+    return `${intro(c.desc + etBadge)}<div class="filterbar table-filters">${filter(type + '-year')}<input id="${type}-search" placeholder="Search ${type === 'funded' ? 'project or investigator' : type}"></div><div class="metric-grid" id="${type}-kpis"></div><div class="panel-grid" style="grid-template-columns: minmax(250px, 0.7fr) 1.3fr; align-items: start;"><section class="panel focus-panel" style="padding:16px;"><h2>3-Year Trend</h2><p class="sub">Performance across 2024–2026</p><div id="${type}-chart"></div></section><section class="panel" style="padding:16px;"><h2>Department Comparison</h2><p class="sub">Ranked performance for selected year</p><div id="${type}-list"></div></section></div><section style="margin-top:18px"><div class="table-wrap"><table><thead><tr>${c.cols.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody id="${type}-table"></tbody></table></div><p class="footer-note" id="${type}-count"></p></section>`;
   }
 
   function bindETDetail(type) {
@@ -949,7 +949,7 @@
       const cumSupCount = (type === 'people') ? getETCumulativeSupervisors(y, false).length : null;
       document.querySelector('#' + type + '-kpis').innerHTML = c.metrics(y, base, cumData, cumSupCount).map(x => card(x[0], x[1], x[2], c.go)).join('');
 
-      // 3-Year Trend: 2024 bar = all active cohorts enrolled up to 2024 (year â‰¤ 2024)
+      // 3-Year Trend: 2024 bar = all active cohorts enrolled up to 2024 (year ≤ 2024)
       // so that base24 + base25 + base26 == cumulative 2026 total.
       // For 'people', use the cumulative helper for baseline; year-exact for 2025 & 2026.
       let trend24, trend25, trend26;
@@ -967,17 +967,17 @@
       // Dept comparison: cumulative for 'people', selected-year for others
       let deptData;
       if (type === 'people') {
-        // Cumulative across all years â‰¤ y, per department
+        // Cumulative across all years ≤ y, per department
         const cumAllDepts = getETCumulativeScholars(y, true);
         const etFallbackKey = (r) => normalizeETDepartment(r) || (r.departmentGroup || r.department || r.dept || '');
-        deptData = rank(by(cumAllDepts, etFallbackKey)).filter(x => x[0] && x[0] !== 'â€”');
+        deptData = rank(by(cumAllDepts, etFallbackKey)).filter(x => x[0] && x[0] !== '—');
       } else {
         const unfilteredBase = c.getRecords(y, true);
         const fallbackDeptKey = (r) => {
           let d = r.departmentGroup || r.department || r.dept || r['Department'] || '';
           return getOldETLabel(d);
         };
-        deptData = rank(by(unfilteredBase, fallbackDeptKey)).filter(x => x[0] && x[0] !== 'â€”');
+        deptData = rank(by(unfilteredBase, fallbackDeptKey)).filter(x => x[0] && x[0] !== '—');
       }
       document.querySelector('#' + type + '-list').innerHTML = departmentComparisonChart(deptData, 'Departments', '#10b981');
 
@@ -986,7 +986,7 @@
       document.querySelector('#' + type + '-table').innerHTML = rows.map(c.row).join('') || `<tr><td colspan="${c.cols.length}" class="empty">${emptyMsg}</td></tr>`;
 
       const countSuffix = type === 'people' ? ' (table shows selected year only)' : '';
-      document.querySelector('#' + type + '-count').textContent = `Showing ${rows.length} of ${base.length} records for ${y} Â· ${deptLabel}${countSuffix}`;
+      document.querySelector('#' + type + '-count').textContent = `Showing ${rows.length} of ${base.length} records for ${y} · ${deptLabel}${countSuffix}`;
       document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
     };
     if (search) search.oninput = r;
@@ -1007,14 +1007,14 @@
         <p class="placeholder-desc">
           <strong>${LABEL[type] || type}</strong> data for Faculty of Engineering & Technology (E&T) will be implemented soon.
         </p>
-        <button class="placeholder-back-btn" id="return-et-btn">â† Return to E&T Overview</button>
+        <button class="placeholder-back-btn" id="return-et-btn">← Return to E&T Overview</button>
       </div>
     `;
   }
 
- // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ // ══════════════════════════════════════════════════════════════════════════
  // FLABS HOME PAGE
- // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ // ══════════════════════════════════════════════════════════════════════════
  function home(){
    const dept = window.SRM_SCOPE && window.SRM_SCOPE.getSelectedDept();
    const introText = dept
@@ -1027,8 +1027,8 @@
    let q=document.querySelector('#home-year');
    let r=()=>{
      let y=+q.value,s=getScopedSummary(y);
-     const deptNote = s.dept ? `${s.dept.label} Â· ` : '';
-     const instNote = s.dept ? 'Institution-wide Â· ' : '';
+     const deptNote = s.dept ? `${s.dept.label} · ` : '';
+     const instNote = s.dept ? 'Institution-wide · ' : '';
 
      document.querySelector('#home-kpis').innerHTML=[
        card('Total faculty',s.faculty,instNote + 'Faculty members','people'),
@@ -1121,20 +1121,20 @@
      go:'people',
      isInstWide: false,
      cols:['Scholar','Registration','Department','Supervisor','Mode'],
-     row:r=>`<tr><td class="title-cell">${E(r.name)}</td><td>${E(r.registration)||'â€”'}</td><td>${E(r.departmentGroup)}</td><td>${E(r.supervisor)||'â€”'}</td><td>${E(r.category)}</td></tr>`,
+     row:r=>`<tr><td class="title-cell">${E(r.name)}</td><td>${E(r.registration)||'—'}</td><td>${E(r.departmentGroup)}</td><td>${E(r.supervisor)||'—'}</td><td>${E(r.category)}</td></tr>`,
      key:'departmentGroup',
      caption:'Scholars by department',
-     // cumData is the cumulative dataset (all years â‰¤ y); a is still the year-only data used for the table
+     // cumData is the cumulative dataset (all years ≤ y); a is still the year-only data used for the table
      metrics:(y, a, cumData, cumSupCount) => {
        const cum = cumData || a;
        const sups = (typeof cumSupCount === 'number') ? cumSupCount : getFLABSCumulativeSupervisors(y, false).length;
-       const yLabel = y === 2024 ? '2024' : y === 2025 ? '2024â€“2025' : '2024â€“2026';
+       const yLabel = y === 2024 ? '2024' : y === 2025 ? '2024–2025' : '2024–2026';
        return [
          ['Total Scholars',              cum.length,                                                   'Cumulative (' + yLabel + ')'],
-         ['Full-Time Scholars',          cum.filter(x=>_isFT(x.category)).length,                     'Full-time mode Â· ' + yLabel],
-         ['Part-Time Internal Scholars', cum.filter(x=>_isPTInternal(x.category||x.mode||'')).length, 'PT Internal Â· ' + yLabel],
-         ['Part-Time External Scholars', cum.filter(x=>_isPTExternal(x.category||x.mode||'')).length, 'PT External Â· ' + yLabel],
-         ['Research Supervisors',        sups,                                                         'Active guides Â· ' + yLabel]
+         ['Full-Time Scholars',          cum.filter(x=>_isFT(x.category)).length,                     'Full-time mode · ' + yLabel],
+         ['Part-Time Internal Scholars', cum.filter(x=>_isPTInternal(x.category||x.mode||'')).length, 'PT Internal · ' + yLabel],
+         ['Part-Time External Scholars', cum.filter(x=>_isPTExternal(x.category||x.mode||'')).length, 'PT External · ' + yLabel],
+         ['Research Supervisors',        sups,                                                         'Active guides · ' + yLabel]
        ];
      }
    },
@@ -1144,7 +1144,7 @@
      go:'funded',
      isInstWide: true,
      cols:['Year','Project','Principal investigator','Department','Funding agency','Amount','Status'],
-     row:r=>`<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator)||'â€”'}</td><td>${E(r.departmentGroup || r.department)||'â€”'}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
+     row:r=>`<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator)||'—'}</td><td>${E(r.departmentGroup || r.department)||'—'}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
      key:'agency',
      caption:'Funding agencies',
      metrics:(y,a)=>[['Funded projects',a.length,'Institution-wide total'],['Detailed projects',a.length,'Available records'],['Funding agencies',Object.keys(by(a,'agency')).length,'Supporting agencies'],['Selected year',y,'Current filter']]
@@ -1157,7 +1157,7 @@
    function detail(type){
     let c=config[type];
     const instBadge = c.isInstWide ? '<span class="badge" style="background:#eef4ff;color:#1E5AA8;border:1px solid #c8d8ed;margin-left:8px;font-size:11.5px;padding:3px 8px;vertical-align:middle;">Institution-wide</span>' : '';
-    return `${intro(c.desc + instBadge)}<div class="filterbar table-filters">${filter(type+'-year')}${extraFilters(type)}<input id="${type}-search" placeholder="Search ${type==='people'?'scholar or supervisor':type==='funded'?'project or investigator':type}"></div><div class="metric-grid" id="${type}-kpis"></div><div class="panel-grid" style="grid-template-columns: minmax(250px, 0.7fr) 1.3fr; align-items: start;"><section class="panel focus-panel" style="padding:16px;"><h2>3-Year Trend</h2><p class="sub">Performance across 2024â€“2026</p><div id="${type}-chart"></div></section><section class="panel" style="padding:16px;"><h2>Department Comparison</h2><p class="sub">Ranked performance for selected year</p><div id="${type}-list"></div></section></div><section style="margin-top:18px"><div class="table-wrap"><table><thead><tr>${c.cols.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody id="${type}-table"></tbody></table></div><p class="footer-note" id="${type}-count"></p></section>`;
+    return `${intro(c.desc + instBadge)}<div class="filterbar table-filters">${filter(type+'-year')}${extraFilters(type)}<input id="${type}-search" placeholder="Search ${type==='people'?'scholar or supervisor':type==='funded'?'project or investigator':type}"></div><div class="metric-grid" id="${type}-kpis"></div><div class="panel-grid" style="grid-template-columns: minmax(250px, 0.7fr) 1.3fr; align-items: start;"><section class="panel focus-panel" style="padding:16px;"><h2>3-Year Trend</h2><p class="sub">Performance across 2024–2026</p><div id="${type}-chart"></div></section><section class="panel" style="padding:16px;"><h2>Department Comparison</h2><p class="sub">Ranked performance for selected year</p><div id="${type}-list"></div></section></div><section style="margin-top:18px"><div class="table-wrap"><table><thead><tr>${c.cols.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody id="${type}-table"></tbody></table></div><p class="footer-note" id="${type}-count"></p></section>`;
   }
 
   function bindDetail(type){
@@ -1179,13 +1179,13 @@
 
       const dept = window.SRM_SCOPE && window.SRM_SCOPE.getSelectedDept();
 
-      // For 'people': compute cumulative data (all years â‰¤ y) for KPI cards and dept chart
+      // For 'people': compute cumulative data (all years ≤ y) for KPI cards and dept chart
       const cumData = (type === 'people') ? getFLABSCumulativeScholars(y, false) : null;
       const cumSupCount = (type === 'people') ? getFLABSCumulativeSupervisors(y, false).length : null;
 
      document.querySelector('#'+type+'-kpis').innerHTML=c.metrics(y, base, cumData, cumSupCount).map(x=>card(x[0],x[1],x[2],c.go)).join('');
      
-     // 3-Year Trend: 2024 bar = all active cohorts enrolled up to 2024 (year â‰¤ 2024)
+     // 3-Year Trend: 2024 bar = all active cohorts enrolled up to 2024 (year ≤ 2024)
      // so that base24 + base25 + base26 == cumulative 2026 total.
      // For 'people', use the cumulative helper for baseline; year-exact for 2025 & 2026.
      let trend24, trend25, trend26;
@@ -1203,7 +1203,7 @@
       // Dept comparison: cumulative for 'people', selected-year for others
       let deptData = [];
       if (type === 'people' && window.SRM_SCOPE) {
-        // Cumulative across all years â‰¤ y, per department
+        // Cumulative across all years ≤ y, per department
         const cumAllDepts = getFLABSCumulativeScholars(y, true);
         deptData = window.SRM_SCOPE.FLABS_DEPARTMENTS.map(d => {
           const deptScholars = window.SRM_SCOPE.filterResearchCommunityByDepartment(cumAllDepts, d);
@@ -1220,7 +1220,7 @@
       } else {
         const allForYear = all.filter(r => r.year === y);
         const flabsDeptKey = (r) => r.departmentGroup || r.department || r['Department'] || r['Dept.'] || r['Department of Authors'] || '';
-        deptData = rank(by(allForYear, flabsDeptKey)).filter(x => x[0] && x[0] !== 'â€”' && x[0] !== 'Institution-wide' && x[0] !== 'NA');
+        deptData = rank(by(allForYear, flabsDeptKey)).filter(x => x[0] && x[0] !== '—' && x[0] !== 'Institution-wide' && x[0] !== 'NA');
       }
      document.querySelector('#'+type+'-list').innerHTML=departmentComparisonChart(deptData, 'Departments', '#10b981');
 
@@ -1233,9 +1233,9 @@
 
      let countMsg = `Showing ${rows.length} of ${base.length} detailed records for ${y} (table shows selected year only).`;
      if (c.isInstWide) {
-       countMsg += ' Â· (Institution-wide dataset)';
+       countMsg += ' · (Institution-wide dataset)';
      } else if (dept) {
-       countMsg += ` Â· Filtered for ${dept.label}.`;
+       countMsg += ` · Filtered for ${dept.label}.`;
      }
      document.querySelector('#'+type+'-count').textContent=countMsg;
 
@@ -1246,9 +1246,9 @@
     r();
  }
 
-  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // ══════════════════════════════════════════════════════════════════════════
   // CHAIRMAN CAMPUS HIERARCHY NAVIGATION VIEW
-  // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+  // ══════════════════════════════════════════════════════════════════════════
   function renderCampusHierarchyView(selectedNode) {
     const hasChildren = selectedNode && selectedNode.children && selectedNode.children.length > 0;
 
@@ -1257,13 +1257,13 @@
         const isLeafCampus = selectedNode.type === 'campus' || selectedNode.type === 'college';
         return `
           <div class="placeholder-view" style="padding: 40px 24px; text-align: center; max-width: 650px; margin: 40px auto; background: #fff; border: 1px solid #cbd5e1; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
-            <div style="font-size: 48px; margin-bottom: 12px;">ðŸ›ï¸</div>
+            <div style="font-size: 48px; margin-bottom: 12px;">🏛️</div>
             <h2 class="placeholder-title" style="font-size: 22px; font-weight: 800; color: #0f172a; margin: 0 0 8px 0;">${E(selectedNode.label)}</h2>
             <p class="placeholder-desc" style="font-size: 13.5px; color: #64748b; line-height: 1.5; margin-bottom: 24px;">
               Research performance data for <strong>${E(selectedNode.label)}</strong> is currently being indexed and will be available soon.
             </p>
             <button class="placeholder-back-btn" id="return-campuses-btn" style="background: #0284c7; color: #fff; border: none; padding: 10px 22px; border-radius: 6px; font-weight: 700; font-size: 13.5px; cursor: pointer; box-shadow: 0 2px 6px rgba(2,132,199,0.3);">
-              â† Return to ALL CAMPUSES
+              ← Return to ALL CAMPUSES
             </button>
           </div>
         `;
@@ -1280,51 +1280,51 @@
     }
 
     const cardsHtml = selectedNode.children.map(child => {
-      let icon = 'ðŸ«';
+      let icon = '🏫';
       let badgeText = 'Select to explore';
       let badgeStyle = 'background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;';
       let descText = 'Click to open details & sub-nodes';
 
       if (child.id === 'campus_ramapuram') {
-        icon = 'ðŸ«';
-        badgeText = 'Primary Campus Â· 3 Colleges';
+        icon = '🏫';
+        badgeText = 'Primary Campus · 3 Colleges';
         badgeStyle = 'background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd;';
         descText = 'SRM Institute of Science and Technology, SRM Dental College, Easwari Engineering College';
       } else if (child.id === 'campus_tiruchy') {
-        icon = 'ðŸ«';
+        icon = '🏫';
         badgeText = 'Tiruchy Campus';
         badgeStyle = 'background:#f1f5f9;color:#64748b;border:1px solid #cbd5e1;';
         descText = 'Research index & internal college data coming soon';
       } else if (child.id === 'college_srmist') {
-        icon = 'ðŸŽ“';
+        icon = '🎓';
         badgeText = '4 Faculties / Groups';
         badgeStyle = 'background:#e0f2fe;color:#0369a1;border:1px solid #bae6fd;';
         descText = 'FLABS, E&T, B.Arch, Management';
       } else if (child.id === 'college_dental') {
-        icon = 'ðŸ¦·';
+        icon = '🦷';
         badgeText = 'Dental Sciences';
         descText = 'SRM Dental College research data';
       } else if (child.id === 'college_easwari') {
-        icon = 'âš™ï¸';
+        icon = '⚙️';
         badgeText = 'Engineering College';
         descText = 'Easwari Engineering College research data';
       } else if (child.key === 'FLABS') {
-        icon = 'ðŸ”¬';
-        badgeText = 'Active Dashboard Â· 22 Depts';
+        icon = '🔬';
+        badgeText = 'Active Dashboard · 22 Depts';
         badgeStyle = 'background:#f0fdf4;color:#166534;border:1px solid #bbf7d0;';
         descText = 'Faculty of Science & Humanities research metrics, publications & patents';
       } else if (child.key === 'E&T') {
-        icon = 'âš¡';
-        badgeText = 'Active Dashboard Â· 15 Depts';
+        icon = '⚡';
+        badgeText = 'Active Dashboard · 15 Depts';
         badgeStyle = 'background:#eff6ff;color:#1d4ed8;border:1px solid #bfdbfe;';
         descText = 'Engineering & Technology research metrics, publications & patents';
       } else if (child.key === 'Management') {
-        icon = 'ðŸ“Š';
-        badgeText = 'Active Dashboard Â· BBA & MBA';
+        icon = '📊';
+        badgeText = 'Active Dashboard · BBA & MBA';
         badgeStyle = 'background:#faf5ff;color:#7e22ce;border:1px solid #e9d5ff;';
         descText = 'Faculty of Management research metrics, BBA & MBA datasets';
       } else if (child.key === 'B.Arch') {
-        icon = 'ðŸ›ï¸';
+        icon = '🏛️';
         badgeText = 'Architecture';
         descText = 'School of Architecture research index coming soon';
       }
@@ -1340,7 +1340,7 @@
             <p style="margin:0;font-size:12.5px;color:#64748b;line-height:1.4;">${E(descText)}</p>
           </div>
           <div style="margin-top:16px;font-size:12.5px;font-weight:700;color:#0284c7;display:flex;align-items:center;gap:4px;">
-            Select Scope â†’
+            Select Scope →
           </div>
         </div>
       `;
@@ -1348,7 +1348,7 @@
 
     let backBtnHtml = '';
     if (selectedNode.id === 'campus_ramapuram' || selectedNode.id === 'college_srmist' || selectedNode.id === 'campus_tiruchy') {
-      backBtnHtml = `<button id="btn-hierarchy-back" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;border-radius:6px;padding:6px 14px;font-size:12.5px;font-weight:600;cursor:pointer;margin-bottom:16px;">â† Back to ALL CAMPUSES</button>`;
+      backBtnHtml = `<button id="btn-hierarchy-back" style="background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;border-radius:6px;padding:6px 14px;font-size:12.5px;font-weight:600;cursor:pointer;margin-bottom:16px;">← Back to ALL CAMPUSES</button>`;
     }
 
     return `
@@ -1386,7 +1386,7 @@
           const ramp = window.SRM_SCOPE.findNodeById(tree, 'campus_ramapuram');
           if (ramp) window.SRM_SCOPE.setSelectedNode(ramp);
         } else {
-          // campus_tiruchy, campus_ramapuram â†’ go back to root
+          // campus_tiruchy, campus_ramapuram → go back to root
           if (tree) window.SRM_SCOPE.setSelectedNode(tree);
         }
       };
@@ -1407,9 +1407,9 @@
     });
   }
 
- // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ // ══════════════════════════════════════════════════════════════════════════
  // MANAGEMENT PLACEHOLDER FOR UNSUPPORTED SECTIONS (awards, people)
- // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ // ══════════════════════════════════════════════════════════════════════════
  function mgmtUnsupported(type) {
    const LABEL = { awards: 'Research Awards', people: 'Supervisors & Scholars' };
    return `
@@ -1423,14 +1423,14 @@
        <p class="placeholder-desc">
          <strong>${LABEL[type] || type}</strong> data for the Faculty of Management has not been validated yet and is not available in this dashboard.
        </p>
-       <button class="placeholder-back-btn" id="return-mgmt-btn">â† Return to Management Overview</button>
+       <button class="placeholder-back-btn" id="return-mgmt-btn">← Return to Management Overview</button>
      </div>
    `;
  }
 
- // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
- // MAIN SHOW FUNCTION â€” routes between FLABS and Management
- // â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+ // ══════════════════════════════════════════════════════════════════════════
+ // MAIN SHOW FUNCTION — routes between FLABS and Management
+ // ══════════════════════════════════════════════════════════════════════════
   function show(p){
     _currentPage = p;
 
@@ -1474,7 +1474,7 @@
 
     const selectedNode = window.SRM_SCOPE && window.SRM_SCOPE.getSelectedNode();
 
-   // â”€â”€ CHAIRMAN CAMPUS HIERARCHY ROUTING (root / campus / college) â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   // ── CHAIRMAN CAMPUS HIERARCHY ROUTING (root / campus / college) ─────────
    // MUST come before the hasData===false fallback so the hierarchy cards render
    // correctly instead of the generic placeholder.
    if (selectedNode && (selectedNode.type === 'root' || selectedNode.type === 'campus' || selectedNode.type === 'college')) {
@@ -1487,20 +1487,20 @@
      return;
    }
 
-   // â”€â”€ PLACEHOLDER for nodes with hasData===false that are NOT hierarchy nodes
+   // ── PLACEHOLDER for nodes with hasData===false that are NOT hierarchy nodes
    // (e.g. B.Arch group, or any other unimplemented group)
    if (selectedNode && selectedNode.hasData === false) {
      title.textContent = selectedNode.label;
      nav.forEach(n => n.classList.remove('active'));
      app.innerHTML = `
        <div class="placeholder-view" style="text-align:center;padding:40px 24px;max-width:650px;margin:40px auto;background:#fff;border:1px solid #cbd5e1;border-radius:12px;box-shadow:0 4px 12px rgba(0,0,0,0.05);">
-         <div style="font-size:48px;margin-bottom:12px;">ðŸ›ï¸</div>
+         <div style="font-size:48px;margin-bottom:12px;">🏛️</div>
          <h2 class="placeholder-title" style="font-size:22px;font-weight:800;color:#0f172a;margin:0 0 8px 0;">${E(selectedNode.label)}</h2>
          <p class="placeholder-desc" style="font-size:13.5px;color:#64748b;line-height:1.5;margin-bottom:24px;">
            Research performance data for <strong>${E(selectedNode.label)}</strong> is currently being indexed and will be available soon.
          </p>
          <button class="placeholder-back-btn" id="return-campuses-btn" style="background:#0284c7;color:#fff;border:none;padding:10px 22px;border-radius:6px;font-weight:700;font-size:13.5px;cursor:pointer;box-shadow:0 2px 6px rgba(2,132,199,0.3);">
-           â† Return to ALL CAMPUSES
+           ← Return to ALL CAMPUSES
          </button>
        </div>
      `;
@@ -1516,10 +1516,10 @@
      return;
    }
 
-    // â”€â”€ E&T SCOPE ROUTING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+    // ── E&T SCOPE ROUTING ──────────────────────────────────────────────────
     if (isETScope()) {
       const etScope = getETScope();
-      const scopeLabel = etScope.dept ? `E&T â€” ${etScope.dept}` : 'E&T';
+      const scopeLabel = etScope.dept ? `E&T — ${etScope.dept}` : 'E&T';
       nav.forEach(n => n.classList.toggle('active', n.dataset.page === p));
 
       // Awards is not available for E&T
@@ -1536,7 +1536,7 @@
         return;
       }
 
-      title.textContent = p === 'home' ? scopeLabel + ' Â· Research Dashboard' : (etConfig[p] ? etConfig[p].label : p);
+      title.textContent = p === 'home' ? scopeLabel + ' · Research Dashboard' : (etConfig[p] ? etConfig[p].label : p);
       nav.forEach(n => n.classList.toggle('active', n.dataset.page === p));
 
       if (p === 'home') {
@@ -1554,10 +1554,10 @@
       return;
     }
 
-   // â”€â”€ MANAGEMENT SCOPE ROUTING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   // ── MANAGEMENT SCOPE ROUTING ────────────────────────────────────────────
    if (isManagementScope()) {
      const mgmtScope = getManagementScope();
-     const scopeLabel = mgmtScope.dept ? `Management â€” ${mgmtScope.dept}` : 'Management';
+     const scopeLabel = mgmtScope.dept ? `Management — ${mgmtScope.dept}` : 'Management';
      nav.forEach(n => n.classList.toggle('active', n.dataset.page === p));
 
      // Awards is not available for Management; People IS now supported
@@ -1574,7 +1574,7 @@
        return;
      }
 
-     title.textContent = p === 'home' ? scopeLabel + ' Â· Research Dashboard' : (mgmtConfig[p] ? mgmtConfig[p].label : p);
+     title.textContent = p === 'home' ? scopeLabel + ' · Research Dashboard' : (mgmtConfig[p] ? mgmtConfig[p].label : p);
      nav.forEach(n => n.classList.toggle('active', n.dataset.page === p));
 
      if (p === 'home') {
@@ -1593,7 +1593,7 @@
      return;
    }
 
-   // â”€â”€ FLABS / INSTITUTIONAL DASHBOARD (default) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   // ── FLABS / INSTITUTIONAL DASHBOARD (default) ───────────────────────────
    title.textContent = p === 'home' ? names[p] : config[p].label;
    nav.forEach(n => n.classList.toggle('active', n.dataset.page === p));
    app.innerHTML = p === 'home' ? home() : detail(p);
@@ -1604,7 +1604,7 @@
  const names={home:'Research Index Dashboard'};nav.forEach(n=>n.onclick=()=>show(n.dataset.page));document.querySelector('#menu-toggle').onclick=()=>document.querySelector('.site-header nav').classList.toggle('open');show('home');
 
  // Expose re-render hook so scope changes can refresh the current page
-  window._SRM_DASHBOARD_REFRESH = function() {
+ window._SRM_DASHBOARD_REFRESH = function() {
     // If the Scholar Reports nav button is currently active, keep Scholar Reports
     // visible and re-mount it with the new scope - do NOT fall through to show(_currentPage)
     // which would restore whatever the last nav-link page was (e.g. publications).
@@ -1620,7 +1620,7 @@
   };
 })();
 
-// â”€â”€ Auth user-bar wiring â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Auth user-bar wiring ───────────────────────────────────────────────────────
 // Runs AFTER the dashboard IIFE. Wires the logout button and shows the
 // logged-in user's name + role in the header. Dashboard rendering is untouched.
 (function () {
@@ -1645,7 +1645,7 @@
 
   var roleLabel = ROLE_LABELS[user.role] || user.role;
   if (userBarInfo) {
-    userBarInfo.textContent = (user.role === 'chairman' || user.name === roleLabel) ? 'Chairman' : (user.name + ' Â· ' + roleLabel);
+    userBarInfo.textContent = (user.role === 'chairman' || user.name === roleLabel) ? 'Chairman' : (user.name + ' · ' + roleLabel);
   }
   userBar.style.display = 'flex';
 
@@ -1671,7 +1671,7 @@
   }
 }());
 
-// â”€â”€ Module 2: Sidebar + Scope Initialization â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// ── Module 2: Sidebar + Scope Initialization ──────────────────────────────────
 // Runs AFTER the dashboard IIFE and auth-wiring.
 // Initializes the sidebar, auto-selects initial scope, and wires scope-change
 // callbacks to re-render the dashboard and update the topbar chip.
@@ -1694,7 +1694,7 @@
     return;
   }
 
-  // â”€â”€ 1. Determine initial scope strictly from the authenticated user's profile â”€
+  // ── 1. Determine initial scope strictly from the authenticated user's profile ─
   // NOTE: We intentionally do NOT read srm_rd_selected_node_id from sessionStorage
   // here so that stale selections from a previous user's session never bleed into
   // the freshly-logged-in user's view.
@@ -1733,17 +1733,17 @@
     }
   }
 
-  // â”€â”€ 2. Render the sidebar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── 2. Render the sidebar ───────────────────────────────────────────────────
   SIDEBAR.init();
 
-  // â”€â”€ 3. Wire scope-change â†’ refresh dashboard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── 3. Wire scope-change → refresh dashboard ───────────────────────────────
   SCOPE.onChange(function (selectedNode) {
     if (typeof window._SRM_DASHBOARD_REFRESH === 'function') {
       window._SRM_DASHBOARD_REFRESH();
     }
   });
 
-  // â”€â”€ 4. Trigger initial dashboard refresh (now scope is set) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── 4. Trigger initial dashboard refresh (now scope is set) ────────────────
   if (typeof window._SRM_DASHBOARD_REFRESH === 'function') {
     window._SRM_DASHBOARD_REFRESH();
   }
