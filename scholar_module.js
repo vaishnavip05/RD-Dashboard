@@ -1883,6 +1883,89 @@
   // ════════════════════════════════════════════════════════════════
   // DEAN & DEPUTY DEAN DASHBOARD
   // ════════════════════════════════════════════════════════════════
+  var currentSupervisorSelectedDept = '';
+  var currentScopedSupervisors = [];
+
+  function isSupervisorInDept(sup, targetDept) {
+    if (!targetDept || !sup) return false;
+    var supDept = (sup.department || (sup.raw && sup.raw.department) || sup.discipline || '').trim();
+    if (!supDept) return false;
+    if (supDept.toLowerCase() === targetDept.trim().toLowerCase()) return true;
+
+    var sClean = supDept.toLowerCase().replace(/[^a-z0-9]/g, '');
+    var tClean = targetDept.toLowerCase().replace(/[^a-z0-9]/g, '');
+    if (sClean === tClean) return true;
+
+    if (window.SRM_SCOPE && typeof window.SRM_SCOPE.findNodeByLabel === 'function' && window.SRM_SCOPE.TREE) {
+      var node = window.SRM_SCOPE.findNodeByLabel(window.SRM_SCOPE.TREE, targetDept);
+      if (node) {
+        if (node.scholarAliases && node.scholarAliases.indexOf(supDept.toLowerCase()) !== -1) return true;
+        if (node.publicationAliases && node.publicationAliases.indexOf(supDept.toLowerCase()) !== -1) return true;
+        if (node.patentAliases && node.patentAliases.indexOf(supDept.toLowerCase()) !== -1) return true;
+      }
+    }
+    return false;
+  }
+
+  function renderDeptSupervisorsTable(deptName, supList) {
+    if (!deptName) {
+      return '<div style="padding:24px;text-align:center;color:#64748b;font-size:13px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px;">Please select a department above to view registered research supervisors.</div>';
+    }
+
+    var filtered = (supList || []).filter(function(s) {
+      return isSupervisorInDept(s, deptName);
+    });
+
+    if (filtered.length === 0) {
+      return '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">' +
+        '<thead><tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">' +
+          '<th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:left;font-weight:700;color:#1e293b;">Supervisor Name</th>' +
+          '<th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:left;font-weight:700;color:#1e293b;">Designation</th>' +
+          '<th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;font-weight:700;color:#1e293b;">Maximum Scholar Capacity</th>' +
+          '<th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;font-weight:700;color:#1e293b;">Current Scholar Count</th>' +
+          '<th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;font-weight:700;color:#1e293b;">Available Vacancies</th>' +
+        '</tr></thead>' +
+        '<tbody>' +
+          '<tr><td colspan="5" style="padding:24px;text-align:center;color:#94a3b8;font-size:13px;">No research supervisors found for ' + E(deptName) + '.</td></tr>' +
+        '</tbody>' +
+      '</table></div>';
+    }
+
+    var rows = filtered.map(function(sup) {
+      var supName = sup.supervisorName || sup.name || (sup.raw && sup.raw.supervisor_name) || '—';
+      var desig = sup.designation || (sup.raw && sup.raw.designation) || '';
+      var desigStr = (desig && String(desig).trim()) ? String(desig).trim() : '—';
+
+      var rawCap = sup.maximum_scholar_capacity != null ? sup.maximum_scholar_capacity : ((sup.raw && sup.raw.maximum_scholar_capacity != null) ? sup.raw.maximum_scholar_capacity : sup.maximumScholarCapacity);
+      var maxCapStr = (rawCap != null && rawCap !== '') ? String(rawCap) : '—';
+
+      var rawCount = sup.current_scholar_count != null ? sup.current_scholar_count : ((sup.raw && sup.raw.current_scholar_count != null) ? sup.raw.current_scholar_count : sup.currentScholarCount);
+      var curCountStr = (rawCount != null && rawCount !== '') ? String(rawCount) : '—';
+
+      var rawVac = sup.available_vacancies != null ? sup.available_vacancies : ((sup.raw && sup.raw.available_vacancies != null) ? sup.raw.available_vacancies : sup.availableVacancies);
+      var vacStr = (rawVac != null && rawVac !== '') ? String(rawVac) : '—';
+
+      return '<tr style="border-bottom:1px solid #e2e8f0;">' +
+        '<td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:700;color:#0f172a;">' + E(supName) + '</td>' +
+        '<td style="padding:10px 14px;border:1px solid #e2e8f0;color:#334155;">' + E(desigStr) + '</td>' +
+        '<td style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;font-weight:600;color:#334155;">' + E(maxCapStr) + '</td>' +
+        '<td style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;font-weight:600;color:#334155;">' + E(curCountStr) + '</td>' +
+        '<td style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;font-weight:700;color:#0284c7;">' + E(vacStr) + '</td>' +
+      '</tr>';
+    }).join('');
+
+    return '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">' +
+      '<thead><tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">' +
+        '<th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:left;font-weight:700;color:#1e293b;">Supervisor Name</th>' +
+        '<th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:left;font-weight:700;color:#1e293b;">Designation</th>' +
+        '<th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;font-weight:700;color:#1e293b;">Maximum Scholar Capacity</th>' +
+        '<th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;font-weight:700;color:#1e293b;">Current Scholar Count</th>' +
+        '<th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;font-weight:700;color:#1e293b;">Available Vacancies</th>' +
+      '</tr></thead>' +
+      '<tbody>' + rows + '</tbody>' +
+    '</table></div>';
+  }
+
   function renderDeanLevelDashboard(user) {
     var isDean = user.role === 'dean';
     var isCoord = user.role === 'rd_coordinator';
@@ -2034,6 +2117,65 @@
 
     var otherCardHtml = countOther > 0 ? kpiCard('Other Scholars', countOther, 'Other Categories') : '';
 
+    // Cache current scoped supervisors for bindings
+    currentScopedSupervisors = supervisors;
+
+    // Collect unique departments available for this user's scope
+    var deptList = [];
+    var deptMap = {};
+
+    supervisors.forEach(function(s) {
+      var d = (s.department || (s.raw && s.raw.department) || s.discipline || '').trim();
+      if (d && !deptMap[d.toLowerCase()]) {
+        deptMap[d.toLowerCase()] = d;
+        deptList.push(d);
+      }
+    });
+
+    if (window.SRM_SCOPE && typeof window.SRM_SCOPE.getDepartments === 'function') {
+      var scopeDepts = window.SRM_SCOPE.getDepartments(null, null, user.group);
+      (scopeDepts || []).forEach(function(item) {
+        var lbl = typeof item === 'string' ? item : (item.label || item.name || '');
+        if (lbl && !deptMap[lbl.toLowerCase()]) {
+          deptMap[lbl.toLowerCase()] = lbl;
+          deptList.push(lbl);
+        }
+      });
+    }
+
+    deptList.sort(function(a, b) {
+      return a.localeCompare(b, undefined, { sensitivity: 'base' });
+    });
+
+    // Determine initial selected department
+    var activeScopeNode = (window.SRM_SCOPE && typeof window.SRM_SCOPE.getSelectedNode === 'function') ? window.SRM_SCOPE.getSelectedNode() : null;
+    var initialSelectedDept = '';
+    if (currentSupervisorSelectedDept && deptList.some(function(d){ return d.toLowerCase() === currentSupervisorSelectedDept.toLowerCase(); })) {
+      initialSelectedDept = currentSupervisorSelectedDept;
+    } else if (activeScopeNode && activeScopeNode.type === 'dept' && activeScopeNode.label) {
+      var foundDept = deptList.find(function(d) {
+        return d.toLowerCase() === activeScopeNode.label.toLowerCase() ||
+               d.toLowerCase().replace(/[^a-z0-9]/g, '') === activeScopeNode.label.toLowerCase().replace(/[^a-z0-9]/g, '');
+      });
+      if (foundDept) initialSelectedDept = foundDept;
+    }
+    if (!initialSelectedDept && deptList.length > 0) {
+      initialSelectedDept = deptList[0];
+    }
+    currentSupervisorSelectedDept = initialSelectedDept;
+
+    var deptOptionsHtml = deptList.map(function(d) {
+      var sel = (d.toLowerCase() === (initialSelectedDept || '').toLowerCase()) ? ' selected' : '';
+      var count = supervisors.filter(function(s) { return isSupervisorInDept(s, d); }).length;
+      return '<option value="' + E(d) + '"' + sel + '>' + E(d) + ' (' + count + ')</option>';
+    }).join('');
+
+    if (deptList.length === 0) {
+      deptOptionsHtml = '<option value="">No departments available</option>';
+    }
+
+    var initialDeptTableHtml = renderDeptSupervisorsTable(initialSelectedDept, supervisors);
+
     return '<div style="padding-bottom:40px;font-family:sans-serif;">' +
       '<div style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:20px;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">' +
         '<span style="display:inline-block;padding:3px 10px;border-radius:20px;background:#fae8ff;color:#86198f;font-size:11.5px;font-weight:700;margin-bottom:8px;">' + user.group + ' · ' + labelRole + '</span>' +
@@ -2147,6 +2289,26 @@
         '</div>' +
 
       '</div>' +
+
+      // ── NEW SECTION: Research Supervisors – Department-wise Details ──
+      '<div id="section-dept-supervisors" style="margin-top:24px;background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">' +
+          '<div>' +
+            '<h3 style="margin:0;font-size:16px;color:#0f172a;font-weight:700;">Research Supervisors &#x2013; Department-wise Details</h3>' +
+            '<div style="font-size:12.5px;color:#64748b;margin-top:2px;">Select a department to view registered research supervisors, designation, and scholar capacities.</div>' +
+          '</div>' +
+          '<div style="display:flex;align-items:center;gap:10px;">' +
+            '<label for="select-supervisor-dept" style="font-size:13px;font-weight:700;color:#334155;">Department:</label>' +
+            '<select id="select-supervisor-dept" style="padding:7px 12px;border:1px solid #cbd5e1;border-radius:6px;font-size:13px;font-weight:600;color:#0f172a;background:#fff;outline:none;cursor:pointer;min-width:220px;">' +
+              deptOptionsHtml +
+            '</select>' +
+          '</div>' +
+        '</div>' +
+        '<div id="dept-supervisors-table-container">' +
+          initialDeptTableHtml +
+        '</div>' +
+      '</div>' +
+
     '</div>';
   }
 
@@ -2917,6 +3079,17 @@
           }
         });
       });
+
+      // Bind Department-wise Supervisor dropdown
+      var deptSelect = document.getElementById('select-supervisor-dept');
+      var deptTableContainer = document.getElementById('dept-supervisors-table-container');
+      if (deptSelect && deptTableContainer) {
+        deptSelect.addEventListener('change', function() {
+          var selectedDept = deptSelect.value;
+          currentSupervisorSelectedDept = selectedDept;
+          deptTableContainer.innerHTML = renderDeptSupervisorsTable(selectedDept, currentScopedSupervisors);
+        });
+      }
     }
 
     function bindDeanLevelReview(report) {
