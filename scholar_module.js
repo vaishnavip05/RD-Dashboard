@@ -1998,18 +1998,39 @@
         var sn = (sch.supervisorName || '').toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
         return sn && sn === sNorm;
       });
+
+      var designationStr = sup.designation || (sup.raw && sup.raw.designation) || '—';
+      var maxCapStr = (sup.maximum_scholar_capacity != null ? sup.maximum_scholar_capacity : (sup.maximumScholarCapacity != null ? sup.maximumScholarCapacity : '—'));
+      var curCountStr = (sup.current_scholar_count != null ? sup.current_scholar_count : (sup.currentScholarCount != null ? sup.currentScholarCount : '—'));
+      var vacStr = (sup.available_vacancies != null ? sup.available_vacancies : (sup.availableVacancies != null ? sup.availableVacancies : '—'));
+
+      var coordCols = isCoord ? (
+        '<td style="padding:9px 12px;border:1px solid #e2e8f0;color:#334155;font-size:12.5px;">' + E(designationStr) + '</td>' +
+        '<td style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;color:#334155;">' + E(String(maxCapStr)) + '</td>' +
+        '<td style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;color:#334155;">' + E(String(curCountStr)) + '</td>' +
+        '<td style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;color:#334155;">' + E(String(vacStr)) + '</td>'
+      ) : '';
+
+      var editBtnHtml = isCoord ? (
+        '<td style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;">' +
+          '<button class="btn-edit-supervisor" data-sup-id="' + E(sup.id || sup.dbId) + '" style="background:#0284c7;color:#fff;border:none;border-radius:5px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;transition:background .2s;">Edit ✏️</button>' +
+        '</td>'
+      ) : '';
+
       return '<tr style="border-bottom:1px solid #e2e8f0;">' +
         '<td style="padding:9px 12px;color:#64748b;">' + (idx + 1) + '</td>' +
         '<td style="padding:9px 12px;font-weight:700;color:#0f172a;">' + E(supName) + '</td>' +
         '<td style="padding:9px 12px;color:#475569;">' + E(sup.department || sup.discipline || '—') + '</td>' +
         '<td style="padding:9px 12px;color:#64748b;font-family:monospace;font-size:12px;">' + E(sup.employeeId || '—') + '</td>' +
+        coordCols +
         '<td style="padding:9px 12px;text-align:center;">' +
           '<span style="display:inline-block;padding:2px 10px;border-radius:12px;background:#e0f2fe;color:#0369a1;font-weight:700;font-size:12px;">' +
             myScholars.length +
           '</span>' +
         '</td>' +
+        editBtnHtml +
       '</tr>';
-    }).join('') || '<tr><td colspan="5" style="padding:20px;text-align:center;color:#94a3b8;">No registered supervisors found.</td></tr>';
+    }).join('') || '<tr><td colspan="' + (isCoord ? '11' : '5') + '" style="padding:20px;text-align:center;color:#94a3b8;">No registered supervisors found.</td></tr>';
 
     var otherCardHtml = countOther > 0 ? kpiCard('Other Scholars', countOther, 'Other Categories') : '';
 
@@ -2112,7 +2133,14 @@
               '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Supervisor Name</th>' +
               '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Department / Discipline</th>' +
               '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Employee ID</th>' +
+              (isCoord ? (
+                '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Designation</th>' +
+                '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;">Max Capacity</th>' +
+                '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;">Current Count</th>' +
+                '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;">Available Vacancies</th>'
+              ) : '') +
               '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;">Assigned Scholars</th>' +
+              (isCoord ? '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;">Action</th>' : '') +
             '</tr></thead>' +
             '<tbody>' + supervisorListRows + '</tbody>' +
           '</table></div>' +
@@ -2188,6 +2216,7 @@
     function setTitle(t) { if (titleEl) titleEl.textContent = t; }
 
     function showDashboard() {
+      window.SRM_SCHOLAR_MODULE_RENDER = showDashboard;
       currentView = 'dashboard';
       currentActiveView = 'dashboard';
       currentReportId = null;
@@ -2876,6 +2905,16 @@
           appEl.innerHTML = renderDay8DeanLevelReviewPanel(report, user);
           bindDay8DeanLevelReview(report);
           window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      });
+
+      // Bind Edit Supervisor buttons for R&D Coordinator
+      appEl.querySelectorAll('.btn-edit-supervisor').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var supId = btn.dataset.supId;
+          if (window.openEditSupervisorModal) {
+            window.openEditSupervisorModal(supId);
+          }
         });
       });
     }

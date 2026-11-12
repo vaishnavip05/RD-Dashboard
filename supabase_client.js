@@ -351,6 +351,10 @@ window.SupabaseDataService = {
       row.discipline = raw.discipline || '';
       row.research_area = raw.research_area || '';
       row.proof_link = raw.proof_link___upload || '';
+      row.designation = (raw.designation && raw.designation.trim()) ? raw.designation.trim() : null;
+      row.maximum_scholar_capacity = (raw.maximum_scholar_capacity !== '' && raw.maximum_scholar_capacity != null && !isNaN(parseInt(raw.maximum_scholar_capacity, 10))) ? parseInt(raw.maximum_scholar_capacity, 10) : null;
+      row.current_scholar_count = (raw.current_scholar_count !== '' && raw.current_scholar_count != null && !isNaN(parseInt(raw.current_scholar_count, 10))) ? parseInt(raw.current_scholar_count, 10) : null;
+      row.available_vacancies = (raw.available_vacancies !== '' && raw.available_vacancies != null && !isNaN(parseInt(raw.available_vacancies, 10))) ? parseInt(raw.available_vacancies, 10) : null;
     } else if (type === 'scholar') {
       table = 'research_scholars';
       row.register_number = raw.register_number || raw.application_number || '';
@@ -383,6 +387,71 @@ window.SupabaseDataService = {
       return { success: true, data: res.data };
     } catch (e) {
       console.warn('Supabase insert exception:', e);
+      return { success: false, error: e.message };
+    }
+  },
+
+  // ─── Update Supervisor Record (Used by Edit Supervisor Form) ──────────────
+  async updateSupervisorRecord(id, updateData) {
+    var user = (window.SRM_AUTH && window.SRM_AUTH.getCurrentUser) ? window.SRM_AUTH.getCurrentUser() : null;
+    if (!user || user.role !== 'rd_coordinator') {
+      console.error('[SupabaseDataService] Unauthorized update attempt blocked. User role:', user ? user.role : 'none');
+      return { success: false, error: 'Unauthorized: Only R&D Coordinator is authorized to update research supervisors.' };
+    }
+    if (!id) return { success: false, error: 'Supervisor ID required' };
+
+    var patch = {};
+    if (updateData.designation !== undefined) {
+      patch.designation = (updateData.designation && updateData.designation.trim()) ? updateData.designation.trim() : null;
+    }
+    if (updateData.maximum_scholar_capacity !== undefined) {
+      patch.maximum_scholar_capacity = (updateData.maximum_scholar_capacity !== '' && updateData.maximum_scholar_capacity != null && !isNaN(parseInt(updateData.maximum_scholar_capacity, 10))) ? parseInt(updateData.maximum_scholar_capacity, 10) : null;
+    }
+    if (updateData.current_scholar_count !== undefined) {
+      patch.current_scholar_count = (updateData.current_scholar_count !== '' && updateData.current_scholar_count != null && !isNaN(parseInt(updateData.current_scholar_count, 10))) ? parseInt(updateData.current_scholar_count, 10) : null;
+    }
+    if (updateData.available_vacancies !== undefined) {
+      patch.available_vacancies = (updateData.available_vacancies !== '' && updateData.available_vacancies != null && !isNaN(parseInt(updateData.available_vacancies, 10))) ? parseInt(updateData.available_vacancies, 10) : null;
+    }
+    if (updateData.supervisor_name !== undefined && updateData.supervisor_name.trim()) {
+      patch.supervisor_name = updateData.supervisor_name.trim();
+    }
+    if (updateData.employee_id !== undefined) {
+      patch.employee_id = updateData.employee_id.trim() || null;
+    }
+    if (updateData.department !== undefined && updateData.department.trim()) {
+      patch.department = updateData.department.trim();
+    }
+    if (updateData.year !== undefined) {
+      patch.year = parseInt(updateData.year, 10) || 2026;
+    }
+    if (updateData.year_of_phd !== undefined) {
+      patch.year_of_phd = updateData.year_of_phd ? updateData.year_of_phd.trim() : null;
+    }
+    if (updateData.discipline !== undefined) {
+      patch.discipline = updateData.discipline ? updateData.discipline.trim() : null;
+    }
+    if (updateData.research_area !== undefined) {
+      patch.research_area = updateData.research_area ? updateData.research_area.trim() : null;
+    }
+    if (updateData.proof_link !== undefined) {
+      patch.proof_link = updateData.proof_link ? updateData.proof_link.trim() : null;
+    }
+
+    try {
+      var res = await window.supabaseClient
+        .from('research_supervisors')
+        .update(patch)
+        .eq('id', id)
+        .select();
+
+      if (res.error) {
+        console.warn('[SupabaseDataService] updateSupervisorRecord error:', res.error);
+        return { success: false, error: res.error.message };
+      }
+      return { success: true, data: res.data };
+    } catch (e) {
+      console.warn('[SupabaseDataService] updateSupervisorRecord exception:', e);
       return { success: false, error: e.message };
     }
   },
@@ -478,6 +547,7 @@ window.SupabaseDataService = {
 
   mapSupervisor(r) {
     return {
+      id: r.id,
       year: parseInt(r.year || 2024, 10),
       name: r.supervisor_name || r.name || '—',
       supervisor: r.supervisor_name || r.name || '—',
@@ -485,7 +555,16 @@ window.SupabaseDataService = {
       department: r.department || '',
       departmentGroup: r.department || '',
       discipline: r.discipline || '',
+      designation: r.designation || '',
+      maximum_scholar_capacity: r.maximum_scholar_capacity != null ? r.maximum_scholar_capacity : null,
+      current_scholar_count: r.current_scholar_count != null ? r.current_scholar_count : null,
+      available_vacancies: r.available_vacancies != null ? r.available_vacancies : null,
+      maximumScholarCapacity: r.maximum_scholar_capacity != null ? r.maximum_scholar_capacity : null,
+      currentScholarCount: r.current_scholar_count != null ? r.current_scholar_count : null,
+      availableVacancies: r.available_vacancies != null ? r.available_vacancies : null,
+      yearOfPhd: r.year_of_phd || '',
       researchArea: r.research_area || '',
+      proofLink: r.proof_link || '',
       raw: r
     };
   },

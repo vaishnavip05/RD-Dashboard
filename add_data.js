@@ -72,8 +72,9 @@
       "End Date", "Faculty Share (80%)", "Institute Share (20%)", "Status", "Remarks"
     ],
     supervisor: [
-      "Employee ID", "Supervisor Name", "Department", "Year", "Year of PhD",
-      "Discipline", "Research Area", "Proof Link / Upload"
+      "Employee ID", "Supervisor Name", "Department", "Year",
+      "Designation", "Maximum Scholar Capacity", "Current Scholar Count", "Available Vacancies",
+      "Year of PhD", "Discipline", "Research Area", "Proof Link / Upload"
     ],
     scholar: [
       "Register Number", "Application Number", "Scholar Name", "Department",
@@ -158,6 +159,13 @@
       rec.discipline = raw.discipline || '';
       rec.researchArea = raw.research_area || '';
       rec.proofLink = raw.proof_link___upload || '';
+      rec.designation = (raw.designation || '').trim();
+      rec.maximum_scholar_capacity = (raw.maximum_scholar_capacity !== '' && raw.maximum_scholar_capacity != null && !isNaN(parseInt(raw.maximum_scholar_capacity, 10))) ? parseInt(raw.maximum_scholar_capacity, 10) : null;
+      rec.current_scholar_count = (raw.current_scholar_count !== '' && raw.current_scholar_count != null && !isNaN(parseInt(raw.current_scholar_count, 10))) ? parseInt(raw.current_scholar_count, 10) : null;
+      rec.available_vacancies = (raw.available_vacancies !== '' && raw.available_vacancies != null && !isNaN(parseInt(raw.available_vacancies, 10))) ? parseInt(raw.available_vacancies, 10) : null;
+      rec.maximumScholarCapacity = rec.maximum_scholar_capacity;
+      rec.currentScholarCount = rec.current_scholar_count;
+      rec.availableVacancies = rec.available_vacancies;
     } else if (type === 'scholar') {
       rec.name = raw.scholar_name || raw.name || '—';
       rec.scholar = rec.name;
@@ -390,16 +398,17 @@
     return '<button class="add-data-btn" data-type="' + type + '" style="display:block;width:100%;text-align:left;background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.1);padding:8px 12px;margin-bottom:7px;border-radius:6px;cursor:pointer;font-size:13px;transition:background .2s;">' + label + '</button>';
   }
 
-  // ─── OPEN FORM MODAL ──────────────────────────────────────────────────────────
-  function openFormModal(type, group) {
+  // ─── OPEN FORM MODAL (Add & Edit Support) ──────────────────────────────────
+  function openFormModal(type, group, existingRecord) {
     var AUTH = window.SRM_AUTH;
     var user = AUTH ? AUTH.getCurrentUser() : null;
     if (!user || user.role !== 'rd_coordinator') {
       console.warn('[Add Data] Unauthorized attempt to open data upload form by role:', user ? user.role : 'anonymous');
-      alert('Unauthorized: Only R&D Coordinator is authorized to upload new research data.');
+      alert('Unauthorized: Only R&D Coordinator is authorized to manage research data.');
       return;
     }
 
+    var isEdit = Boolean(existingRecord);
     var modal = document.getElementById('rd-data-modal');
     if (!modal) {
       modal = document.createElement('div');
@@ -417,7 +426,7 @@
       consultancy: 'Consultancy Project', supervisor: 'Research Supervisor',
       scholar: 'Research Scholar', award: 'Research Award'
     };
-    var title = 'Add ' + (typeLabels[type] || type);
+    var title = (isEdit ? 'Edit ' : 'Add ') + (typeLabels[type] || type);
 
     var rows = '';
     fields.forEach(function (f) {
@@ -425,9 +434,34 @@
       var isReq = required.indexOf(f) !== -1;
       var asterisk = isReq ? ' <span style="color:red;">*</span>' : '';
       var inputHtml = '';
-      var extraAttr = '';
       var containerStyle = 'display:flex;flex-direction:column;';
       var containerId = 'field_wrap_' + fieldName;
+
+      // Extract existing value if editing
+      var existingVal = '';
+      if (isEdit && existingRecord) {
+        if (f === 'Employee ID') existingVal = existingRecord.employeeId || existingRecord.employee_id || existingRecord.employeeCode || '';
+        else if (f === 'Supervisor Name') existingVal = existingRecord.name || existingRecord.supervisorName || existingRecord.supervisor_name || '';
+        else if (f === 'Department') existingVal = existingRecord.department || '';
+        else if (f === 'Year') existingVal = existingRecord.year || '';
+        else if (f === 'Designation') existingVal = existingRecord.designation || (existingRecord.raw && existingRecord.raw.designation) || '';
+        else if (f === 'Maximum Scholar Capacity') {
+          var mc = existingRecord.maximum_scholar_capacity != null ? existingRecord.maximum_scholar_capacity : existingRecord.maximumScholarCapacity;
+          existingVal = (mc != null && mc !== '') ? mc : '';
+        }
+        else if (f === 'Current Scholar Count') {
+          var cc = existingRecord.current_scholar_count != null ? existingRecord.current_scholar_count : existingRecord.currentScholarCount;
+          existingVal = (cc != null && cc !== '') ? cc : '';
+        }
+        else if (f === 'Available Vacancies') {
+          var av = existingRecord.available_vacancies != null ? existingRecord.available_vacancies : existingRecord.availableVacancies;
+          existingVal = (av != null && av !== '') ? av : '';
+        }
+        else if (f === 'Year of PhD') existingVal = existingRecord.yearOfPhd || existingRecord.year_of_phd || (existingRecord.raw && existingRecord.raw.year_of_phd) || '';
+        else if (f === 'Discipline') existingVal = existingRecord.discipline || (existingRecord.raw && existingRecord.raw.discipline) || '';
+        else if (f === 'Research Area') existingVal = existingRecord.researchArea || existingRecord.research_area || (existingRecord.raw && existingRecord.raw.research_area) || '';
+        else if (f === 'Proof Link / Upload') existingVal = existingRecord.proofLink || existingRecord.proof_link || (existingRecord.raw && existingRecord.raw.proof_link) || '';
+      }
 
       // Conditional logic for Patent Commercialization fields
       if (type === 'patent' && (f === 'Product License Number' || f === 'Technology Transfer Document')) {
@@ -439,16 +473,23 @@
         inputHtml = '<select name="' + fieldName + '" ' + (isReq ? 'required' : '') + ' style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;">' +
           '<option value="">Select Department...</option>' +
           depts.map(function (d) {
-            var sel = (d === currentScopeDept || depts.length === 1) ? ' selected' : '';
+            var sel = (d === existingVal || (!existingVal && (d === currentScopeDept || depts.length === 1))) ? ' selected' : '';
             return '<option value="' + d + '"' + sel + '>' + d + '</option>';
           }).join('') +
           '</select>';
       } else if (f === 'Year' || f === 'Year of Enrollment') {
         inputHtml = '<select name="' + fieldName + '" ' + (isReq ? 'required' : '') + ' style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;">' +
-          '<option value="2024">2024</option><option value="2025">2025</option><option value="2026" selected>2026</option>' +
+          ['2024', '2025', '2026'].map(function (y) {
+            var sel = (String(y) === String(existingVal || '2026')) ? ' selected' : '';
+            return '<option value="' + y + '"' + sel + '>' + y + '</option>';
+          }).join('') +
           '</select>';
+      } else if (f === 'Designation') {
+        inputHtml = '<input type="text" name="' + fieldName + '" ' + (isReq ? 'required' : '') + ' value="' + (existingVal || '') + '" placeholder="e.g. Professor, Associate Professor, Assistant Professor..." style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;">';
+      } else if (f === 'Maximum Scholar Capacity' || f === 'Current Scholar Count' || f === 'Available Vacancies') {
+        inputHtml = '<input type="number" min="0" step="1" name="' + fieldName + '" ' + (isReq ? 'required' : '') + ' value="' + (existingVal != null ? existingVal : '') + '" placeholder="' + f + '" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;" onkeydown="if(event.key===\'-\'||event.key===\'.\'||event.key===\'e\'||event.key===\'E\')event.preventDefault();" oninput="if(this.value<0)this.value=\'\';">';
       } else if (f === 'Publication Date' || f === 'Patent Filing Date' || f === 'Patent Published Date' || f === 'Granted Date' || f === 'Date of Application' || f === 'Date of Sanction' || f === 'Start Date' || f === 'End Date' || f === 'Joining Date') {
-        inputHtml = '<input type="date" name="' + fieldName + '" ' + (isReq ? 'required' : '') + ' style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;">';
+        inputHtml = '<input type="date" name="' + fieldName + '" ' + (isReq ? 'required' : '') + ' value="' + (existingVal || '') + '" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;">';
       } else if (f === 'Indexing Type') {
         inputHtml = '<select name="' + fieldName + '" ' + (isReq ? 'required' : '') + ' style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;">' +
           '<option value="">Select option...</option><option value="Scopus" selected>Scopus</option><option value="Web of Science">Web of Science</option><option value="UGC Care">UGC Care</option><option value="Other">Other</option>' +
@@ -486,9 +527,9 @@
           '<option value="">Select option...</option><option value="State" selected>State</option><option value="National">National</option><option value="International">International</option>' +
           '</select>';
       } else if (f.toLowerCase().includes('proof') || f.toLowerCase().includes('link')) {
-        inputHtml = '<input type="text" name="' + fieldName + '" ' + (isReq ? 'required' : '') + ' placeholder="Paste link or drive URL..." style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;">';
+        inputHtml = '<input type="text" name="' + fieldName + '" ' + (isReq ? 'required' : '') + ' value="' + (existingVal || '') + '" placeholder="Paste link or drive URL..." style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;">';
       } else {
-        inputHtml = '<input type="text" name="' + fieldName + '" ' + (isReq ? 'required' : '') + ' placeholder="' + f + '" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;">';
+        inputHtml = '<input type="text" name="' + fieldName + '" ' + (isReq ? 'required' : '') + ' value="' + (existingVal || '') + '" placeholder="' + f + '" style="width:100%;padding:8px;border:1px solid #cbd5e1;border-radius:4px;font-size:13px;">';
       }
 
       rows += '<div id="' + containerId + '" style="' + containerStyle + '">' +
@@ -496,16 +537,20 @@
         inputHtml + '</div>';
     });
 
+    var subTitleText = isEdit
+      ? ('Supervisor ID: <strong>' + (existingRecord.id || existingRecord.employeeId || '—') + '</strong> &nbsp;|&nbsp; Group: <strong>' + group + '</strong>')
+      : ('Group: <strong>' + group + '</strong> &nbsp;|&nbsp; <span style="color:red;">*</span> Required fields');
+
     modal.innerHTML =
       '<div class="rd-modal-content">' +
         '<h2 style="margin-top:0;color:#1e293b;font-size:18px;margin-bottom:4px;">' + title + '</h2>' +
-        '<p style="margin:0 0 18px;color:#64748b;font-size:13px;">Group: <strong>' + group + '</strong> &nbsp;|&nbsp; <span style="color:red;">*</span> Required fields</p>' +
+        '<p style="margin:0 0 18px;color:#64748b;font-size:13px;">' + subTitleText + '</p>' +
         '<form id="rd-data-form">' +
           '<div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">' + rows + '</div>' +
           '<div id="rd-modal-msg" style="margin-top:14px;font-weight:600;color:green;min-height:20px;"></div>' +
           '<div style="margin-top:18px;display:flex;justify-content:flex-end;gap:10px;">' +
             '<button type="button" id="rd-cancel-btn" style="padding:8px 18px;border:1px solid #cbd5e1;background:#fff;border-radius:5px;cursor:pointer;font-size:13px;">Cancel</button>' +
-            '<button type="submit" id="rd-submit-btn" style="padding:8px 18px;border:none;background:#0ea5e9;color:#fff;border-radius:5px;cursor:pointer;font-weight:600;font-size:13px;">Submit</button>' +
+            '<button type="submit" id="rd-submit-btn" style="padding:8px 18px;border:none;background:#0ea5e9;color:#fff;border-radius:5px;cursor:pointer;font-weight:600;font-size:13px;">' + (isEdit ? 'Save Changes' : 'Submit') + '</button>' +
           '</div>' +
         '</form>' +
       '</div>';
@@ -537,9 +582,139 @@
 
     document.getElementById('rd-data-form').addEventListener('submit', function (e) {
       e.preventDefault();
-      saveRecord(type, group, new FormData(e.target));
+      if (isEdit && type === 'supervisor') {
+        saveEditedSupervisor(existingRecord.id, group, new FormData(e.target), existingRecord);
+      } else {
+        saveRecord(type, group, new FormData(e.target));
+      }
     });
   }
+
+  // ─── SAVE EDITED SUPERVISOR ──────────────────────────────────────────────────
+  async function saveEditedSupervisor(id, group, formData, existingRecord) {
+    var AUTH = window.SRM_AUTH;
+    var user = AUTH ? AUTH.getCurrentUser() : null;
+    if (!user || user.role !== 'rd_coordinator') {
+      alert('Unauthorized: Only R&D Coordinator has permission to edit research supervisors.');
+      return;
+    }
+
+    var raw = {};
+    formData.forEach(function (value, key) { raw[key] = value; });
+
+    // Validate numeric non-negative inputs
+    var maxCap = (raw.maximum_scholar_capacity !== '' && raw.maximum_scholar_capacity != null) ? parseInt(raw.maximum_scholar_capacity, 10) : null;
+    var curCount = (raw.current_scholar_count !== '' && raw.current_scholar_count != null) ? parseInt(raw.current_scholar_count, 10) : null;
+    var availVac = (raw.available_vacancies !== '' && raw.available_vacancies != null) ? parseInt(raw.available_vacancies, 10) : null;
+
+    if (maxCap !== null && (isNaN(maxCap) || maxCap < 0)) {
+      alert('Maximum Scholar Capacity must be a non-negative whole number.');
+      return;
+    }
+    if (curCount !== null && (isNaN(curCount) || curCount < 0)) {
+      alert('Current Scholar Count must be a non-negative whole number.');
+      return;
+    }
+    if (availVac !== null && (isNaN(availVac) || availVac < 0)) {
+      alert('Available Vacancies must be a non-negative whole number.');
+      return;
+    }
+
+    var submitBtn = document.getElementById('rd-submit-btn');
+    var msgEl = document.getElementById('rd-modal-msg');
+    if (submitBtn) {
+      submitBtn.textContent = 'Saving…';
+      submitBtn.disabled = true;
+    }
+
+    // 1. Persist to Supabase
+    if (window.SupabaseDataService && typeof window.SupabaseDataService.updateSupervisorRecord === 'function') {
+      try {
+        var sbRes = await window.SupabaseDataService.updateSupervisorRecord(id, raw);
+        if (sbRes && !sbRes.success) {
+          console.warn('[Add Data] Supabase supervisor update warning:', sbRes.error);
+        }
+      } catch (err) {
+        console.error('[Add Data] Supabase supervisor update failed:', err);
+      }
+    }
+
+    // 2. Update existing in-memory record
+    if (existingRecord) {
+      if (raw.supervisor_name) {
+        existingRecord.name = raw.supervisor_name.trim();
+        existingRecord.supervisorName = raw.supervisor_name.trim();
+        existingRecord.supervisor = raw.supervisor_name.trim();
+      }
+      if (raw.employee_id !== undefined) existingRecord.employeeId = raw.employee_id.trim();
+      if (raw.department !== undefined) existingRecord.department = raw.department.trim();
+      if (raw.year !== undefined) existingRecord.year = parseInt(raw.year, 10) || 2026;
+      existingRecord.designation = (raw.designation || '').trim();
+      existingRecord.maximum_scholar_capacity = maxCap;
+      existingRecord.current_scholar_count = curCount;
+      existingRecord.available_vacancies = availVac;
+      existingRecord.maximumScholarCapacity = maxCap;
+      existingRecord.currentScholarCount = curCount;
+      existingRecord.availableVacancies = availVac;
+      if (raw.year_of_phd !== undefined) existingRecord.yearOfPhd = raw.year_of_phd.trim();
+      if (raw.discipline !== undefined) existingRecord.discipline = raw.discipline.trim();
+      if (raw.research_area !== undefined) existingRecord.researchArea = raw.research_area.trim();
+      if (raw.proof_link___upload !== undefined) existingRecord.proofLink = raw.proof_link___upload.trim();
+    }
+
+    // 3. Update in global DATA (scholar_supabase_bridge)
+    if (window.SCHOLAR_REPORTS_DATA && typeof window.SCHOLAR_REPORTS_DATA.getAllSupervisors === 'function') {
+      var allSups = window.SCHOLAR_REPORTS_DATA.getAllSupervisors();
+      var target = allSups.find(function (s) { return s.id === id || s.dbId === id; });
+      if (target) {
+        target.designation = (raw.designation || '').trim();
+        target.maximum_scholar_capacity = maxCap;
+        target.current_scholar_count = curCount;
+        target.available_vacancies = availVac;
+        target.maximumScholarCapacity = maxCap;
+        target.currentScholarCount = curCount;
+        target.availableVacancies = availVac;
+        if (raw.supervisor_name) target.name = target.supervisorName = raw.supervisor_name.trim();
+        if (raw.department) target.department = raw.department.trim();
+        if (raw.employee_id) target.employeeId = raw.employee_id.trim();
+      }
+    }
+
+    if (msgEl) msgEl.textContent = '✓ Supervisor updated successfully!';
+
+    setTimeout(function () {
+      var modal = document.getElementById('rd-data-modal');
+      if (modal) modal.style.display = 'none';
+
+      // 4. Trigger UI refresh
+      if (typeof window._SRM_DASHBOARD_REFRESH === 'function') {
+        window._SRM_DASHBOARD_REFRESH();
+      } else if (typeof window.SRM_SCHOLAR_MODULE_RENDER === 'function') {
+        window.SRM_SCHOLAR_MODULE_RENDER();
+      } else {
+        var activeNav = document.querySelector('.nav-link.active');
+        if (activeNav) activeNav.click();
+      }
+    }, 600);
+  }
+
+  // ─── PUBLIC EDIT SUPERVISOR API ──────────────────────────────────────────────
+  window.openEditSupervisorModal = function (supervisorOrId) {
+    var sup = supervisorOrId;
+    if (typeof supervisorOrId === 'string') {
+      var all = (window.SCHOLAR_REPORTS_DATA && window.SCHOLAR_REPORTS_DATA.getAllSupervisors) ? window.SCHOLAR_REPORTS_DATA.getAllSupervisors() : [];
+      sup = all.find(function (s) { return s.id === supervisorOrId || s.dbId === supervisorOrId || s.employeeId === supervisorOrId; });
+      if (!sup && window.SupabaseDataService && window.SupabaseDataService._liveData && window.SupabaseDataService._liveData.research_supervisors) {
+        sup = window.SupabaseDataService._liveData.research_supervisors.find(function (s) { return s.id === supervisorOrId; });
+      }
+    }
+    if (!sup) {
+      alert('Supervisor record not found.');
+      return;
+    }
+    var grp = sup.group || sup.businessUnit || sup.business_unit || 'FLABS';
+    openFormModal('supervisor', grp, sup);
+  };
 
   // ─── SAVE RECORD ─────────────────────────────────────────────────────────────
   async function saveRecord(type, group, formData) {
