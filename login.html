@@ -270,6 +270,17 @@
       // Key: role+'|'+group, Value: Array of user objects
       var supabaseUserCache = {};
 
+      // --- Group-wise password map (mirrors auth.js GROUP_PASSWORDS) ---
+      var GROUP_PASSWORDS = {
+        'FLABS':      'flabs123',
+        'E&T':        'ent123',
+        'Management': 'mgmt123',
+        'B.Arch':     'barch123'
+      };
+      function getGroupPassword(group) {
+        return GROUP_PASSWORDS[group] || null;
+      }
+
       // ── Helper: fetch supervisors or scholars from Supabase ───────────
       async function fetchSupabaseUsers(role, group) {
         var cacheKey = role + '|' + group;
@@ -348,7 +359,6 @@
               dbId: r.id,
               name: r.supervisor_name || r.name || '—',
               employeeId: empId,
-              password: '123456',
               role: 'supervisor',
               campus: 'SRM Ramapuram',
               college: 'SRM Institute of Science & Technology',
@@ -367,7 +377,6 @@
               employeeId: regNo,
               registerNumber: regNo,
               category: 'Full-time',
-              password: '123456',
               role: 'scholar',
               campus: 'SRM Ramapuram',
               college: 'SRM Institute of Science & Technology',
@@ -645,9 +654,11 @@
 
         var user;
         if (selectedUser._fromSupabase) {
-          // For Supabase-fetched supervisors/scholars: authenticate locally against password '123456'
-          if (enteredPw !== '123456') {
-            showError('Incorrect password. Please try again. (Default password: 123456)');
+          // For Supabase-fetched supervisors/scholars: validate against group password
+          var expectedGroupPw = getGroupPassword(selectedUser.group);
+          if (!expectedGroupPw || enteredPw !== expectedGroupPw) {
+            var hint = expectedGroupPw ? selectedUser.group + ' password required' : 'Unknown group';
+            showError('Incorrect password. Please enter the password for ' + (selectedUser.group || 'your group') + '.');
             passwordInput.value = '';
             passwordInput.focus();
             return;
@@ -658,7 +669,8 @@
         } else {
           user = AUTH.authenticate(selectedUser.employeeId || selectedUser.id, enteredPw);
           if (!user) {
-            showError('Incorrect password. Please try again. (Demo password: 123456)');
+            var grpLabel = selectedUser.group ? ' (' + selectedUser.group + ' password required)' : '';
+            showError('Incorrect password. Please try again.' + grpLabel);
             passwordInput.value = '';
             passwordInput.focus();
             return;

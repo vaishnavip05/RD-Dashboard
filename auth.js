@@ -4461,6 +4461,25 @@
   // ─────────────────────────────────────────────────────────────────────────────
   // AUTHENTICATION
   // ─────────────────────────────────────────────────────────────────────────────
+  // --- Group-wise password map ---
+  // Chairman: validated against stored password ('123456').
+  // All other roles: validated against their institution group's shared password.
+  var GROUP_PASSWORDS = {
+    'FLABS':      'flabs123',
+    'E&T':        'ent123',
+    'Management': 'mgmt123',
+    'B.Arch':     'barch123'
+  };
+
+  // Returns the expected password for a user:
+  // - Chairman: their own stored password
+  // - All others: their institution group's shared password
+  function getExpectedPassword(user) {
+    if (!user) return null;
+    if (user.role === 'chairman') return user.password;
+    return GROUP_PASSWORDS[user.group] || null;
+  };
+
   function authenticate(identifier, password) {
     if (!identifier || !password) return null;
     var trimmedId = String(identifier).trim().toUpperCase();
@@ -4472,7 +4491,10 @@
     });
 
     if (!user) return null;
-    if (user.password !== password) return null;
+
+    // Validate against group-based password (Chairman exception preserved)
+    var expected = getExpectedPassword(user);
+    if (!expected || password !== expected) return null;
 
     var safeUser = Object.assign({}, user);
     delete safeUser.password;
