@@ -1605,11 +1605,14 @@
 
  // Expose re-render hook so scope changes can refresh the current page
  window._SRM_DASHBOARD_REFRESH = function() {
-    // If the Scholar Reports nav button is currently active, keep Scholar Reports
-    // visible and re-mount it with the new scope - do NOT fall through to show(_currentPage)
-    // which would restore whatever the last nav-link page was (e.g. publications).
+    // GLOBAL FIX: preserve the active section when the user changes department.
+    // Root cause: Scholar Reports button is added dynamically after the IIFE captures
+    // the nav[] NodeList, so show() never clears .active from it on navigation away.
+    // Check whether any OTHER regular nav button is also .active - if so, the user
+    // has navigated away from Scholar Reports, so do not mount it.
     var scholarBtn = document.querySelector('.site-header nav [data-page="scholar-reports"]');
-    if (scholarBtn && scholarBtn.classList.contains('active') && window.SCHOLAR_MODULE) {
+    var otherActiveBtn = document.querySelector('.site-header nav .nav-link:not([data-page="scholar-reports"]).active');
+    if (scholarBtn && scholarBtn.classList.contains('active') && !otherActiveBtn && window.SCHOLAR_MODULE) {
       var schUser = window.SRM_AUTH ? window.SRM_AUTH.getCurrentUser() : null;
       if (schUser) {
         window.SCHOLAR_MODULE.mount(schUser);
