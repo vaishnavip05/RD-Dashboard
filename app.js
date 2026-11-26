@@ -921,9 +921,6 @@
         const yearStr = yearRaw ? String(yearRaw) : '—';
         // Status: fetch directly from scholar_current_status table / bootstrap / edits
         const statusDisplay = getScholarCurrentStatus(s);
-        // Research Area: prefer researchArea from RESEARCH_DATA; fallback phdTopic from SCHOLAR_REPORTS_DATA
-        const areaStr = s.researchArea || (s.raw && (s.raw.research_area || (s.raw.raw_data && s.raw.raw_data['Research Area']))) || s.phdTopic || '';
-        const areaDisplay = areaStr && areaStr.trim() ? areaStr.trim() : '—';
         const sName = s.name || s.scholarName || s.scholar || '—';
         const sDept = s.department || s.departmentGroup || s.program || (s.raw && s.raw.department) || '—';
 
@@ -939,11 +936,10 @@
           </td>
           <td style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;color:#475569;">${E(String(yearStr))}</td>
           <td style="padding:10px 14px;border:1px solid #e2e8f0;color:#0f172a;font-weight:600;">${E(statusDisplay)}</td>
-          <td style="padding:10px 14px;border:1px solid #e2e8f0;color:#475569;font-size:12.5px;">${E(areaDisplay)}</td>
         </tr>`;
       }).join('');
     } else {
-      scholarRowsHtml = `<tr><td colspan="8" style="padding:28px;text-align:center;color:#94a3b8;font-size:13px;">No research scholars are currently assigned to this supervisor.</td></tr>`;
+      scholarRowsHtml = `<tr><td colspan="7" style="padding:28px;text-align:center;color:#94a3b8;font-size:13px;">No research scholars are currently assigned to this supervisor.</td></tr>`;
     }
 
     return `<div style="max-width:1200px;margin:0 auto;padding-bottom:40px;font-family:sans-serif;">
@@ -1039,7 +1035,6 @@
             <th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;font-weight:700;">Status (FT/PT)</th>
             <th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;font-weight:700;">Joining Year</th>
             <th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:left;font-weight:700;">Research Status</th>
-            <th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:left;font-weight:700;">Research Area / Topic</th>
           </tr></thead>
           <tbody>${scholarRowsHtml}</tbody>
         </table></div>
