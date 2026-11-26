@@ -754,33 +754,99 @@
   // ══════════════════════════════════════════════════════════════════════════
   // RESEARCH COMMUNITY: SUPERVISOR DETAILS & ASSIGNED SCHOLARS VIEW
   // ══════════════════════════════════════════════════════════════════════════
+  // ── Helper to resolve research status from scholar_current_status table / bootstrap
+  function getScholarCurrentStatus(s) {
+    if (!s) return 'Ongoing';
+
+    // 1. Check local supervisor edits first (from localStorage)
+    try {
+      const stored = localStorage.getItem('srm_scholar_status_edits');
+      if (stored) {
+        const edits = JSON.parse(stored);
+        const sId = s.id || (s.raw && s.raw.id) || '';
+        const sReg = (s.registration || s.registrationNo || s.registerNumber || s.applicationNo || (s.raw && (s.raw.register_number || s.raw.application_number)) || '').toString().trim().replace(/\.0$/, '');
+        if (sId && edits[sId]) return edits[sId];
+        if (sReg && edits[sReg]) return edits[sReg];
+      }
+    } catch (e) {}
+
+    // 2. Check if s already has a meaningful currentStatus property
+    if (s.currentStatus && typeof s.currentStatus === 'string' && s.currentStatus.trim() && s.currentStatus.trim() !== '-' && s.currentStatus.trim() !== '—') {
+      return s.currentStatus.trim();
+    }
+
+    // 3. Look up from window.SCHOLAR_STATUS_BOOTSTRAP / Supabase scholar_current_status records
+    const statusPool = window.SCHOLAR_STATUS_BOOTSTRAP || [];
+    if (statusPool.length > 0) {
+      const sId = s.id || (s.raw && s.raw.id) || '';
+      const sReg = (s.registration || s.registrationNo || s.registerNumber || s.applicationNo || (s.raw && (s.raw.register_number || s.raw.application_number)) || '').toString().trim().replace(/\.0$/, '');
+      const cleanReg = (sReg && sReg !== '—' && sReg !== '-' && sReg !== 'NA' && sReg !== 'null' && sReg !== 'undefined') ? sReg : '';
+
+      let matched = null;
+      // 3A. Match by scholar_id
+      if (sId) {
+        matched = statusPool.find(b => b.scholar_id === sId || b.id === sId);
+      }
+      // 3B. Match by registration number
+      if (!matched && cleanReg) {
+        matched = statusPool.find(b => {
+          const bReg = (b.registration_number || '').toString().trim().replace(/\.0$/, '');
+          return bReg && bReg === cleanReg;
+        });
+      }
+      // 3C. Match by normalized scholar name + supervisor name
+      if (!matched) {
+        const sNameNorm = (s.name || s.scholarName || s.scholar || (s.raw && s.raw.scholar_name) || '').toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
+        const sSupNorm = (s.supervisor || s.supervisorName || (s.raw && s.raw.supervisor_name) || '').toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
+
+        const candidates = statusPool.filter(b => {
+          const bNameNorm = (b.scholar_name || '').toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
+          return bNameNorm && bNameNorm === sNameNorm;
+        });
+
+        if (candidates.length === 1) {
+          matched = candidates[0];
+        } else if (candidates.length > 1 && sSupNorm) {
+          matched = candidates.find(b => {
+            const bSupNorm = (b.supervisor_name || '').toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
+            return bSupNorm === sSupNorm;
+          }) || candidates[0];
+        }
+      }
+
+      if (matched && matched.current_status && typeof matched.current_status === 'string' && matched.current_status.trim() && matched.current_status.trim() !== '-' && matched.current_status.trim() !== '—') {
+        return matched.current_status.trim();
+      }
+    }
+
+    // 4. Fallback to raw status if meaningful, or default to 'Ongoing'
+    const fallback = s.status || (s.raw && s.raw.status) || (s.raw && s.raw.raw_data && s.raw.raw_data['Status']) || '';
+    if (fallback && typeof fallback === 'string' && fallback.trim() && fallback.trim() !== '-' && fallback.trim() !== '—') {
+      return fallback.trim();
+    }
+    return 'Ongoing';
+  }
+
   function getAssignedScholarsForSupervisor(sup, group) {
     const supId = sup.id || sup.dbId || '';
     const supName = (sup.name || sup.supervisorName || sup.supervisor || (sup.raw && sup.raw.supervisor_name) || '').trim();
     const normSupName = supName.toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
 
-    // Use the correct group-specific scholar pool exclusively.
-    // NEVER mix SCHOLAR_REPORTS_DATA.SCHOLARS into FLABS or Management — it is a
-    // completely different system (report submissions, different schema, different IDs)
-    // and causes duplicate rows and wrong column values.
+    // Select the scholar pool for this institution group
     let pool = [];
     if (group === 'E&T' || sup.group === 'E&T' || sup.businessUnit === 'E&T') {
       pool = (window.ET_SUPERVISORS_SCHOLARS && window.ET_SUPERVISORS_SCHOLARS.allScholars) || [];
     } else if (group === 'Management' || sup.group === 'Management' || sup.businessUnit === 'Management') {
       pool = (window.MANAGEMENT_RESEARCH_DATA && window.MANAGEMENT_RESEARCH_DATA.scholars) || [];
     } else {
-      // FLABS: use the main Supabase-sourced scholars dataset only
       pool = (window.RESEARCH_DATA && window.RESEARCH_DATA.scholars) || [];
     }
-    // No extraPool — the report-system dataset must NOT be merged here
 
     const matched = [];
     const seen = new Set();
     function check(sch) {
       if (!sch) return;
-      // Build a stable dedup key from the actual scholar identity fields
-      const id = sch.id || sch.registration || sch.registrationNo || sch.registerNumber || (sch.raw && sch.raw.id) || (sch.name || sch.scholar);
-      if (seen.has(id)) return;
+
       let isMatch = false;
       // Primary match: by supervisor UUID
       if (supId && sch.supervisorId === supId) {
@@ -790,17 +856,31 @@
       if (!isMatch && sup.assignedScholarIds && sch.id && sup.assignedScholarIds.includes(sch.id)) {
         isMatch = true;
       }
-      // Tertiary match: normalized supervisor name equality (exact only, no substring)
+      // Tertiary match: normalized supervisor name equality
       if (!isMatch) {
         const schSup = (sch.supervisor || sch.supervisorName || (sch.raw && sch.raw.supervisor_name) || '').toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
         if (schSup && normSupName && schSup === normSupName) {
           isMatch = true;
         }
       }
-      if (isMatch) {
-        seen.add(id);
-        matched.push(sch);
-      }
+      if (!isMatch) return;
+
+      // Safe deduplication: never drop scholars just because their registration is '—' or empty
+      const sReg = (sch.registration || sch.registrationNo || sch.registerNumber || sch.applicationNo || (sch.raw && (sch.raw.register_number || sch.raw.application_number)) || '').toString().trim().replace(/\.0$/, '');
+      const cleanReg = (sReg && sReg !== '—' && sReg !== '-' && sReg !== 'NA' && sReg !== 'null' && sReg !== 'undefined') ? sReg : '';
+
+      const sId = (sch.id || sch.dbId || (sch.raw && sch.raw.id) || '').toString().trim();
+      const cleanId = (sId && sId !== '—' && sId !== '-' && sId !== 'null' && sId !== 'undefined') ? sId : '';
+
+      const sName = (sch.name || sch.scholarName || sch.scholar || (sch.raw && (sch.raw.scholar_name || sch.raw.name)) || '').toString().trim();
+      const normName = sName.toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
+
+      // Build dedupKey: if cleanReg exists, use reg; if cleanId exists, use id; else use normalized scholar name
+      const dedupKey = cleanReg ? ('reg_' + cleanReg) : (cleanId ? ('id_' + cleanId) : ('name_' + normName));
+      if (!dedupKey || seen.has(dedupKey)) return;
+      seen.add(dedupKey);
+
+      matched.push(sch);
     }
     pool.forEach(check);
     return matched;
@@ -839,9 +919,8 @@
         // Year: RESEARCH_DATA uses 'year' or raw.year_of_enrollment; fallback to registrationDate year
         const yearRaw = s.year || s.yearOfEnrollment || (s.raw && s.raw.year_of_enrollment) || (s.registrationDate && s.registrationDate.substring(0,4)) || null;
         const yearStr = yearRaw ? String(yearRaw) : '—';
-        // Status: RESEARCH_DATA uses 'status' or raw.status; fallback to 'Ongoing' only if truly absent
-        const statusStr = s.status || (s.raw && s.raw.status) || (s.raw && s.raw.raw_data && s.raw.raw_data['Status']) || s.currentStatus || '';
-        const statusDisplay = statusStr && statusStr.trim() ? statusStr.trim() : 'Ongoing';
+        // Status: fetch directly from scholar_current_status table / bootstrap / edits
+        const statusDisplay = getScholarCurrentStatus(s);
         // Research Area: prefer researchArea from RESEARCH_DATA; fallback phdTopic from SCHOLAR_REPORTS_DATA
         const areaStr = s.researchArea || (s.raw && (s.raw.research_area || (s.raw.raw_data && s.raw.raw_data['Research Area']))) || s.phdTopic || '';
         const areaDisplay = areaStr && areaStr.trim() ? areaStr.trim() : '—';
