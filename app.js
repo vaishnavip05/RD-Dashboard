@@ -319,22 +319,14 @@
     const pats = getETPatents(y);
     const fund = getETFunded(y);
     const cons = getETConsultancy(y);
-    const supData = (window.ET_SUPERVISORS_SCHOLARS && window.ET_SUPERVISORS_SCHOLARS.yearlyData && window.ET_SUPERVISORS_SCHOLARS.yearlyData[y]) || { scholarCount: 0, supervisorCount: 0 };
     const granted = pats.filter(r => (r.status || '').toLowerCase() === 'granted').length;
     const published = pats.filter(r => (r.status || '').toLowerCase() === 'published').length;
     
     const facultyCount = getCollegeFacultyCount('E&T', y, etScope && etScope.dept ? etScope.dept : null);
 
-    let supervisorCount = supData.supervisorCount || 0;
-    let scholarCount = supData.scholarCount || 0;
-    
-    if (etScope && etScope.dept) {
-      const peeps = getETPeopleRecords(y);
-      scholarCount = peeps.length;
-      const uniqueSups = new Set();
-      peeps.forEach(p => { if (p.supervisor && p.supervisor !== '—') uniqueSups.add(p.supervisor); });
-      supervisorCount = uniqueSups.size;
-    }
+    // Cumulative scholars and supervisors (all cohorts up to year y), respecting active department scope
+    const cumScholars = getETCumulativeScholars(y, false);
+    const cumSupervisors = getETCumulativeSupervisors(y, false);
 
     return {
       faculty: facultyCount,
@@ -344,8 +336,8 @@
       published,
       fundedProjects: fund.length,
       consultancy: cons.length,
-      supervisors: supervisorCount,
-      scholars: scholarCount,
+      supervisors: cumSupervisors.length,
+      scholars: cumScholars.length,
       deptLabel
     };
   }
@@ -388,14 +380,15 @@
     const pubs  = getMgmtRecords('publications', y);
     const pats  = getMgmtRecords('patents', y);
     const fund  = getMgmtRecords('funded', y);
-    const sups  = getMgmtRecords('supervisors', y);
-    const schs  = getMgmtRecords('people', y);
+    // Cumulative scholars and supervisors (all cohorts up to year y), respecting active department scope
+    const cumSups = getMgmtCumulativeSupervisors(y, false);
+    const cumSchs = getMgmtCumulativeScholars(y, false);
     const granted  = pats.filter(r => (r.status || '').toLowerCase() === 'granted').length;
     const published = pats.filter(r => (r.status || '').toLowerCase() === 'published').length;
 
     const faculty = getCollegeFacultyCount('Management', y, mgmtScope && mgmtScope.dept ? mgmtScope.dept : null);
 
-    return { faculty, publications: pubs.length, patents: pats.length, granted, published, fundedProjects: fund.length, supervisors: sups.length, scholars: schs.length, deptLabel };
+    return { faculty, publications: pubs.length, patents: pats.length, granted, published, fundedProjects: fund.length, supervisors: cumSups.length, scholars: cumSchs.length, deptLabel };
   }
  // ── Dataset-Specific Scoped Filtering (FLABS / Module 3) ──────────────────
  function getScopedRecords(type, dataset, year) {
@@ -428,13 +421,17 @@
    const pubs     = SCOPE ? SCOPE.filterPublicationsByDepartment(D.publications, dept, y) : D.publications.filter(r => r.year === y);
    const awards   = deptLabel ? D.awards.filter(r => r.year === y && (r.department === deptLabel || r.departmentGroup === deptLabel)) : D.awards.filter(r => r.year === y);
    const funded   = SCOPE ? SCOPE.filterFundedProjectsByDepartment(D.funded, dept, y) : D.funded.filter(r => r.year === y);
-
    const patents  = SCOPE ? SCOPE.filterPatentsByDepartment(D.patents, dept, y) : D.patents.filter(r => r.year === y);
-   const scholars = SCOPE ? SCOPE.filterResearchCommunityByDepartment(D.scholars, dept, y) : D.scholars.filter(r => r.year === y);
+
+   // Cumulative scholars and supervisors (all cohorts up to year y), respecting active department scope
+   const cumScholars = getFLABSCumulativeScholars(y, false);
+   const cumSupervisors = getFLABSCumulativeSupervisors(y, false);
+   const supervisorCount = (cumSupervisors.length > 0)
+     ? cumSupervisors.length
+     : new Set(cumScholars.map(r => r.supervisor).filter(Boolean)).size;
 
    const granted  = patents.filter(r => (r.status || '').toLowerCase() === 'granted').length;
    const published = patents.filter(r => (r.status || '').toLowerCase() === 'published').length;
-   const supervisorSet = new Set(scholars.map(r => r.supervisor).filter(Boolean));
 
    const facultyCount = getCollegeFacultyCount('FLABS', y, deptLabel);
 
@@ -445,8 +442,8 @@
      granted:        granted,
      published:      published,
      awards:         awards.length,
-     supervisors:    supervisorSet.size,
-     scholars:       scholars.length,
+     supervisors:    supervisorCount,
+     scholars:       cumScholars.length,
      fundedProjects: funded.length,
      dept:           dept
    };
@@ -637,12 +634,15 @@
       const s24 = getMgmtSummary(2024);
       const s25 = getMgmtSummary(2025);
       const s26 = getMgmtSummary(2026);
+      const trendSch24 = getMgmtCumulativeScholars(2024, false).length;
+      const trendSch25 = getMgmtPeopleRecords(2025).length;
+      const trendSch26 = getMgmtPeopleRecords(2026).length;
 
       document.querySelector('#home-trend-charts').innerHTML = [
         threeYearChart([s24.publications, s25.publications, s26.publications], 'Publications', '#0ea5e9'),
         threeYearChart([s24.patents, s25.patents, s26.patents], 'Patents', '#10b981'),
         threeYearChart([s24.fundedProjects, s25.fundedProjects, s26.fundedProjects], 'Funded Projects', '#f59e0b'),
-        threeYearChart([s24.scholars, s25.scholars, s26.scholars], 'Research Scholars', '#8b5cf6')
+        threeYearChart([trendSch24, trendSch25, trendSch26], 'Research Scholars', '#8b5cf6')
       ].join('');
 
       document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
@@ -908,12 +908,15 @@
       ].join('');
 
       let s24 = getETSummary(2024), s25 = getETSummary(2025), s26 = getETSummary(2026);
+      let trendSch24 = getETCumulativeScholars(2024, false).length;
+      let trendSch25 = getETPeopleRecords(2025).length;
+      let trendSch26 = getETPeopleRecords(2026).length;
       document.querySelector('#home-trend-charts').innerHTML = [
         threeYearChart([s24.publications, s25.publications, s26.publications], 'Publications', '#0ea5e9'),
         threeYearChart([s24.patents, s25.patents, s26.patents], 'Patents', '#10b981'),
         threeYearChart([s24.fundedProjects, s25.fundedProjects, s26.fundedProjects], 'Funded Projects', '#f59e0b'),
         threeYearChart([s24.consultancy, s25.consultancy, s26.consultancy], 'Consultancy Projects', '#8b5cf6'),
-        threeYearChart([s24.scholars, s25.scholars, s26.scholars], 'Research Scholars', '#ec4899')
+        threeYearChart([trendSch24, trendSch25, trendSch26], 'Research Scholars', '#ec4899')
       ].join('');
 
       document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
@@ -1052,12 +1055,15 @@
      }
 
      let s24 = getScopedSummary(2024), s25 = getScopedSummary(2025), s26 = getScopedSummary(2026);
+     let trendSch24 = getFLABSCumulativeScholars(2024, false).length;
+     let trendSch25 = getScopedRecords('people', D.scholars, 2025).length;
+     let trendSch26 = getScopedRecords('people', D.scholars, 2026).length;
      document.querySelector('#home-trend-charts').innerHTML = [
        threeYearChart([s24.publications, s25.publications, s26.publications], 'Publications', '#0ea5e9'),
        threeYearChart([s24.patents, s25.patents, s26.patents], 'Patents', '#10b981'),
        threeYearChart([s24.fundedProjects, s25.fundedProjects, s26.fundedProjects], 'Funded Projects', '#f59e0b'),
        threeYearChart([s24.awards, s25.awards, s26.awards], 'Research Awards', '#8b5cf6'),
-       threeYearChart([s24.scholars, s25.scholars, s26.scholars], 'Research Scholars', '#ec4899')
+       threeYearChart([trendSch24, trendSch25, trendSch26], 'Research Scholars', '#ec4899')
      ].join('');
 
       document.querySelectorAll('[data-go]').forEach(b=>b.onclick=()=>show(b.dataset.go));
