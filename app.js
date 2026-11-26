@@ -759,27 +759,40 @@
     const supName = (sup.name || sup.supervisorName || sup.supervisor || (sup.raw && sup.raw.supervisor_name) || '').trim();
     const normSupName = supName.toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
 
+    // Use the correct group-specific scholar pool exclusively.
+    // NEVER mix SCHOLAR_REPORTS_DATA.SCHOLARS into FLABS or Management — it is a
+    // completely different system (report submissions, different schema, different IDs)
+    // and causes duplicate rows and wrong column values.
     let pool = [];
     if (group === 'E&T' || sup.group === 'E&T' || sup.businessUnit === 'E&T') {
       pool = (window.ET_SUPERVISORS_SCHOLARS && window.ET_SUPERVISORS_SCHOLARS.allScholars) || [];
     } else if (group === 'Management' || sup.group === 'Management' || sup.businessUnit === 'Management') {
       pool = (window.MANAGEMENT_RESEARCH_DATA && window.MANAGEMENT_RESEARCH_DATA.scholars) || [];
     } else {
+      // FLABS: use the main Supabase-sourced scholars dataset only
       pool = (window.RESEARCH_DATA && window.RESEARCH_DATA.scholars) || [];
     }
-    const extraPool = (window.SCHOLAR_REPORTS_DATA && window.SCHOLAR_REPORTS_DATA.SCHOLARS) || [];
+    // No extraPool — the report-system dataset must NOT be merged here
 
     const matched = [];
     const seen = new Set();
     function check(sch) {
       if (!sch) return;
-      const id = sch.id || sch.registration || sch.registrationNo || sch.registerNumber || (sch.name || sch.scholar);
+      // Build a stable dedup key from the actual scholar identity fields
+      const id = sch.id || sch.registration || sch.registrationNo || sch.registerNumber || (sch.raw && sch.raw.id) || (sch.name || sch.scholar);
       if (seen.has(id)) return;
       let isMatch = false;
-      if (supId && (sch.supervisorId === supId || (sup.assignedScholarIds && sup.assignedScholarIds.includes(sch.id)))) {
+      // Primary match: by supervisor UUID
+      if (supId && sch.supervisorId === supId) {
         isMatch = true;
-      } else {
-        const schSup = (sch.supervisor || sch.supervisorName || '').toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
+      }
+      // Secondary match: by assignedScholarIds list on supervisor
+      if (!isMatch && sup.assignedScholarIds && sch.id && sup.assignedScholarIds.includes(sch.id)) {
+        isMatch = true;
+      }
+      // Tertiary match: normalized supervisor name equality (exact only, no substring)
+      if (!isMatch) {
+        const schSup = (sch.supervisor || sch.supervisorName || (sch.raw && sch.raw.supervisor_name) || '').toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
         if (schSup && normSupName && schSup === normSupName) {
           isMatch = true;
         }
@@ -790,7 +803,6 @@
       }
     }
     pool.forEach(check);
-    extraPool.forEach(check);
     return matched;
   }
 
@@ -815,11 +827,24 @@
     if (scholars && scholars.length > 0) {
       scholarRowsHtml = scholars.map((s, idx) => {
         const isFT = _isFT(s.category || s.mode || '');
-        const catColor = isFT ? 'background:#dcfce7;color:#166534;' : 'background:#fef9c3;color:#854d0e;';
-        const regNoStr = s.registrationNo || s.registration || s.registerNumber || s.applicationNo || s.employeeId || '—';
-        const yearStr = s.yearOfEnrollment || s.year || (s.raw && s.raw.year_of_enrollment) || '—';
-        const statusStr = s.currentStatus || s.status || (s.raw && s.raw.status) || 'Ongoing';
-        const areaStr = s.phdTopic || s.researchArea || (s.raw && s.raw.research_area) || '—';
+        // FT badge: green; PT-Internal: yellow; PT-External: orange; default PT: yellow
+        const ptInt = typeof _isPTInternal === 'function' && _isPTInternal(s.category || s.mode || '');
+        const ptExt = typeof _isPTExternal === 'function' && _isPTExternal(s.category || s.mode || '');
+        const catColor = isFT ? 'background:#dcfce7;color:#166534;'
+                       : ptInt ? 'background:#fef9c3;color:#854d0e;'
+                       : ptExt ? 'background:#ffedd5;color:#9a3412;'
+                       : 'background:#fef9c3;color:#854d0e;';
+        // Registration: RESEARCH_DATA uses 'registration' or 'applicationNo'; SCHOLAR_REPORTS_DATA uses 'registrationNo'
+        const regNoStr = s.registration || s.applicationNo || s.registrationNo || s.registerNumber || (s.raw && (s.raw.register_number || s.raw.application_number)) || '—';
+        // Year: RESEARCH_DATA uses 'year' or raw.year_of_enrollment; fallback to registrationDate year
+        const yearRaw = s.year || s.yearOfEnrollment || (s.raw && s.raw.year_of_enrollment) || (s.registrationDate && s.registrationDate.substring(0,4)) || null;
+        const yearStr = yearRaw ? String(yearRaw) : '—';
+        // Status: RESEARCH_DATA uses 'status' or raw.status; fallback to 'Ongoing' only if truly absent
+        const statusStr = s.status || (s.raw && s.raw.status) || (s.raw && s.raw.raw_data && s.raw.raw_data['Status']) || s.currentStatus || '';
+        const statusDisplay = statusStr && statusStr.trim() ? statusStr.trim() : 'Ongoing';
+        // Research Area: prefer researchArea from RESEARCH_DATA; fallback phdTopic from SCHOLAR_REPORTS_DATA
+        const areaStr = s.researchArea || (s.raw && (s.raw.research_area || (s.raw.raw_data && s.raw.raw_data['Research Area']))) || s.phdTopic || '';
+        const areaDisplay = areaStr && areaStr.trim() ? areaStr.trim() : '—';
         const sName = s.name || s.scholarName || s.scholar || '—';
         const sDept = s.department || s.departmentGroup || s.program || (s.raw && s.raw.department) || '—';
 
@@ -834,8 +859,8 @@
             </span>
           </td>
           <td style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;color:#475569;">${E(String(yearStr))}</td>
-          <td style="padding:10px 14px;border:1px solid #e2e8f0;color:#0f172a;font-weight:600;">${E(statusStr)}</td>
-          <td style="padding:10px 14px;border:1px solid #e2e8f0;color:#475569;font-size:12.5px;">${E(areaStr)}</td>
+          <td style="padding:10px 14px;border:1px solid #e2e8f0;color:#0f172a;font-weight:600;">${E(statusDisplay)}</td>
+          <td style="padding:10px 14px;border:1px solid #e2e8f0;color:#475569;font-size:12.5px;">${E(areaDisplay)}</td>
         </tr>`;
       }).join('');
     } else {
