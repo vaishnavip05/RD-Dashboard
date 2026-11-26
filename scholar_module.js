@@ -2199,16 +2199,6 @@
         '<p style="margin:4px 0;font-size:13px;color:#475569;">Active scholars and supervisors across all admission years & categories — ' + (isDean ? 'final approval stage' : (isCoord ? 'coordinator oversight' : 'preliminary group approval')) + ' for fellowship disbursement.</p>' +
       '</div>' +
 
-      // ── KPI CARDS ROW: Total Scholars & Category Breakdown Across All Years ──
-      '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:14px;">' +
-        kpiCard('Total Scholars', scholars.length, 'All Years & Categories', { bg: '#f0fdf4', color: '#166534' }) +
-        kpiCard('Full-Time Scholars', countFT, 'Monthly Claim Eligible', { bg: '#eff6ff', color: '#1d4ed8' }) +
-        kpiCard('Part-Time Internal', countPTI, 'Active Scholars', { bg: '#fefce8', color: '#854d0e' }) +
-        kpiCard('Part-Time External', countPTE, 'Active Scholars', { bg: '#fff7ed', color: '#9a3412' }) +
-        otherCardHtml +
-        kpiCard('Active Supervisors', supervisors.length, 'All Years Registered', { bg: '#faf5ff', color: '#6b21a8' }) +
-      '</div>' +
-
       // ── KPI CARDS ROW: Monthly Report Workflow Status ──
       '<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin-bottom:20px;">' +
         kpiCard('Pending Monthly', pendingM.length, labelStatus, pendingM.length > 0 ? STATUS_COLORS[targetStatus] : null) +
@@ -2222,8 +2212,6 @@
         '<div style="display:flex;gap:12px;border-bottom:2px solid #e2e8f0;padding-bottom:12px;margin-bottom:16px;flex-wrap:wrap;">' +
           '<button id="tab-monthly" class="portal-nav-tab" style="background:#0284c7;color:#fff;border:none;border-radius:6px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;box-shadow:0 2px 6px rgba(2,132,199,0.2);">Monthly Claims (' + monthlyReports.length + ')</button>' +
           '<button id="tab-daily" class="portal-nav-tab" style="background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;border-radius:6px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;">Daily Reports (' + day8Reports.length + ')</button>' +
-          '<button id="tab-scholars" class="portal-nav-tab" style="background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;border-radius:6px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;">All Scholars (' + scholars.length + ')</button>' +
-          '<button id="tab-supervisors" class="portal-nav-tab" style="background:#f1f5f9;color:#475569;border:1px solid #cbd5e1;border-radius:6px;padding:8px 16px;font-weight:700;font-size:13px;cursor:pointer;">All Supervisors (' + supervisors.length + ')</button>' +
         '</div>' +
 
         // Tab 1: Monthly Claims
@@ -2259,62 +2247,6 @@
           '</table></div>' +
         '</div>' +
 
-        // Tab 3: All Scholars (Across All Years & Categories)
-        '<div id="section-scholars" style="display:none;">' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">' +
-            '<h3 style="margin:0;font-size:16px;color:#0f172a;font-weight:700;">All Active Research Scholars (' + scholars.length + ')</h3>' +
-            '<div style="font-size:12.5px;color:#64748b;">Showing all admission years (Full-time, Part-time Internal, Part-time External)</div>' +
-          '</div>' +
-          '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">' +
-            '<thead><tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">' +
-              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">S.No</th>' +
-              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Scholar Name</th>' +
-              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Department</th>' +
-              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Category</th>' +
-              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Enroll Year</th>' +
-              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Reg. No</th>' +
-              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Assigned Supervisor</th>' +
-            '</tr></thead>' +
-            '<tbody>' + scholarListRows + '</tbody>' +
-          '</table></div>' +
-        '</div>' +
-
-        // Tab 4: All Supervisors (Across All Years)
-        '<div id="section-supervisors" style="display:none;">' +
-          '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;flex-wrap:wrap;gap:8px;">' +
-            '<h3 style="margin:0;font-size:16px;color:#0f172a;font-weight:700;">All Registered Supervisors (' + supervisors.length + ')</h3>' +
-            '<div style="font-size:12.5px;color:#64748b;">Active research supervisors across all departments</div>' +
-          '</div>' +
-          '<div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">' +
-            '<thead><tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;">' +
-              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">S.No</th>' +
-              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Supervisor Name</th>' +
-              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Department / Discipline</th>' +
-              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Employee ID</th>' +
-              (isCoord ? (
-                '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:left;">Designation</th>' +
-                '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;">Max Capacity</th>' +
-                '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;">Current Count</th>' +
-                '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;">Available Vacancies</th>'
-              ) : '') +
-              '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;">Assigned Scholars</th>' +
-              (isCoord ? '<th style="padding:9px 12px;border:1px solid #e2e8f0;text-align:center;">Action</th>' : '') +
-            '</tr></thead>' +
-            '<tbody>' + supervisorListRows + '</tbody>' +
-          '</table></div>' +
-        '</div>' +
-
-      '</div>' +
-
-      // ── NEW SECTION: Research Supervisors – Department-wise Details ──
-      '<div id="section-dept-supervisors" style="margin-top:24px;background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:20px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">' +
-        '<div style="margin-bottom:16px;">' +
-          '<h3 style="margin:0;font-size:16px;color:#0f172a;font-weight:700;">Research Supervisors &#x2013; Department-wise Details</h3>' +
-          '<div style="font-size:12.5px;color:#64748b;margin-top:2px;">Select a department from the left sidebar to view registered research supervisors, designation, and scholar capacities.</div>' +
-        '</div>' +
-        '<div id="dept-supervisors-table-container">' +
-          initialDeptTableHtml +
-        '</div>' +
       '</div>' +
 
     '</div>';
@@ -3214,12 +3146,10 @@
 
     // ── Dean & Deputy Dean Dashboard bindings
     function bindDeanLevelDashboard() {
-      // Custom multi-tab switching for Dean / Deputy Dean / Coordinator portal
+      // Tab switching between Monthly Claims and Daily Reports
       var tabs = [
         { btn: document.getElementById('tab-monthly'), sec: document.getElementById('section-monthly') },
-        { btn: document.getElementById('tab-daily'), sec: document.getElementById('section-daily') },
-        { btn: document.getElementById('tab-scholars'), sec: document.getElementById('section-scholars') },
-        { btn: document.getElementById('tab-supervisors'), sec: document.getElementById('section-supervisors') }
+        { btn: document.getElementById('tab-daily'), sec: document.getElementById('section-daily') }
       ];
 
       tabs.forEach(function(item) {
@@ -3275,45 +3205,6 @@
           window.scrollTo({ top: 0, behavior: 'smooth' });
         });
       });
-
-      // Bind Edit Supervisor buttons for R&D Coordinator
-      appEl.querySelectorAll('.btn-edit-supervisor').forEach(function(btn) {
-        btn.addEventListener('click', function() {
-          var supId = btn.dataset.supId;
-          if (window.openEditSupervisorModal) {
-            window.openEditSupervisorModal(supId);
-          }
-        });
-      });
-
-      // Automatically update Department-wise Supervisor table when Left Sidebar selection changes
-      var deptTableContainer = document.getElementById('dept-supervisors-table-container');
-      if (window.SRM_SCOPE && typeof window.SRM_SCOPE.onChange === 'function') {
-        window.SRM_SCOPE.onChange(function(node) {
-          var deptNode = (node && node.type === 'dept') ? node : (window.SRM_SCOPE.getSelectedDept ? window.SRM_SCOPE.getSelectedDept() : null);
-          if (!deptNode || !deptNode.label) return;
-          var targetDept = deptNode.label;
-          currentSupervisorSelectedDept = targetDept;
-          try { sessionStorage.setItem('srm_supervisor_selected_dept', targetDept); } catch(e){}
-          var container = document.getElementById('dept-supervisors-table-container');
-          if (container) {
-            container.innerHTML = renderDeptSupervisorsTable(targetDept, currentScopedSupervisors);
-            bindSupervisorClickLinks();
-          }
-        });
-      }
-
-      function bindSupervisorClickLinks() {
-        appEl.querySelectorAll('.link-supervisor-detail').forEach(function(link) {
-          link.addEventListener('click', function(e) {
-            if (e) e.preventDefault();
-            var supId = link.dataset.supId;
-            openSupervisorDetails(supId);
-          });
-        });
-      }
-
-      bindSupervisorClickLinks();
     }
 
     function bindDeanLevelReview(report) {
@@ -3421,6 +3312,7 @@
   // ════════════════════════════════════════════════════════════════
   global.SCHOLAR_MODULE = {
     mount: mount,
+    renderSupervisorDetailPage: renderSupervisorDetailPage,
     printVerifiedReportPDF: printVerifiedReportPDF,
     printDailyReportPDF: printDailyReportPDF,
     viewProofFile: viewProofFile,

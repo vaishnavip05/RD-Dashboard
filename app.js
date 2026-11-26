@@ -751,6 +751,229 @@
            (/^pt[\s(]*(external)/i.test(cat || ''));
   }
 
+  // ══════════════════════════════════════════════════════════════════════════
+  // RESEARCH COMMUNITY: SUPERVISOR DETAILS & ASSIGNED SCHOLARS VIEW
+  // ══════════════════════════════════════════════════════════════════════════
+  function getAssignedScholarsForSupervisor(sup, group) {
+    const supId = sup.id || sup.dbId || '';
+    const supName = (sup.name || sup.supervisorName || sup.supervisor || (sup.raw && sup.raw.supervisor_name) || '').trim();
+    const normSupName = supName.toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
+
+    let pool = [];
+    if (group === 'E&T' || sup.group === 'E&T' || sup.businessUnit === 'E&T') {
+      pool = (window.ET_SUPERVISORS_SCHOLARS && window.ET_SUPERVISORS_SCHOLARS.allScholars) || [];
+    } else if (group === 'Management' || sup.group === 'Management' || sup.businessUnit === 'Management') {
+      pool = (window.MANAGEMENT_RESEARCH_DATA && window.MANAGEMENT_RESEARCH_DATA.scholars) || [];
+    } else {
+      pool = (window.RESEARCH_DATA && window.RESEARCH_DATA.scholars) || [];
+    }
+    const extraPool = (window.SCHOLAR_REPORTS_DATA && window.SCHOLAR_REPORTS_DATA.SCHOLARS) || [];
+
+    const matched = [];
+    const seen = new Set();
+    function check(sch) {
+      if (!sch) return;
+      const id = sch.id || sch.registration || sch.registrationNo || sch.registerNumber || (sch.name || sch.scholar);
+      if (seen.has(id)) return;
+      let isMatch = false;
+      if (supId && (sch.supervisorId === supId || (sup.assignedScholarIds && sup.assignedScholarIds.includes(sch.id)))) {
+        isMatch = true;
+      } else {
+        const schSup = (sch.supervisor || sch.supervisorName || '').toLowerCase().replace(/^(dr\.?|prof\.?|mr\.?|mrs\.?|ms\.?)\s*/i, '').replace(/[^a-z0-9]/g, '');
+        if (schSup && normSupName && schSup === normSupName) {
+          isMatch = true;
+        }
+      }
+      if (isMatch) {
+        seen.add(id);
+        matched.push(sch);
+      }
+    }
+    pool.forEach(check);
+    extraPool.forEach(check);
+    return matched;
+  }
+
+  function renderSupervisorDetailView(sup, scholars, groupLabel) {
+    const supName = sup.name || sup.supervisorName || sup.supervisor || (sup.raw && sup.raw.supervisor_name) || '—';
+    const empId = sup.employeeId || sup.employeeCode || (sup.raw && sup.raw.employee_id) || '—';
+    const desig = sup.designation || (sup.raw && sup.raw.designation) || '';
+    const desigStr = (desig && String(desig).trim()) ? String(desig).trim() : '—';
+    const deptStr = sup.department || (sup.raw && sup.raw.department) || sup.departmentGroup || sup.discipline || '—';
+    const buStr = sup.businessUnit || sup.group || (sup.raw && sup.raw.business_unit) || groupLabel || 'Faculty';
+
+    const rawCap = sup.maximum_scholar_capacity != null ? sup.maximum_scholar_capacity : ((sup.raw && sup.raw.maximum_scholar_capacity != null) ? sup.raw.maximum_scholar_capacity : sup.maximumScholarCapacity);
+    const maxCapStr = (rawCap != null && rawCap !== '') ? String(rawCap) : '—';
+
+    const rawCount = sup.current_scholar_count != null ? sup.current_scholar_count : ((sup.raw && sup.raw.current_scholar_count != null) ? sup.raw.current_scholar_count : sup.currentScholarCount);
+    const curCountStr = (rawCount != null && rawCount !== '') ? String(rawCount) : '—';
+
+    const rawVac = sup.available_vacancies != null ? sup.available_vacancies : ((sup.raw && sup.raw.available_vacancies != null) ? sup.raw.available_vacancies : sup.availableVacancies);
+    const vacStr = (rawVac != null && rawVac !== '') ? String(rawVac) : '—';
+
+    let scholarRowsHtml = '';
+    if (scholars && scholars.length > 0) {
+      scholarRowsHtml = scholars.map((s, idx) => {
+        const isFT = _isFT(s.category || s.mode || '');
+        const catColor = isFT ? 'background:#dcfce7;color:#166534;' : 'background:#fef9c3;color:#854d0e;';
+        const regNoStr = s.registrationNo || s.registration || s.registerNumber || s.applicationNo || s.employeeId || '—';
+        const yearStr = s.yearOfEnrollment || s.year || (s.raw && s.raw.year_of_enrollment) || '—';
+        const statusStr = s.currentStatus || s.status || (s.raw && s.raw.status) || 'Ongoing';
+        const areaStr = s.phdTopic || s.researchArea || (s.raw && s.raw.research_area) || '—';
+        const sName = s.name || s.scholarName || s.scholar || '—';
+        const sDept = s.department || s.departmentGroup || s.program || (s.raw && s.raw.department) || '—';
+
+        return `<tr style="border-bottom:1px solid #e2e8f0;">
+          <td style="padding:10px 14px;border:1px solid #e2e8f0;color:#64748b;">${idx + 1}</td>
+          <td style="padding:10px 14px;border:1px solid #e2e8f0;font-weight:700;color:#0f172a;">${E(sName)}</td>
+          <td style="padding:10px 14px;border:1px solid #e2e8f0;color:#64748b;font-family:monospace;font-size:12.5px;">${E(regNoStr)}</td>
+          <td style="padding:10px 14px;border:1px solid #e2e8f0;color:#475569;">${E(sDept)}</td>
+          <td style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;">
+            <span style="display:inline-block;padding:2px 10px;border-radius:12px;font-size:11.5px;font-weight:700;${catColor}">
+              ${E(s.category || s.mode || (isFT ? 'Full-time' : 'Part-time'))}
+            </span>
+          </td>
+          <td style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;color:#475569;">${E(String(yearStr))}</td>
+          <td style="padding:10px 14px;border:1px solid #e2e8f0;color:#0f172a;font-weight:600;">${E(statusStr)}</td>
+          <td style="padding:10px 14px;border:1px solid #e2e8f0;color:#475569;font-size:12.5px;">${E(areaStr)}</td>
+        </tr>`;
+      }).join('');
+    } else {
+      scholarRowsHtml = `<tr><td colspan="8" style="padding:28px;text-align:center;color:#94a3b8;font-size:13px;">No research scholars are currently assigned to this supervisor.</td></tr>`;
+    }
+
+    return `<div style="max-width:1200px;margin:0 auto;padding-bottom:40px;font-family:sans-serif;">
+      <!-- Top Navigation / Back Bar -->
+      <div style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:12px 20px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button id="btn-supervisor-detail-back" style="display:inline-flex;align-items:center;gap:6px;background:#f1f5f9;color:#334155;border:1px solid #cbd5e1;border-radius:6px;padding:7px 14px;font-size:13px;font-weight:700;cursor:pointer;transition:background 0.2s;">
+            ← Back to Research Community
+          </button>
+          <span style="font-size:13px;color:#64748b;">Viewing Supervisor Details</span>
+        </div>
+        <div>
+          <span style="display:inline-block;padding:3px 10px;border-radius:20px;background:#fae8ff;color:#86198f;font-size:11.5px;font-weight:700;">
+            ${E(buStr)} · Supervisor Details
+          </span>
+        </div>
+      </div>
+
+      <!-- Supervisor Information Card -->
+      <div style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:24px;margin-bottom:24px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+        <div style="border-bottom:1px solid #e2e8f0;padding-bottom:14px;margin-bottom:18px;display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:12px;">
+          <div>
+            <span style="display:inline-block;padding:2px 10px;border-radius:12px;background:#e0f2fe;color:#0369a1;font-size:11.5px;font-weight:700;margin-bottom:6px;">Research Supervisor Profile</span>
+            <h2 style="margin:2px 0 6px 0;font-size:22px;color:#0f172a;font-weight:800;">${E(supName)}</h2>
+            <div style="font-size:13px;color:#64748b;">${E(desigStr)} &nbsp;·&nbsp; Department of ${E(deptStr)}</div>
+          </div>
+          <div style="text-align:right;">
+            <span style="display:inline-block;padding:4px 12px;border-radius:6px;background:#f8fafc;border:1px solid #cbd5e1;font-size:12px;color:#475569;font-family:monospace;">EMP ID: ${E(empId)}</span>
+          </div>
+        </div>
+
+        <!-- Info Grid -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin-bottom:20px;">
+          <div style="background:#f8fafc;padding:12px 14px;border-radius:8px;border:1px solid #e2e8f0;">
+            <div style="font-size:11.5px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;">Supervisor Name</div>
+            <div style="font-size:14px;font-weight:700;color:#0f172a;margin-top:4px;">${E(supName)}</div>
+          </div>
+          <div style="background:#f8fafc;padding:12px 14px;border-radius:8px;border:1px solid #e2e8f0;">
+            <div style="font-size:11.5px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;">Employee ID</div>
+            <div style="font-size:14px;font-weight:700;color:#0f172a;margin-top:4px;font-family:monospace;">${E(empId)}</div>
+          </div>
+          <div style="background:#f8fafc;padding:12px 14px;border-radius:8px;border:1px solid #e2e8f0;">
+            <div style="font-size:11.5px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;">Designation</div>
+            <div style="font-size:14px;font-weight:700;color:#0f172a;margin-top:4px;">${E(desigStr)}</div>
+          </div>
+          <div style="background:#f8fafc;padding:12px 14px;border-radius:8px;border:1px solid #e2e8f0;">
+            <div style="font-size:11.5px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;">Department</div>
+            <div style="font-size:14px;font-weight:700;color:#0f172a;margin-top:4px;">${E(deptStr)}</div>
+          </div>
+          <div style="background:#f8fafc;padding:12px 14px;border-radius:8px;border:1px solid #e2e8f0;">
+            <div style="font-size:11.5px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:0.5px;">Institution / Business Unit</div>
+            <div style="font-size:14px;font-weight:700;color:#0f172a;margin-top:4px;">${E(buStr)}</div>
+          </div>
+        </div>
+
+        <!-- 3 Capacity metrics cards directly from stored database values -->
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;">
+          <div style="background:#f0fdf4;border:1.5px solid #86efac;border-radius:8px;padding:14px;text-align:center;">
+            <div style="font-size:12px;font-weight:700;color:#166534;margin-bottom:4px;">Maximum Scholar Capacity</div>
+            <div style="font-size:26px;font-weight:800;color:#166534;">${E(maxCapStr)}</div>
+            <div style="font-size:11.5px;color:#15803d;margin-top:2px;">Approved Intake Limit</div>
+          </div>
+          <div style="background:#eff6ff;border:1.5px solid #93c5fd;border-radius:8px;padding:14px;text-align:center;">
+            <div style="font-size:12px;font-weight:700;color:#1e40af;margin-bottom:4px;">Current Scholar Count</div>
+            <div style="font-size:26px;font-weight:800;color:#1e40af;">${E(curCountStr)}</div>
+            <div style="font-size:11.5px;color:#2563eb;margin-top:2px;">Currently Guiding</div>
+          </div>
+          <div style="background:#fefce8;border:1.5px solid #fde047;border-radius:8px;padding:14px;text-align:center;">
+            <div style="font-size:12px;font-weight:700;color:#854d0e;margin-bottom:4px;">Available Vacancies</div>
+            <div style="font-size:26px;font-weight:800;color:#854d0e;">${E(vacStr)}</div>
+            <div style="font-size:11.5px;color:#a16207;margin-top:2px;">Open Slots</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Assigned Scholars Table -->
+      <div style="background:#fff;border:1px solid #cbd5e1;border-radius:10px;padding:24px;box-shadow:0 1px 4px rgba(0,0,0,0.05);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px;">
+          <div>
+            <h3 style="margin:0;font-size:17px;color:#0f172a;font-weight:800;">Research Scholars Under This Supervisor</h3>
+            <div style="font-size:12.5px;color:#64748b;margin-top:2px;">Active research scholars currently assigned to this supervisor.</div>
+          </div>
+          <span style="display:inline-block;padding:4px 12px;border-radius:20px;background:#e0f2fe;color:#0369a1;font-size:13px;font-weight:700;">
+            Total Associated Scholars: ${scholars.length}
+          </span>
+        </div>
+        <div style="overflow-x:auto;"><table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <thead><tr style="background:#f8fafc;border-bottom:2px solid #e2e8f0;font-size:12.5px;color:#475569;text-transform:uppercase;">
+            <th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:left;font-weight:700;">S.No</th>
+            <th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:left;font-weight:700;">Scholar Name</th>
+            <th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:left;font-weight:700;">Registration Number</th>
+            <th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:left;font-weight:700;">Department</th>
+            <th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;font-weight:700;">Status (FT/PT)</th>
+            <th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:center;font-weight:700;">Joining Year</th>
+            <th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:left;font-weight:700;">Research Status</th>
+            <th style="padding:10px 14px;border:1px solid #e2e8f0;text-align:left;font-weight:700;">Research Area / Topic</th>
+          </tr></thead>
+          <tbody>${scholarRowsHtml}</tbody>
+        </table></div>
+      </div>
+    </div>`;
+  }
+
+  function showSupervisorProfileView(supId, group) {
+    let sup = null;
+    if (group === 'E&T') {
+      const sups = (window.ET_SUPERVISORS_SCHOLARS && window.ET_SUPERVISORS_SCHOLARS.allSupervisors) || [];
+      sup = sups.find(s => (s.id || s.dbId) === supId || s.name === supId);
+    } else if (group === 'Management') {
+      const sups = (window.MANAGEMENT_RESEARCH_DATA && window.MANAGEMENT_RESEARCH_DATA.supervisors) || [];
+      sup = sups.find(s => (s.id || s.dbId) === supId || s.name === supId);
+    } else {
+      const sups = (window.RESEARCH_DATA && window.RESEARCH_DATA.supervisors) || [];
+      sup = sups.find(s => (s.id || s.dbId) === supId || s.name === supId);
+    }
+    if (!sup && window.SCHOLAR_REPORTS_DATA) {
+      sup = window.SCHOLAR_REPORTS_DATA.getSupervisorById(supId);
+    }
+    if (!sup) {
+      alert('Supervisor record not found.');
+      return;
+    }
+
+    const assigned = getAssignedScholarsForSupervisor(sup, group);
+    const appEl = document.getElementById('app');
+    if (!appEl) return;
+    appEl.innerHTML = renderSupervisorDetailView(sup, assigned, group);
+    const backBtn = document.getElementById('btn-supervisor-detail-back');
+    if (backBtn) {
+      backBtn.onclick = () => show('people');
+    }
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
 
    // ══════════════════════════════════════════════════════════════════════════
   // MANAGEMENT HOME PAGE
@@ -846,12 +1069,35 @@
     },
     people: {
       label: 'Supervisors & scholars (Management)',
-      desc: 'Research supervisors and enrolled PhD scholars for Faculty of Management.',
+      desc: 'Research supervisors and scholar capacities for Faculty of Management.',
       go: 'people',
-      cols: ['Scholar', 'Registration No', 'Department', 'Supervisor', 'Mode'],
-      row: r => `<tr><td class="title-cell">${E(r.name)}</td><td>${E(r.registration) || '—'}</td><td>${E(getMgmtDept(r) || r.department || r.departmentGroup || '—')}</td><td>${E(r.supervisor) || '—'}</td><td><span class="badge ${(r.category||r.mode||'').toLowerCase().includes('full') ? 'granted' : 'published'}">${E(r.category || r.mode || 'Full-time')}</span></td></tr>`,
+      cols: ['Supervisor Name', 'Department', 'Designation', 'Maximum Scholar Capacity', 'Current Scholar Count', 'Available Vacancies'],
+      row: r => {
+        const supId = r.id || r.dbId || '';
+        const supName = r.name || r.supervisorName || r.supervisor || (r.raw && r.raw.supervisor_name) || '—';
+        const supNameHtml = supId
+          ? `<a href="javascript:void(0)" class="link-supervisor-detail" data-sup-id="${E(supId)}" style="color:#0284c7;text-decoration:none;font-weight:700;cursor:pointer;" title="Click to view supervisor details and assigned scholars">${E(supName)} <span style="font-size:11px;color:#0369a1;">↗</span></a>`
+          : `<span style="font-weight:700;color:#0f172a;">${E(supName)}</span>`;
+        const desig = r.designation || (r.raw && r.raw.designation) || '—';
+        const rawCap = r.maximum_scholar_capacity != null ? r.maximum_scholar_capacity : ((r.raw && r.raw.maximum_scholar_capacity != null) ? r.raw.maximum_scholar_capacity : r.maximumScholarCapacity);
+        const maxCapStr = (rawCap != null && rawCap !== '') ? String(rawCap) : '—';
+        const rawCount = r.current_scholar_count != null ? r.current_scholar_count : ((r.raw && r.raw.current_scholar_count != null) ? r.raw.current_scholar_count : r.currentScholarCount);
+        const curCountStr = (rawCount != null && rawCount !== '') ? String(rawCount) : '—';
+        const rawVac = r.available_vacancies != null ? r.available_vacancies : ((r.raw && r.raw.available_vacancies != null) ? r.raw.available_vacancies : r.availableVacancies);
+        const vacStr = (rawVac != null && rawVac !== '') ? String(rawVac) : '—';
+        const deptStr = getMgmtDept(r) || r.department || r.departmentGroup || '—';
+
+        return `<tr>
+          <td class="title-cell">${supNameHtml}</td>
+          <td>${E(deptStr)}</td>
+          <td style="color:#334155;">${E(desig)}</td>
+          <td style="text-align:center;font-weight:600;color:#334155;">${E(maxCapStr)}</td>
+          <td style="text-align:center;font-weight:600;color:#334155;">${E(curCountStr)}</td>
+          <td style="text-align:center;font-weight:700;color:#0284c7;">${E(vacStr)}</td>
+        </tr>`;
+      },
       key: 'supervisor',
-      caption: 'Scholars by supervisor',
+      caption: 'Supervisors by department',
       // cumData is the cumulative dataset (all years ≤ y)
       metrics: (y, a, cumData, cumSupCount) => {
         const cum = cumData || a;
@@ -872,7 +1118,7 @@
     const c = mgmtConfig[type];
     if (!c) return `<div class="empty">Unknown section.</div>`;
     const mgmtBadge = `<span class="badge" style="background:#eef4ff;color:#1E5AA8;border:1px solid #c8d8ed;margin-left:8px;font-size:11.5px;padding:3px 8px;vertical-align:middle;">Management</span>`;
-    return `${intro(c.desc + mgmtBadge)}<div class="filterbar table-filters">${filter(type + '-year')}<input id="${type}-search" placeholder="Search ${type === 'funded' ? 'project or investigator' : type}"></div><div class="metric-grid" id="${type}-kpis"></div><div class="panel-grid" style="grid-template-columns: minmax(250px, 0.7fr) 1.3fr; align-items: start;"><section class="panel focus-panel" style="padding:16px;"><h2>3-Year Trend</h2><p class="sub">Performance across 2024–2026</p><div id="${type}-chart"></div></section><section class="panel" style="padding:16px;"><h2>Department Comparison</h2><p class="sub">Ranked performance for selected year</p><div id="${type}-list"></div></section></div><section style="margin-top:18px"><div class="table-wrap"><table><thead><tr>${c.cols.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody id="${type}-table"></tbody></table></div><p class="footer-note" id="${type}-count"></p></section>`;
+    return `${intro(c.desc + mgmtBadge)}<div class="filterbar table-filters">${filter(type + '-year')}<input id="${type}-search" placeholder="Search ${type === 'funded' ? 'project or investigator' : (type === 'people' ? 'supervisor or department' : type)}"></div><div class="metric-grid" id="${type}-kpis"></div><div class="panel-grid" style="grid-template-columns: minmax(250px, 0.7fr) 1.3fr; align-items: start;"><section class="panel focus-panel" style="padding:16px;"><h2>3-Year Trend</h2><p class="sub">Performance across 2024–2026</p><div id="${type}-chart"></div></section><section class="panel" style="padding:16px;"><h2>Department Comparison</h2><p class="sub">Ranked performance for selected year</p><div id="${type}-list"></div></section></div><section style="margin-top:18px"><div class="table-wrap"><table><thead><tr>${c.cols.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody id="${type}-table"></tbody></table></div><p class="footer-note" id="${type}-count"></p></section>`;
   }
 
   function bindMgmtDetail(type) {
@@ -883,24 +1129,40 @@
 
     const r = () => {
       const y = +yr.value;
-      const base = type === 'people' ? getMgmtPeopleRecords(y) : getMgmtRecords(type === 'funded' ? 'funded' : type, y);
+      const mgmtScope = getManagementScope();
+      const deptLabel = mgmtScope && mgmtScope.dept ? mgmtScope.dept : 'Management';
+
+      let baseRows;
+      if (type === 'people') {
+        const allSups = (window.MANAGEMENT_RESEARCH_DATA && window.MANAGEMENT_RESEARCH_DATA.supervisors) || [];
+        if (mgmtScope && mgmtScope.dept) {
+          baseRows = allSups.filter(r => {
+            const d = (r.department || r.departmentGroup || '').trim().toLowerCase();
+            return d === mgmtScope.dept.toLowerCase() || d.includes(mgmtScope.dept.toLowerCase());
+          });
+        } else {
+          baseRows = allSups.slice();
+        }
+        baseRows = _deduplicateSupervisors(baseRows);
+      } else {
+        baseRows = getMgmtRecords(type === 'funded' ? 'funded' : type, y);
+      }
+
       const z = (search ? search.value : '').toLowerCase();
-      const rows = base.filter(x => !z || Object.values(x).join(' ').toLowerCase().includes(z));
+      const rows = baseRows.filter(x => !z || Object.values(x).join(' ').toLowerCase().includes(z));
 
       // Sort rows by Management sidebar department order
       rows.sort((a, b) => {
         const diff = getMgmtDepartmentOrder(a) - getMgmtDepartmentOrder(b);
         if (diff !== 0) return diff;
-        return 0;
+        return (a.name || a.supervisorName || '').localeCompare(b.name || b.supervisorName || '');
       });
-
-      const mgmtScope = getManagementScope();
-      const deptLabel = mgmtScope && mgmtScope.dept ? mgmtScope.dept : 'Management';
 
       // For 'people': cumulative KPI cards
       const cumData = (type === 'people') ? getMgmtCumulativeScholars(y, false) : null;
       const cumSupCount = (type === 'people') ? getMgmtCumulativeSupervisors(y, false).length : null;
-      document.querySelector('#' + type + '-kpis').innerHTML = c.metrics(y, base, cumData, cumSupCount).map(x => card(x[0], x[1], x[2], c.go)).join('');
+      const kpiBase = (type === 'people') ? getMgmtPeopleRecords(y) : baseRows;
+      document.querySelector('#' + type + '-kpis').innerHTML = c.metrics(y, kpiBase, cumData, cumSupCount).map(x => card(x[0], x[1], x[2], c.go)).join('');
 
       // 3-Year Trend: 2024 bar = all active cohorts enrolled up to 2024 (year ≤ 2024)
       // so that base24 + base25 + base26 == cumulative 2026 total.
@@ -931,12 +1193,24 @@
       }
       document.querySelector('#' + type + '-list').innerHTML = departmentComparisonChart(deptData, 'Departments', '#10b981');
 
-      // Table: always year-only
+      // Table
       const emptyMsg = `No matching ${c.label.toLowerCase()} found for ${y} in ${deptLabel}.`;
       document.querySelector('#' + type + '-table').innerHTML = rows.map(c.row).join('') || `<tr><td colspan="${c.cols.length}" class="empty">${emptyMsg}</td></tr>`;
 
-      const countSuffix = type === 'people' ? ' (table shows selected year only)' : '';
-      document.querySelector('#' + type + '-count').textContent = `Showing ${rows.length} of ${base.length} records for ${y} · ${deptLabel}${countSuffix}`;
+      if (type === 'people') {
+        document.querySelectorAll('#' + type + '-table .link-supervisor-detail').forEach(link => {
+          link.onclick = (e) => {
+            if (e) e.preventDefault();
+            const supId = link.dataset.supId;
+            showSupervisorProfileView(supId, 'Management');
+          };
+        });
+      }
+
+      const countMsg = (type === 'people')
+        ? `Showing ${rows.length} research supervisors · ${deptLabel}` + (mgmtScope && mgmtScope.dept ? ` (filtered)` : ` (all departments in sidebar order)`)
+        : `Showing ${rows.length} of ${baseRows.length} records for ${y} · ${deptLabel}`;
+      document.querySelector('#' + type + '-count').textContent = countMsg;
       document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
     };
     if (search) search.oninput = r;
@@ -1010,12 +1284,35 @@
     },
     people: {
       label: 'Research community (E&T)',
-      desc: 'Research supervisors and enrolled PhD scholars for Faculty of Engineering & Technology (E&T).',
+      desc: 'Research supervisors and scholar capacities for Faculty of Engineering & Technology (E&T).',
       go: 'people',
-      cols: ['Scholar name', 'Application No', 'Program / Department', 'Research supervisor', 'Category'],
-      row: r => `<tr><td class="title-cell">${E(r.scholar)}</td><td>${E(r.applicationNo || '—')}</td><td>${E(getETDept(r) || r.program || r.department || 'Ph.D. E&T')}</td><td>${E(r.supervisor || '—')}</td><td><span class="badge ${r.category ? 'published' : 'granted'}">${E(r.category || 'Ph.D.')}</span></td></tr>`,
+      cols: ['Supervisor Name', 'Department', 'Designation', 'Maximum Scholar Capacity', 'Current Scholar Count', 'Available Vacancies'],
+      row: r => {
+        const supId = r.id || r.dbId || '';
+        const supName = r.name || r.supervisorName || r.supervisor || (r.raw && r.raw.supervisor_name) || '—';
+        const supNameHtml = supId
+          ? `<a href="javascript:void(0)" class="link-supervisor-detail" data-sup-id="${E(supId)}" style="color:#0284c7;text-decoration:none;font-weight:700;cursor:pointer;" title="Click to view supervisor details and assigned scholars">${E(supName)} <span style="font-size:11px;color:#0369a1;">↗</span></a>`
+          : `<span style="font-weight:700;color:#0f172a;">${E(supName)}</span>`;
+        const desig = r.designation || (r.raw && r.raw.designation) || '—';
+        const rawCap = r.maximum_scholar_capacity != null ? r.maximum_scholar_capacity : ((r.raw && r.raw.maximum_scholar_capacity != null) ? r.raw.maximum_scholar_capacity : r.maximumScholarCapacity);
+        const maxCapStr = (rawCap != null && rawCap !== '') ? String(rawCap) : '—';
+        const rawCount = r.current_scholar_count != null ? r.current_scholar_count : ((r.raw && r.raw.current_scholar_count != null) ? r.raw.current_scholar_count : r.currentScholarCount);
+        const curCountStr = (rawCount != null && rawCount !== '') ? String(rawCount) : '—';
+        const rawVac = r.available_vacancies != null ? r.available_vacancies : ((r.raw && r.raw.available_vacancies != null) ? r.raw.available_vacancies : r.availableVacancies);
+        const vacStr = (rawVac != null && rawVac !== '') ? String(rawVac) : '—';
+        const deptStr = getETDept(r) || r.department || r.discipline || '—';
+
+        return `<tr>
+          <td class="title-cell">${supNameHtml}</td>
+          <td>${E(deptStr)}</td>
+          <td style="color:#334155;">${E(desig)}</td>
+          <td style="text-align:center;font-weight:600;color:#334155;">${E(maxCapStr)}</td>
+          <td style="text-align:center;font-weight:600;color:#334155;">${E(curCountStr)}</td>
+          <td style="text-align:center;font-weight:700;color:#0284c7;">${E(vacStr)}</td>
+        </tr>`;
+      },
       key: 'supervisor',
-      caption: 'Supervisors list',
+      caption: 'Supervisors by department',
       getRecords: (y, ignoreScope) => getETPeopleRecords(y, ignoreScope),
       // cumData is the cumulative dataset (all years ≤ y)
       metrics: (y, a, cumData, cumSupCount) => {
@@ -1080,7 +1377,7 @@
     const c = etConfig[type];
     if (!c) return `<div class="empty">Section not available for E&T.</div>`;
     const etBadge = `<span class="badge" style="background:#eef4ff;color:#1E5AA8;border:1px solid #c8d8ed;margin-left:8px;font-size:11.5px;padding:3px 8px;vertical-align:middle;">E&T</span>`;
-    return `${intro(c.desc + etBadge)}<div class="filterbar table-filters">${filter(type + '-year')}<input id="${type}-search" placeholder="Search ${type === 'funded' ? 'project or investigator' : type}"></div><div class="metric-grid" id="${type}-kpis"></div><div class="panel-grid" style="grid-template-columns: minmax(250px, 0.7fr) 1.3fr; align-items: start;"><section class="panel focus-panel" style="padding:16px;"><h2>3-Year Trend</h2><p class="sub">Performance across 2024–2026</p><div id="${type}-chart"></div></section><section class="panel" style="padding:16px;"><h2>Department Comparison</h2><p class="sub">Ranked performance for selected year</p><div id="${type}-list"></div></section></div><section style="margin-top:18px"><div class="table-wrap"><table><thead><tr>${c.cols.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody id="${type}-table"></tbody></table></div><p class="footer-note" id="${type}-count"></p></section>`;
+    return `${intro(c.desc + etBadge)}<div class="filterbar table-filters">${filter(type + '-year')}<input id="${type}-search" placeholder="Search ${type === 'funded' ? 'project or investigator' : (type === 'people' ? 'supervisor or department' : type)}"></div><div class="metric-grid" id="${type}-kpis"></div><div class="panel-grid" style="grid-template-columns: minmax(250px, 0.7fr) 1.3fr; align-items: start;"><section class="panel focus-panel" style="padding:16px;"><h2>3-Year Trend</h2><p class="sub">Performance across 2024–2026</p><div id="${type}-chart"></div></section><section class="panel" style="padding:16px;"><h2>Department Comparison</h2><p class="sub">Ranked performance for selected year</p><div id="${type}-list"></div></section></div><section style="margin-top:18px"><div class="table-wrap"><table><thead><tr>${c.cols.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody id="${type}-table"></tbody></table></div><p class="footer-note" id="${type}-count"></p></section>`;
   }
 
   function bindETDetail(type) {
@@ -1091,24 +1388,37 @@
 
     const r = () => {
       const y = +yr.value;
-      const base = c.getRecords(y);
+      const etScope = getETScope();
+      const deptLabel = etScope && etScope.dept ? etScope.dept : 'E&T';
+
+      let baseRows;
+      if (type === 'people') {
+        const allSups = (window.ET_SUPERVISORS_SCHOLARS && window.ET_SUPERVISORS_SCHOLARS.allSupervisors) || (window.RESEARCH_DATA && window.RESEARCH_DATA.supervisors) || [];
+        if (etScope && etScope.dept) {
+          baseRows = allSups.filter(r => matchETDept(r.department, etScope.dept));
+        } else {
+          baseRows = allSups.slice();
+        }
+        baseRows = _deduplicateSupervisors(baseRows);
+      } else {
+        baseRows = c.getRecords(y);
+      }
+
       const z = search.value.toLowerCase();
-      const rows = base.filter(x => !z || Object.values(x).join(' ').toLowerCase().includes(z));
+      const rows = baseRows.filter(x => !z || Object.values(x).join(' ').toLowerCase().includes(z));
 
       // Sort rows by E&T sidebar department order
       rows.sort((a, b) => {
         const diff = getETDepartmentOrder(a) - getETDepartmentOrder(b);
         if (diff !== 0) return diff;
-        return 0;
+        return (a.name || a.supervisorName || '').localeCompare(b.name || b.supervisorName || '');
       });
-
-      const etScope = getETScope();
-      const deptLabel = etScope && etScope.dept ? etScope.dept : 'E&T';
 
       // For 'people': cumulative KPI cards
       const cumData = (type === 'people') ? getETCumulativeScholars(y, false) : null;
       const cumSupCount = (type === 'people') ? getETCumulativeSupervisors(y, false).length : null;
-      document.querySelector('#' + type + '-kpis').innerHTML = c.metrics(y, base, cumData, cumSupCount).map(x => card(x[0], x[1], x[2], c.go)).join('');
+      const kpiBase = (type === 'people') ? c.getRecords(y) : baseRows;
+      document.querySelector('#' + type + '-kpis').innerHTML = c.metrics(y, kpiBase, cumData, cumSupCount).map(x => card(x[0], x[1], x[2], c.go)).join('');
 
       // 3-Year Trend: 2024 bar = all active cohorts enrolled up to 2024 (year ≤ 2024)
       // so that base24 + base25 + base26 == cumulative 2026 total.
@@ -1146,8 +1456,20 @@
       const emptyMsg = `No matching ${c.label.toLowerCase()} found for ${y} in ${deptLabel}.`;
       document.querySelector('#' + type + '-table').innerHTML = rows.map(c.row).join('') || `<tr><td colspan="${c.cols.length}" class="empty">${emptyMsg}</td></tr>`;
 
-      const countSuffix = type === 'people' ? ' (table shows selected year only)' : '';
-      document.querySelector('#' + type + '-count').textContent = `Showing ${rows.length} of ${base.length} records for ${y} · ${deptLabel}${countSuffix}`;
+      if (type === 'people') {
+        document.querySelectorAll('#' + type + '-table .link-supervisor-detail').forEach(link => {
+          link.onclick = (e) => {
+            if (e) e.preventDefault();
+            const supId = link.dataset.supId;
+            showSupervisorProfileView(supId, 'E&T');
+          };
+        });
+      }
+
+      const countMsg = (type === 'people')
+        ? `Showing ${rows.length} research supervisors · ${deptLabel}` + (etScope && etScope.dept ? ` (filtered)` : ` (all departments in sidebar order)`)
+        : `Showing ${rows.length} of ${baseRows.length} records for ${y} · ${deptLabel}`;
+      document.querySelector('#' + type + '-count').textContent = countMsg;
       document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => show(b.dataset.go));
     };
     if (search) search.oninput = r;
@@ -1280,14 +1602,36 @@
      metrics:(y,a)=>[['Research awards',a.length,'Award records'],['Award recipients',Object.keys(by(a,'faculty')).length,'Faculty recognised'],['Repeat awardees',rank(by(a,'faculty')).filter(x=>x[1]>1).length,'Multiple recognitions']]
    },
    people:{
-     label:'Supervisors & scholars',
-     desc:'Registered research scholars and assigned supervisors (filtered by selected department scope).',
-     go:'people',
-     isInstWide: false,
-     cols:['Scholar','Registration','Department','Supervisor','Mode'],
-     row:r=>`<tr><td class="title-cell">${E(r.name)}</td><td>${E(r.registration)||'—'}</td><td>${E(getFLABSDept(r) || r.departmentGroup || '—')}</td><td>${E(r.supervisor)||'—'}</td><td>${E(r.category)}</td></tr>`,
-     key:'departmentGroup',
-     caption:'Scholars by department',
+      label:'Supervisors & scholars',
+      desc:'Research supervisors and scholar capacities (filtered by selected department scope).',
+      go:'people',
+      isInstWide: false,
+      cols:['Supervisor Name','Department','Designation','Maximum Scholar Capacity','Current Scholar Count','Available Vacancies'],
+      row:r=>{
+        const supId = r.id || r.dbId || '';
+        const supName = r.name || r.supervisorName || r.supervisor || (r.raw && r.raw.supervisor_name) || '\u2014';
+        const supNameHtml = supId
+          ? `<a href="javascript:void(0)" class="link-supervisor-detail" data-sup-id="${E(supId)}" style="color:#0284c7;text-decoration:none;font-weight:700;cursor:pointer;" title="Click to view supervisor details and assigned scholars">${E(supName)} <span style="font-size:11px;color:#0369a1;">\u2197</span></a>`
+          : `<span style="font-weight:700;color:#0f172a;">${E(supName)}</span>`;
+        const desig = r.designation || (r.raw && r.raw.designation) || '\u2014';
+        const rawCap = r.maximum_scholar_capacity != null ? r.maximum_scholar_capacity : ((r.raw && r.raw.maximum_scholar_capacity != null) ? r.raw.maximum_scholar_capacity : r.maximumScholarCapacity);
+        const maxCapStr = (rawCap != null && rawCap !== '') ? String(rawCap) : '\u2014';
+        const rawCount = r.current_scholar_count != null ? r.current_scholar_count : ((r.raw && r.raw.current_scholar_count != null) ? r.raw.current_scholar_count : r.currentScholarCount);
+        const curCountStr = (rawCount != null && rawCount !== '') ? String(rawCount) : '\u2014';
+        const rawVac = r.available_vacancies != null ? r.available_vacancies : ((r.raw && r.raw.available_vacancies != null) ? r.raw.available_vacancies : r.availableVacancies);
+        const vacStr = (rawVac != null && rawVac !== '') ? String(rawVac) : '\u2014';
+        const deptStr = getFLABSDept(r) || r.department || r.departmentGroup || '\u2014';
+        return `<tr>
+          <td class="title-cell">${supNameHtml}</td>
+          <td>${E(deptStr)}</td>
+          <td style="color:#334155;">${E(desig)}</td>
+          <td style="text-align:center;font-weight:600;color:#334155;">${E(maxCapStr)}</td>
+          <td style="text-align:center;font-weight:600;color:#334155;">${E(curCountStr)}</td>
+          <td style="text-align:center;font-weight:700;color:#0284c7;">${E(vacStr)}</td>
+        </tr>`;
+      },
+      key:'departmentGroup',
+      caption:'Supervisors by department',
      // cumData is the cumulative dataset (all years ≤ y); a is still the year-only data used for the table
      metrics:(y, a, cumData, cumSupCount) => {
        const cum = cumData || a;
@@ -1316,36 +1660,48 @@
  };
 
  const options=(rows,key,label)=>`<select id="filter-${key}"><option value="">${label}</option>${Object.keys(by(rows,key)).sort().map(x=>`<option value="${E(x)}">${E(x)}</option>`).join('')}</select>`;
- const extraFilters=type=>type==='publications'?options(D.publications,'journal','All journals')+`<select id="filter-link"><option value="">All link statuses</option><option value="yes">Link available</option><option value="no">No link listed</option></select>`:type==='patents'?options(D.patents,'departmentGroup','All departments')+`<select id="filter-status"><option value="">All patent types</option><option>Granted</option><option>Published</option><option>Not recorded</option></select>`:type==='awards'?options(D.awards,'faculty','All faculty members'):type==='people'?options(D.scholars,'departmentGroup','All departments')+options(D.scholars,'category','All scholar modes')+options(D.scholars,'supervisor','All supervisors'):options(D.funded,'agency','All funding agencies')+options(D.funded,'principalInvestigator','All principal investigators');
+ const extraFilters=type=>type==='publications'?options(D.publications,'journal','All journals')+`<select id="filter-link"><option value="">All link statuses</option><option value="yes">Link available</option><option value="no">No link listed</option></select>`:type==='patents'?options(D.patents,'departmentGroup','All departments')+`<select id="filter-status"><option value="">All patent types</option><option>Granted</option><option>Published</option><option>Not recorded</option></select>`:type==='awards'?options(D.awards,'faculty','All faculty members'):type==='people'?'':options(D.funded,'agency','All funding agencies')+options(D.funded,'principalInvestigator','All principal investigators');
 
    function detail(type){
     let c=config[type];
     const instBadge = c.isInstWide ? '<span class="badge" style="background:#eef4ff;color:#1E5AA8;border:1px solid #c8d8ed;margin-left:8px;font-size:11.5px;padding:3px 8px;vertical-align:middle;">Institution-wide</span>' : '';
-    return `${intro(c.desc + instBadge)}<div class="filterbar table-filters">${filter(type+'-year')}${extraFilters(type)}<input id="${type}-search" placeholder="Search ${type==='people'?'scholar or supervisor':type==='funded'?'project or investigator':type}"></div><div class="metric-grid" id="${type}-kpis"></div><div class="panel-grid" style="grid-template-columns: minmax(250px, 0.7fr) 1.3fr; align-items: start;"><section class="panel focus-panel" style="padding:16px;"><h2>3-Year Trend</h2><p class="sub">Performance across 2024–2026</p><div id="${type}-chart"></div></section><section class="panel" style="padding:16px;"><h2>Department Comparison</h2><p class="sub">Ranked performance for selected year</p><div id="${type}-list"></div></section></div><section style="margin-top:18px"><div class="table-wrap"><table><thead><tr>${c.cols.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody id="${type}-table"></tbody></table></div><p class="footer-note" id="${type}-count"></p></section>`;
+    return `${intro(c.desc + instBadge)}<div class="filterbar table-filters">${filter(type+'-year')}${extraFilters(type)}<input id="${type}-search" placeholder="Search ${type==='people'?'supervisor or department':type==='funded'?'project or investigator':type}"></div><div class="metric-grid" id="${type}-kpis"></div><div class="panel-grid" style="grid-template-columns: minmax(250px, 0.7fr) 1.3fr; align-items: start;"><section class="panel focus-panel" style="padding:16px;"><h2>3-Year Trend</h2><p class="sub">Performance across 2024–2026</p><div id="${type}-chart"></div></section><section class="panel" style="padding:16px;"><h2>Department Comparison</h2><p class="sub">Ranked performance for selected year</p><div id="${type}-list"></div></section></div><section style="margin-top:18px"><div class="table-wrap"><table><thead><tr>${c.cols.map(x => `<th>${x}</th>`).join('')}</tr></thead><tbody id="${type}-table"></tbody></table></div><p class="footer-note" id="${type}-count"></p></section>`;
   }
 
   function bindDetail(type){
     let c=config[type],yr=document.querySelector('#'+type+'-year'),search=document.querySelector('#'+type+'-search'),all=records[type],selects=[...document.querySelectorAll('.table-filters select')];
     let r=()=>{
       let y=+yr.value;
-      let base=getScopedRecords(type, all, y);
       let z=search.value.toLowerCase();
       let get=id=>document.querySelector(id)?.value||'';
+
+      // For 'people': use FLABS supervisor list (dept-filtered), not scholar list
+      let base;
+      if (type === 'people') {
+        const dept = window.SRM_SCOPE && window.SRM_SCOPE.getSelectedDept();
+        const allSups = (window.RESEARCH_DATA && window.RESEARCH_DATA.supervisors) || [];
+        let filteredSups = dept ? window.SRM_SCOPE.filterResearchCommunityByDepartment(allSups, dept) : allSups.slice();
+        base = _deduplicateSupervisors(filteredSups);
+      } else {
+        base = getScopedRecords(type, all, y);
+      }
 
       let rows=base.filter(x=>{
         if(z&&!Object.values(x).join(' ').toLowerCase().includes(z))return false;
         if(type==='publications')return(!get('#filter-journal')||x.journal===get('#filter-journal'))&&(!get('#filter-link')||(get('#filter-link')==='yes')===Boolean(x.link));
         if(type==='patents')return(!get('#filter-departmentGroup')||x.departmentGroup===get('#filter-departmentGroup'))&&(!get('#filter-status')||x.status===get('#filter-status'));
         if(type==='awards')return!get('#filter-faculty')||x.faculty===get('#filter-faculty');
-        if(type==='people')return(!get('#filter-departmentGroup')||x.departmentGroup===get('#filter-departmentGroup'))&&(!get('#filter-category')||x.category===get('#filter-category'))&&(!get('#filter-supervisor')||x.supervisor===get('#filter-supervisor'));
+        if(type==='people')return true; // supervisors: filtered via sidebar dept, no extra dropdown filters
         return(!get('#filter-agency')||x.agency===get('#filter-agency'))&&(!get('#filter-principalInvestigator')||x.principalInvestigator===get('#filter-principalInvestigator'));
       });
 
-      // Sort rows by FLABS sidebar department order
+      // Sort rows by FLABS sidebar department order, then by name
       rows.sort((a, b) => {
         const diff = getFLABSDepartmentOrder(a) - getFLABSDepartmentOrder(b);
         if (diff !== 0) return diff;
-        return 0;
+        const nameA = (a.name || a.supervisorName || a.supervisor || '').toLowerCase();
+        const nameB = (b.name || b.supervisorName || b.supervisor || '').toLowerCase();
+        return nameA.localeCompare(nameB);
       });
 
       const dept = window.SRM_SCOPE && window.SRM_SCOPE.getSelectedDept();
@@ -1402,7 +1758,19 @@
        
      document.querySelector('#'+type+'-table').innerHTML=rows.map(c.row).join('')||`<tr><td colspan="${c.cols.length}" class="empty">${emptyMsg}</td></tr>`;
 
-     let countMsg = `Showing ${rows.length} of ${base.length} detailed records for ${y} (table shows selected year only).`;
+     // For 'people' (FLABS): bind supervisor detail click links
+     if (type === 'people') {
+       document.querySelectorAll('#people-table .link-supervisor-detail').forEach(link => {
+         link.onclick = (ev) => {
+           if (ev) ev.preventDefault();
+           showSupervisorProfileView(link.dataset.supId, 'FLABS');
+         };
+       });
+     }
+
+     let countMsg = type === 'people'
+       ? `Showing ${rows.length} supervisor${rows.length !== 1 ? 's' : ''}.`
+       : `Showing ${rows.length} of ${base.length} detailed records for ${y} (table shows selected year only).`;
      if (c.isInstWide) {
        countMsg += ' · (Institution-wide dataset)';
      } else if (dept) {
