@@ -694,8 +694,7 @@
       metrics: (y, a) => [
         ['Funded projects', a.length, 'Dept-filtered total'],
         ['Detailed projects', a.length, 'Available records'],
-        ['Funding agencies', Object.keys(by(a, 'agency')).length, 'Supporting agencies'],
-        ['Selected year', y, 'Current filter']
+        ['Funding agencies', Object.keys(by(a, 'agency')).length, 'Supporting agencies']
       ]
     },
     people: {
@@ -837,8 +836,7 @@
       metrics: (y, a) => [
         ['Funded projects', a.length, 'Year total'],
         ['Detailed projects', a.length, 'Available records'],
-        ['Funding agencies', Object.keys(by(a, 'agency')).length, 'Supporting agencies'],
-        ['Selected year', y, 'Current filter']
+        ['Funding agencies', Object.keys(by(a, 'agency')).length, 'Supporting agencies']
       ]
     },
     consultancy: {
@@ -853,8 +851,7 @@
       metrics: (y, a) => [
         ['Consultancy projects', a.length, 'Year total for ' + y],
         ['Detailed projects', a.length, 'Available records'],
-        ['Clients / Agencies', Object.keys(by(a, 'agency')).length, 'Partner organizations'],
-        ['Selected year', y, 'Current filter']
+        ['Clients / Agencies', Object.keys(by(a, 'agency')).length, 'Partner organizations']
       ]
     },
     people: {
@@ -1119,7 +1116,7 @@
      row:r=>`<tr><td>${r.year}</td><td>${E(r.faculty)}</td><td class="title-cell">${E(r.award)}</td></tr>`,
      key:'faculty',
      caption:'Selected-year awardees',
-     metrics:(y,a)=>[['Research awards',a.length,'Award records'],['Award recipients',Object.keys(by(a,'faculty')).length,'Faculty recognised'],['Repeat awardees',rank(by(a,'faculty')).filter(x=>x[1]>1).length,'Multiple recognitions'],['Selected year',y,'Current filter']]
+     metrics:(y,a)=>[['Research awards',a.length,'Award records'],['Award recipients',Object.keys(by(a,'faculty')).length,'Faculty recognised'],['Repeat awardees',rank(by(a,'faculty')).filter(x=>x[1]>1).length,'Multiple recognitions']]
    },
    people:{
      label:'Supervisors & scholars',
@@ -1153,7 +1150,7 @@
      row:r=>`<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator)||'—'}</td><td>${E(r.departmentGroup || r.department)||'—'}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
      key:'agency',
      caption:'Funding agencies',
-     metrics:(y,a)=>[['Funded projects',a.length,'Institution-wide total'],['Detailed projects',a.length,'Available records'],['Funding agencies',Object.keys(by(a,'agency')).length,'Supporting agencies'],['Selected year',y,'Current filter']]
+     metrics:(y,a)=>[['Funded projects',a.length,'Institution-wide total'],['Detailed projects',a.length,'Available records'],['Funding agencies',Object.keys(by(a,'agency')).length,'Supporting agencies']]
    }
  };
 
