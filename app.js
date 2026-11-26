@@ -175,6 +175,152 @@
     return null;
   }
 
+  // ── Canonical Sidebar Department Sequences & Resolvers ─────────────────────
+  const FLABS_SIDEBAR_DEPTS = [
+    'MCA & MCA Gen AI',
+    'BCA & BCA Gen AI',
+    'Data Science',
+    'Computer Science',
+    'Computer Science (Batch II)',
+    'Cyber Security',
+    'AI & ML',
+    'Mathematics',
+    'Biotechnology & Psychology',
+    'Commerce General (Batch I)',
+    'Commerce General & CS (Batch II)',
+    'Commerce A & F',
+    'Commerce PA & ISM',
+    'Fashion Designing',
+    'Visual Communication',
+    'LCS'
+  ];
+
+  const ET_SIDEBAR_DEPTS = [
+    'CSE',
+    'AIML & AI',
+    'BDA&CC',
+    'IOT&CSBS',
+    'CSE-CS',
+    'CSE-GT',
+    'MECH',
+    'IT',
+    'ECE',
+    'EEE',
+    'PHY',
+    'CIVIL',
+    'BME',
+    'CHEM',
+    'EFL',
+    'MATHS',
+    'BIOTECH'
+  ];
+
+  const MGMT_SIDEBAR_DEPTS = [
+    'BBA',
+    'MBA'
+  ];
+
+  function getFLABSDept(r) {
+    if (!r) return '';
+    const raw = (r.departmentGroup || r.department || r['Department'] || r['Dept.'] || r['Department of Authors'] || '').trim();
+    if (!raw) return '';
+    const rawLower = raw.toLowerCase().trim();
+    for (const d of FLABS_SIDEBAR_DEPTS) {
+      if (d.toLowerCase() === rawLower) return d;
+    }
+    if (window.SRM_SCOPE && window.SRM_SCOPE.FLABS_DEPARTMENTS) {
+      for (const d of window.SRM_SCOPE.FLABS_DEPARTMENTS) {
+        if (d.label.toLowerCase() === rawLower) return d.label;
+        const allAliases = [
+          ...(d.publicationAliases || []),
+          ...(d.patentAliases || []),
+          ...(d.scholarAliases || [])
+        ].map(a => a.toLowerCase().trim());
+        if (allAliases.includes(rawLower)) return d.label;
+      }
+    }
+    if (rawLower === 'mca' || rawLower === 'computer science and applications') return 'MCA & MCA Gen AI';
+    if (rawLower === 'bca' || rawLower === 'bca data science') return 'BCA & BCA Gen AI';
+    if (rawLower === 'data sciences') return 'Data Science';
+    if (rawLower === 'b.sc computer science') return 'Computer Science';
+    if (rawLower === 'b.sc cyber security') return 'Cyber Security';
+    if (rawLower === 'ai&ml' || rawLower === 'b.sc. (ai & ml)' || rawLower === 'dept of ai ml') return 'AI & ML';
+    if (rawLower === 'biotechnology' || rawLower === 'psychology') return 'Biotechnology & Psychology';
+    if (rawLower === 'commerce' || rawLower === 'commerce- shift 1' || rawLower === 'commerce shift 1 gen' || rawLower === 'commerce shift i' || rawLower === 'commerce shift1' || rawLower === 'department of commerce') return 'Commerce General (Batch I)';
+    if (rawLower === 'commerce (shift 2 cs)' || rawLower === 'commerce (shift 2 gen)' || rawLower === 'commerce -shift ii' || rawLower === 'commerce shift ii gen' || rawLower === 'commerce shift ii' || rawLower === 'commerce shift2') return 'Commerce General & CS (Batch II)';
+    if (rawLower === 'a&f' || rawLower === 'commerce (a&f)' || rawLower === 'commerce - af' || rawLower === 'commerce(a&f)' || rawLower === 'commerce (accounting &finance)') return 'Commerce A & F';
+    if (rawLower === 'ism' || rawLower === 'pa, ism, iaf & sf' || rawLower === 'commerce - ism,pa & iaf' || rawLower === 'commerce - pa,ism,iaf' || rawLower === 'commerce ism, pa & iaf' || rawLower === 'commerce (pa & ism)') return 'Commerce PA & ISM';
+    if (rawLower === 'viscom' || rawLower === 'visual communicatino' || rawLower === 'department of viscom') return 'Visual Communication';
+    if (rawLower === 'lcs (english)' || rawLower === 'lcs (tamil)' || rawLower === 'lcs - english' || rawLower === 'tamil' || rawLower === 'department of tamil') return 'LCS';
+    return raw;
+  }
+
+  function getFLABSDepartmentOrder(r) {
+    const d = getFLABSDept(r);
+    const idx = FLABS_SIDEBAR_DEPTS.indexOf(d);
+    return idx !== -1 ? idx : 999;
+  }
+
+  function getETDept(r) {
+    if (!r) return '';
+    let raw = (r.departmentGroup || r.department || r.dept || r._source_department || r['Dept.'] || r['Department of Authors'] || r['Claiming Author Department'] || r.program || '').trim();
+    if (!raw && typeof normalizeETDepartment === 'function') {
+      raw = normalizeETDepartment(r) || '';
+    }
+    if (!raw) return '';
+    const rawLower = raw.toLowerCase().trim();
+    for (const d of ET_SIDEBAR_DEPTS) {
+      if (d.toLowerCase() === rawLower) return d;
+    }
+    if (window.SRM_SCOPE && window.SRM_SCOPE.ENT_DEPARTMENTS) {
+      for (const d of window.SRM_SCOPE.ENT_DEPARTMENTS) {
+        if (d.label.toLowerCase() === rawLower) return d.label;
+        const allAliases = [...(d.patentAliases || []), ...(d.scholarAliases || [])].map(a => a.toLowerCase().trim());
+        if (allAliases.includes(rawLower)) return d.label;
+      }
+    }
+    if (rawLower === 'cse' || rawLower === 'cse core' || rawLower === 'cs' || rawLower === 'computer science and engineering') return 'CSE';
+    if (rawLower.includes('aiml') || rawLower.includes('ai & ml') || rawLower.includes('ai&ml') || rawLower === 'aiml & ai' || rawLower === 'cse-aiml') return 'AIML & AI';
+    if (rawLower.includes('bda') || rawLower.includes('big data') || rawLower === 'bda&cc' || rawLower === 'scse(bda&cc)' || rawLower === 'cse - bda' || rawLower === 'cse-bda') return 'BDA&CC';
+    if (rawLower.includes('iot') || rawLower.includes('csbs') || rawLower === 'iot&csbs' || rawLower.includes('cse-iot')) return 'IOT&CSBS';
+    if (rawLower === 'cse-cs' || rawLower === 'cse cs') return 'CSE-CS';
+    if (rawLower === 'cse-gt' || rawLower === 'cse gt' || rawLower.includes('gaming')) return 'CSE-GT';
+    if (rawLower === 'mechanical' || rawLower === 'mech' || rawLower.includes('mechanical')) return 'MECH';
+    if (rawLower === 'it' || rawLower.includes('information tech')) return 'IT';
+    if (rawLower === 'ece' || rawLower.includes('electronics and comm') || rawLower.includes('electronics & communication')) return 'ECE';
+    if (rawLower === 'eee' || rawLower.includes('electrical')) return 'EEE';
+    if (rawLower === 'physics' || rawLower === 'phy') return 'PHY';
+    if (rawLower === 'civil' || rawLower.includes('civil engineering')) return 'CIVIL';
+    if (rawLower === 'biomedical' || rawLower === 'bme' || rawLower.includes('biomedical engineering')) return 'BME';
+    if (rawLower === 'chemistry' || rawLower === 'chem') return 'CHEM';
+    if (rawLower === 'efl' || rawLower === 'english' || rawLower.includes('foreign languages') || rawLower === 'lcs/efl' || rawLower === 'lcs') return 'EFL';
+    if (rawLower === 'mathematics' || rawLower === 'maths') return 'MATHS';
+    if (rawLower === 'biotechnology' || rawLower === 'biotech' || rawLower.includes('bio tech')) return 'BIOTECH';
+    return raw;
+  }
+
+  function getETDepartmentOrder(r) {
+    const d = getETDept(r);
+    const idx = ET_SIDEBAR_DEPTS.indexOf(d);
+    return idx !== -1 ? idx : 999;
+  }
+
+  function getMgmtDept(r) {
+    if (!r) return '';
+    let raw = (r.department || r.departmentGroup || r['Department'] || '').trim();
+    if (!raw) return '';
+    const rawLower = raw.toLowerCase().trim();
+    if (rawLower.includes('bba')) return 'BBA';
+    if (rawLower.includes('mba')) return 'MBA';
+    return raw;
+  }
+
+  function getMgmtDepartmentOrder(r) {
+    const d = getMgmtDept(r);
+    const idx = MGMT_SIDEBAR_DEPTS.indexOf(d);
+    return idx !== -1 ? idx : 999;
+  }
+
   // ── E&T Data Filtering & Normalization ────────────────────────────────────
   function normET(r, fallbackYear) {
     const y = r._year || r.year || parseInt(r.Year) || fallbackYear;
@@ -182,8 +328,9 @@
     const authors = r.authors || r['Authors (ALL)'] || r.Authors || r['Name of Claiming Author'] || '—';
     const journal = r.journal || r['Journal Name'] || r['Source title/Journal Name'] || r['Name of the Journal'] || '—';
     const link = r.link || r['Paper Link'] || r['SCOPUS Article Link'] || r['DOI/LINK'] || r.DOI || r['First Page of the Paper LINK'] || '';
-    const dept = r.department || r.dept || r._source_department || r['Dept.'] || r['Department of Authors'] || r['Claiming Author Department'] || '';
-    return { year: y, title, authors, journal, link, dept };
+    const rawDept = r.department || r.dept || r._source_department || r['Dept.'] || r['Department of Authors'] || r['Claiming Author Department'] || '';
+    const dept = getETDept({ department: rawDept, dept: rawDept }) || rawDept;
+    return { year: y, title, authors, journal, link, dept, department: dept, departmentGroup: dept };
   }
 
 
@@ -659,8 +806,8 @@
       label: 'Publications (Management)',
       desc: 'Publications by Faculty of Management researchers, filtered by selected department.',
       go: 'publications',
-      cols: ['Year', 'Publication', 'Authors', 'Journal', 'Link'],
-      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.authors)}</td><td>${E(r.journal || r.journal_name)}</td><td>${link(r.link || r.publication_link)}</td></tr>`,
+      cols: ['Year', 'Publication', 'Department', 'Authors', 'Journal', 'Link'],
+      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(getMgmtDept(r) || '—')}</td><td>${E(r.authors)}</td><td>${E(r.journal || r.journal_name)}</td><td>${link(r.link || r.publication_link)}</td></tr>`,
       key: 'journal',
       caption: 'Leading journals',
       metrics: (y, a) => [
@@ -673,7 +820,7 @@
       desc: 'Patents filed and granted by Faculty of Management researchers, filtered by selected department.',
       go: 'patents',
       cols: ['Year', 'Patent title', 'Department', 'Inventor(s)', 'Status'],
-      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.department || r.departmentGroup)}</td><td>${E(r.inventors || r.inventor_name)}</td><td><span class="badge ${(r.status||'').toLowerCase()}">${E(r.status)}</span></td></tr>`,
+      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(getMgmtDept(r) || r.department || r.departmentGroup || '—')}</td><td>${E(r.inventors || r.inventor_name)}</td><td><span class="badge ${(r.status||'').toLowerCase()}">${E(r.status)}</span></td></tr>`,
       key: 'department',
       caption: 'Patent status breakdown',
       metrics: (y, a) => [
@@ -688,7 +835,7 @@
       desc: 'Research funding awarded to Faculty of Management, filtered by selected department.',
       go: 'funded',
       cols: ['Year', 'Project', 'Principal investigator', 'Department', 'Funding agency', 'Amount', 'Status'],
-      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator || r.investigator_name) || '—'}</td><td>${E(r.department || r.departmentGroup) || '—'}</td><td>${E(r.agency || r.funding_agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
+      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator || r.investigator_name) || '—'}</td><td>${E(getMgmtDept(r) || r.department || r.departmentGroup || '—')}</td><td>${E(r.agency || r.funding_agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
       key: 'agency',
       caption: 'Funding agencies',
       metrics: (y, a) => [
@@ -702,7 +849,7 @@
       desc: 'Research supervisors and enrolled PhD scholars for Faculty of Management.',
       go: 'people',
       cols: ['Scholar', 'Registration No', 'Department', 'Supervisor', 'Mode'],
-      row: r => `<tr><td class="title-cell">${E(r.name)}</td><td>${E(r.registration) || '—'}</td><td>${E(r.department || r.departmentGroup) || '—'}</td><td>${E(r.supervisor) || '—'}</td><td><span class="badge ${(r.category||r.mode||'').toLowerCase().includes('full') ? 'granted' : 'published'}">${E(r.category || r.mode || 'Full-time')}</span></td></tr>`,
+      row: r => `<tr><td class="title-cell">${E(r.name)}</td><td>${E(r.registration) || '—'}</td><td>${E(getMgmtDept(r) || r.department || r.departmentGroup || '—')}</td><td>${E(r.supervisor) || '—'}</td><td><span class="badge ${(r.category||r.mode||'').toLowerCase().includes('full') ? 'granted' : 'published'}">${E(r.category || r.mode || 'Full-time')}</span></td></tr>`,
       key: 'supervisor',
       caption: 'Scholars by supervisor',
       // cumData is the cumulative dataset (all years ≤ y)
@@ -739,6 +886,13 @@
       const base = type === 'people' ? getMgmtPeopleRecords(y) : getMgmtRecords(type === 'funded' ? 'funded' : type, y);
       const z = (search ? search.value : '').toLowerCase();
       const rows = base.filter(x => !z || Object.values(x).join(' ').toLowerCase().includes(z));
+
+      // Sort rows by Management sidebar department order
+      rows.sort((a, b) => {
+        const diff = getMgmtDepartmentOrder(a) - getMgmtDepartmentOrder(b);
+        if (diff !== 0) return diff;
+        return 0;
+      });
 
       const mgmtScope = getManagementScope();
       const deptLabel = mgmtScope && mgmtScope.dept ? mgmtScope.dept : 'Management';
@@ -798,8 +952,8 @@
       label: 'Publications (E&T)',
       desc: 'Scopus & Indexed Publications for Faculty of Engineering & Technology (E&T).',
       go: 'publications',
-      cols: ['Year', 'Publication', 'Authors', 'Journal', 'Link'],
-      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.authors)}</td><td>${E(r.journal)}</td><td>${link(r.link)}</td></tr>`,
+      cols: ['Year', 'Publication', 'Department', 'Authors', 'Journal', 'Link'],
+      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(getETDept(r) || '—')}</td><td>${E(r.authors)}</td><td>${E(r.journal)}</td><td>${link(r.link)}</td></tr>`,
       key: 'journal',
       caption: 'Leading journals',
       getRecords: (y, ignoreScope) => getETPublications(y, ignoreScope),
@@ -813,7 +967,7 @@
       desc: 'Patents filed and granted by Faculty of Engineering & Technology (E&T) researchers.',
       go: 'patents',
       cols: ['Year', 'Patent title', 'Department', 'Inventor(s)', 'Status'],
-      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.departmentGroup)}</td><td>${E(r.inventors)}</td><td><span class="badge ${(r.status||'').toLowerCase()}">${E(r.status)}</span></td></tr>`,
+      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(getETDept(r) || r.departmentGroup || '—')}</td><td>${E(r.inventors)}</td><td><span class="badge ${(r.status||'').toLowerCase()}">${E(r.status)}</span></td></tr>`,
       key: 'departmentGroup',
       caption: 'Patent status breakdown',
       getRecords: (y, ignoreScope) => getETPatents(y, ignoreScope),
@@ -829,7 +983,7 @@
       desc: 'Research funding awarded to Faculty of Engineering & Technology (E&T).',
       go: 'funded',
       cols: ['Year', 'Project', 'Principal investigator', 'Department', 'Funding agency', 'Amount', 'Status'],
-      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator)}</td><td>${E(r.departmentGroup || r.department)||'—'}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
+      row: r => `<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator)}</td><td>${E(getETDept(r) || r.departmentGroup || r.department || '—')}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
       key: 'agency',
       caption: 'Funding agencies',
       getRecords: (y, ignoreScope) => getETFunded(y, ignoreScope),
@@ -859,7 +1013,7 @@
       desc: 'Research supervisors and enrolled PhD scholars for Faculty of Engineering & Technology (E&T).',
       go: 'people',
       cols: ['Scholar name', 'Application No', 'Program / Department', 'Research supervisor', 'Category'],
-      row: r => `<tr><td class="title-cell">${E(r.scholar)}</td><td>${E(r.applicationNo || '—')}</td><td>${E(r.program || r.department || 'Ph.D. E&T')}</td><td>${E(r.supervisor || '—')}</td><td><span class="badge ${r.category ? 'published' : 'granted'}">${E(r.category || 'Ph.D.')}</span></td></tr>`,
+      row: r => `<tr><td class="title-cell">${E(r.scholar)}</td><td>${E(r.applicationNo || '—')}</td><td>${E(getETDept(r) || r.program || r.department || 'Ph.D. E&T')}</td><td>${E(r.supervisor || '—')}</td><td><span class="badge ${r.category ? 'published' : 'granted'}">${E(r.category || 'Ph.D.')}</span></td></tr>`,
       key: 'supervisor',
       caption: 'Supervisors list',
       getRecords: (y, ignoreScope) => getETPeopleRecords(y, ignoreScope),
@@ -940,6 +1094,13 @@
       const base = c.getRecords(y);
       const z = search.value.toLowerCase();
       const rows = base.filter(x => !z || Object.values(x).join(' ').toLowerCase().includes(z));
+
+      // Sort rows by E&T sidebar department order
+      rows.sort((a, b) => {
+        const diff = getETDepartmentOrder(a) - getETDepartmentOrder(b);
+        if (diff !== 0) return diff;
+        return 0;
+      });
 
       const etScope = getETScope();
       const deptLabel = etScope && etScope.dept ? etScope.dept : 'E&T';
@@ -1090,8 +1251,8 @@
      desc:'Scopus-indexed publications (filtered by selected department scope).',
      go:'publications',
      isInstWide: false,
-     cols:['Year','Publication','Authors','Journal','Link'],
-     row:r=>`<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.authors)}</td><td>${E(r.journal)}</td><td>${link(r.link)}</td></tr>`,
+     cols:['Year','Publication','Department','Authors','Journal','Link'],
+     row:r=>`<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(getFLABSDept(r) || '—')}</td><td>${E(r.authors)}</td><td>${E(r.journal)}</td><td>${link(r.link)}</td></tr>`,
      key:'journal',
      caption:'Leading journals',
      metrics:(y,a)=>[['Publications',a.length,'Year total'],['Journals',Object.keys(by(a,'journal')).length,'Represented journals']]
@@ -1102,7 +1263,7 @@
      go:'patents',
      isInstWide: false,
      cols:['Year','Patent title','Department','Inventor(s)','Status'],
-     row:r=>`<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.departmentGroup)}</td><td>${E(r.inventors)}</td><td><span class="badge ${r.status.toLowerCase()}">${E(r.status)}</span></td></tr>`,
+     row:r=>`<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(getFLABSDept(r) || r.departmentGroup || '—')}</td><td>${E(r.inventors)}</td><td><span class="badge ${r.status.toLowerCase()}">${E(r.status)}</span></td></tr>`,
      key:'departmentGroup',
      caption:'Leading departments',
      metrics:(y,a)=>[['Patent records',a.length,'Year total'],['Granted patents',a.filter(x=>x.status==='Granted').length,'Granted status'],['Published patents',a.filter(x=>x.status==='Published').length,'Published status'],['Contributing groups',Object.keys(by(a,'departmentGroup')).length,'Department groups']]
@@ -1124,7 +1285,7 @@
      go:'people',
      isInstWide: false,
      cols:['Scholar','Registration','Department','Supervisor','Mode'],
-     row:r=>`<tr><td class="title-cell">${E(r.name)}</td><td>${E(r.registration)||'—'}</td><td>${E(r.departmentGroup)}</td><td>${E(r.supervisor)||'—'}</td><td>${E(r.category)}</td></tr>`,
+     row:r=>`<tr><td class="title-cell">${E(r.name)}</td><td>${E(r.registration)||'—'}</td><td>${E(getFLABSDept(r) || r.departmentGroup || '—')}</td><td>${E(r.supervisor)||'—'}</td><td>${E(r.category)}</td></tr>`,
      key:'departmentGroup',
      caption:'Scholars by department',
      // cumData is the cumulative dataset (all years ≤ y); a is still the year-only data used for the table
@@ -1147,7 +1308,7 @@
      go:'funded',
      isInstWide: true,
      cols:['Year','Project','Principal investigator','Department','Funding agency','Amount','Status'],
-     row:r=>`<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator)||'—'}</td><td>${E(r.departmentGroup || r.department)||'—'}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
+     row:r=>`<tr><td>${r.year}</td><td class="title-cell">${E(r.title)}</td><td>${E(r.principalInvestigator)||'—'}</td><td>${E(getFLABSDept(r) || r.departmentGroup || r.department || '—')}</td><td>${E(r.agency)}</td><td>${E(r.amount)}</td><td>${formatFundedStatus(r.status)}</td></tr>`,
      key:'agency',
      caption:'Funding agencies',
      metrics:(y,a)=>[['Funded projects',a.length,'Institution-wide total'],['Detailed projects',a.length,'Available records'],['Funding agencies',Object.keys(by(a,'agency')).length,'Supporting agencies']]
@@ -1178,6 +1339,13 @@
         if(type==='awards')return!get('#filter-faculty')||x.faculty===get('#filter-faculty');
         if(type==='people')return(!get('#filter-departmentGroup')||x.departmentGroup===get('#filter-departmentGroup'))&&(!get('#filter-category')||x.category===get('#filter-category'))&&(!get('#filter-supervisor')||x.supervisor===get('#filter-supervisor'));
         return(!get('#filter-agency')||x.agency===get('#filter-agency'))&&(!get('#filter-principalInvestigator')||x.principalInvestigator===get('#filter-principalInvestigator'));
+      });
+
+      // Sort rows by FLABS sidebar department order
+      rows.sort((a, b) => {
+        const diff = getFLABSDepartmentOrder(a) - getFLABSDepartmentOrder(b);
+        if (diff !== 0) return diff;
+        return 0;
       });
 
       const dept = window.SRM_SCOPE && window.SRM_SCOPE.getSelectedDept();
