@@ -1250,10 +1250,13 @@
       const z = (search ? search.value : '').toLowerCase();
       const rows = baseRows.filter(x => !z || Object.values(x).join(' ').toLowerCase().includes(z));
 
-      // Sort rows by Management sidebar department order
+      // Sort rows by Management sidebar department order, then by designation rank, then by name
+      const _desigRankMgmt = d => { const s = (d || '').toLowerCase(); if (s.startsWith('professor') || s === 'prof') return 1; if (s.includes('associate')) return 2; if (s.includes('assistant')) return 3; return 4; };
       rows.sort((a, b) => {
         const diff = getMgmtDepartmentOrder(a) - getMgmtDepartmentOrder(b);
         if (diff !== 0) return diff;
+        const desigDiff = _desigRankMgmt(a.designation || (a.raw && a.raw.designation)) - _desigRankMgmt(b.designation || (b.raw && b.raw.designation));
+        if (desigDiff !== 0) return desigDiff;
         return (a.name || a.supervisorName || '').localeCompare(b.name || b.supervisorName || '');
       });
 
@@ -1506,10 +1509,13 @@
       const z = search.value.toLowerCase();
       const rows = baseRows.filter(x => !z || Object.values(x).join(' ').toLowerCase().includes(z));
 
-      // Sort rows by E&T sidebar department order
+      // Sort rows by E&T sidebar department order, then by designation rank, then by name
+      const _desigRankET = d => { const s = (d || '').toLowerCase(); if (s.startsWith('professor') || s === 'prof') return 1; if (s.includes('associate')) return 2; if (s.includes('assistant')) return 3; return 4; };
       rows.sort((a, b) => {
         const diff = getETDepartmentOrder(a) - getETDepartmentOrder(b);
         if (diff !== 0) return diff;
+        const desigDiff = _desigRankET(a.designation || (a.raw && a.raw.designation)) - _desigRankET(b.designation || (b.raw && b.raw.designation));
+        if (desigDiff !== 0) return desigDiff;
         return (a.name || a.supervisorName || '').localeCompare(b.name || b.supervisorName || '');
       });
 
@@ -1794,10 +1800,13 @@
         return(!get('#filter-agency')||x.agency===get('#filter-agency'))&&(!get('#filter-principalInvestigator')||x.principalInvestigator===get('#filter-principalInvestigator'));
       });
 
-      // Sort rows by FLABS sidebar department order, then by name
+      // Sort rows by FLABS sidebar department order, then by designation rank, then by name
+      const _desigRankFLABS = d => { const s = (d || '').toLowerCase(); if (s.startsWith('professor') || s === 'prof') return 1; if (s.includes('associate')) return 2; if (s.includes('assistant')) return 3; return 4; };
       rows.sort((a, b) => {
         const diff = getFLABSDepartmentOrder(a) - getFLABSDepartmentOrder(b);
         if (diff !== 0) return diff;
+        const desigDiff = _desigRankFLABS(a.designation || (a.raw && a.raw.designation)) - _desigRankFLABS(b.designation || (b.raw && b.raw.designation));
+        if (desigDiff !== 0) return desigDiff;
         const nameA = (a.name || a.supervisorName || a.supervisor || '').toLowerCase();
         const nameB = (b.name || b.supervisorName || b.supervisor || '').toLowerCase();
         return nameA.localeCompare(nameB);
