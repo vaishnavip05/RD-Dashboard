@@ -1801,10 +1801,26 @@
       });
 
       // Sort rows by FLABS sidebar department order, then by designation rank, then by name
+      // Special pinned order for MCA department: Dhilipan(1), Kalaiselvi(2), Agusthiyar(3), Umarani(4)
       const _desigRankFLABS = d => { const s = (d || '').toLowerCase(); if (s.startsWith('professor') || s === 'prof') return 1; if (s.includes('associate')) return 2; if (s.includes('assistant')) return 3; return 4; };
+      const _mcaPinnedRank = name => {
+        const n = (name || '').toLowerCase();
+        if (n.includes('dhilipan')) return 1;
+        if (n.includes('kalaiselvi')) return 2;
+        if (n.includes('agusthiyar')) return 3;
+        if (n.includes('umarani')) return 4;
+        return 99;
+      };
+      const _isMCADept = r => { const d = (r.department || r.departmentGroup || '').toLowerCase(); return d.includes('mca'); };
       rows.sort((a, b) => {
         const diff = getFLABSDepartmentOrder(a) - getFLABSDepartmentOrder(b);
         if (diff !== 0) return diff;
+        // Within MCA: pinned order for the 4 specified supervisors first
+        if (_isMCADept(a) && _isMCADept(b)) {
+          const aPin = _mcaPinnedRank(a.name || a.supervisorName || a.supervisor);
+          const bPin = _mcaPinnedRank(b.name || b.supervisorName || b.supervisor);
+          if (aPin !== bPin) return aPin - bPin;
+        }
         const desigDiff = _desigRankFLABS(a.designation || (a.raw && a.raw.designation)) - _desigRankFLABS(b.designation || (b.raw && b.raw.designation));
         if (desigDiff !== 0) return desigDiff;
         const nameA = (a.name || a.supervisorName || a.supervisor || '').toLowerCase();
